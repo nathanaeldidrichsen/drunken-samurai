@@ -22,6 +22,12 @@ public class HUD : MonoBehaviour
 
     [SerializeField] private GameObject levelUpScreen;
     [SerializeField] private GameObject inventoryScreen;
+    [SerializeField] private GameObject forgeScreen;
+
+    [Header("Audio")]
+    public SoundData openMenuSound;
+
+    public SoundData gemSound;
 
     public TextMeshProUGUI lvlText;
     public TextMeshProUGUI honorText;
@@ -37,7 +43,9 @@ public class HUD : MonoBehaviour
 
     [System.NonSerialized] public string loadSceneName;
     [System.NonSerialized] public bool resetPlayer;
-    private bool inventoryIsOpen;
+    public bool inventoryIsOpen;
+    public bool forgeIsOpen;
+
 
     private static HUD instance;
     public static HUD Instance
@@ -65,16 +73,16 @@ public class HUD : MonoBehaviour
 
     void Update()
     {
-        if(healthSlider != null)
+        if (healthSlider != null)
         {
-        healthSlider.value = Player.Instance.stats.currentHealth;
-        healthSlider.maxValue = Player.Instance.stats.maxHealth;
+            healthSlider.value = Player.Instance.stats.currentHealth;
+            healthSlider.maxValue = Player.Instance.stats.maxHealth;
         }
 
         expSlider.value = Player.Instance.stats.currentExp;
         expSlider.maxValue = Player.Instance.stats.expNeededToLevelUp;
         lvlText.text = Player.Instance.stats.level.ToString();
-        honorText.text = Player.Instance.stats.honor.ToString();
+        honorText.text = Player.Instance.stats.gold.ToString();
         uiHealth.text = Player.Instance.stats.maxHealth.ToString();
         uiDmg.text = Player.Instance.stats.damage.ToString();
         uiDef.text = Player.Instance.stats.defense.ToString();
@@ -93,12 +101,15 @@ public class HUD : MonoBehaviour
 
     public void OpenInventory()
     {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.npcSound, 0.1f);
+        if (Instance.forgeIsOpen) return;
+
+
+        SoundManager.Instance.PlaySFX(openMenuSound);
         if (inventoryScreen.activeSelf)
         {
-
+            inventoryIsOpen = false;
             Time.timeScale = 1;
-            if(Inventory.Instance.isHoldingItem)
+            if (Inventory.Instance.isHoldingItem)
             {
                 Inventory.Instance.DropItem();
             }
@@ -106,9 +117,35 @@ public class HUD : MonoBehaviour
         }
         else
         {
+            inventoryIsOpen = true;
             inventoryScreen.SetActive(true);
             Inventory.Instance.SelectFirstSlot();
             Time.timeScale = 0;
+        }
+    }
+
+    public void OpenForge()
+    {
+
+        if (Instance.inventoryIsOpen) return;
+        SoundManager.Instance.PlaySFX(openMenuSound);
+        // SoundManager.Instance.PlaySFX(openMenuSound);
+        if (forgeScreen.activeSelf)
+        {
+            Time.timeScale = 1;
+            ForgeManager.Instance.ClearAllSelections();
+            ForgeManager.Instance.ClearForgeSlots();
+            forgeScreen.SetActive(false);
+            forgeIsOpen = false;
+        }
+        else
+        {
+            forgeScreen.SetActive(true);
+            ForgeManager.Instance.RefreshMaterialList();
+            ForgeManager.Instance.SelectFirstSlot();
+            forgeIsOpen = true;
+            Time.timeScale = 0;
+
         }
     }
 
@@ -168,7 +205,8 @@ public class HUD : MonoBehaviour
 
     public void PauseGame()
     {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.gemSound, 0.15f, 0.1f);
+        SoundManager.Instance.PlaySFX(gemSound);
+
         if (!isPaused)
         {
             pauseScreen.SetActive(true);

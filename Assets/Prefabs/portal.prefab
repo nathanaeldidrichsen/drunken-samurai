@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 399618492093119800}
   - component: {fileID: 2865615403315191828}
   - component: {fileID: 4025901243486546215}
+  - component: {fileID: 8302929623877305157}
   m_Layer: 0
   m_Name: portal
   m_TagString: Untagged
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1937022373
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 953890488617342246, guid: df085354da1fce947997822fd91e18f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -145,6 +146,20 @@ PolygonCollider2D:
       - {x: -0.16062513, y: 0.22039033}
       - {x: -0.16492186, y: 0.3784364}
       - {x: 0.14773363, y: 0.38007706}
+--- !u!114 &8302929623877305157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6297897641568107188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b35158491799c247b887624fd0749d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingMultiplier: 100
+  yOffset: 0.23
 --- !u!1001 &4025901243001837719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,7 +169,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8432678669603702052, guid: c9f6fb66d7970c443959d819cc52f597, type: 3}
       propertyPath: loadSceneName
-      value: Game
+      value: Arena1
       objectReference: {fileID: 0}
     - target: {fileID: 8432678669603702054, guid: c9f6fb66d7970c443959d819cc52f597, type: 3}
       propertyPath: m_Enabled

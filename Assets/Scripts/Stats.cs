@@ -9,7 +9,7 @@ public class Stats : MonoBehaviour
     public int health;
     public float moveSpeed;
     public int expGain;
-    public int honorGain;
+    public int goldGain;
     
 
     void Start()

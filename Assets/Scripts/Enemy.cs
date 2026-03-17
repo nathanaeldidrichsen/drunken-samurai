@@ -9,9 +9,10 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private Transform playerTransform; // To store the player's position
     private Animator anim;
+        [Header("Audio")]
+    public SoundData hurtSound;
     private bool isAlive = true;
     [SerializeField] GameObject itemDrop;
-    public float hurtSoundVolume = 0.4f;
     private RecoveryCounter recoveryCounter;
     public bool isKnockedBack;
 
@@ -41,7 +42,9 @@ public class Enemy : MonoBehaviour
             Vector2 direction = (playerTransform.position - transform.position).normalized;
 
             // Move the enemy towards the player
-            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+            // rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
+            rb.velocity = direction * speed;
+
         }
     }
 
@@ -52,7 +55,8 @@ public class Enemy : MonoBehaviour
             recoveryCounter.counter = 0;
             stats.health -= dmgAmount;
             anim.SetTrigger("Hurt");
-            SoundManager.Instance.PlaySound(SoundManager.Instance.hurtSound, hurtSoundVolume, 0.2f);
+            SoundManager.Instance.PlaySFX(hurtSound);
+            StartCoroutine(HitStop(0.05f));
 
             if (stats.health <= 0)
             {
@@ -61,24 +65,39 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Method to apply knockback to the enemy
-    public IEnumerator KnockBack(Vector2 attackDirection, float knockBackForce)
-    {
-        if(!isKnockedBack)
-        {
-        rb.velocity = Vector2.zero;
-        isKnockedBack = true;
-        // Calculate the opposite direction of the attack
-        Vector2 knockBackDirection = attackDirection.normalized;
+    public IEnumerator HitStop(float duration)
+{
+    Time.timeScale = 0f;
+    yield return new WaitForSecondsRealtime(duration);
+    Time.timeScale = 1f;
+}
 
-        // Apply a force to the enemy in the opposite direction
-        rb.AddForce(knockBackDirection * knockBackForce, ForceMode2D.Impulse);
-        yield return new WaitForSeconds(0.05f);
-        rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(.5f);
-        isKnockedBack = false;
-        }
+
+    // Method to apply knockback to the enemy
+public IEnumerator KnockBack(Vector2 direction, float force, float duration)
+{
+    if (isKnockedBack) yield break;
+
+    isKnockedBack = true;
+    rb.velocity = Vector2.zero;
+
+    float timer = 0f;
+
+    while (timer < duration)
+    {
+        float t = timer / duration;
+        float easedForce = Mathf.Lerp(force, 0, t); // smooth decay
+
+        rb.velocity = direction.normalized * easedForce;
+        timer += Time.deltaTime;
+
+        yield return null;
     }
+
+    rb.velocity = Vector2.zero;
+    isKnockedBack = false;
+}
+
 
 
 
@@ -108,7 +127,7 @@ public class Enemy : MonoBehaviour
         if(x != 0 && itemDrop != null)
         {
             itemDrop.GetComponent<Consumable>().expAmount = stats.expGain;
-            itemDrop.GetComponent<Consumable>().honorAmount = stats.honorGain;
+            itemDrop.GetComponent<Consumable>().goldAmount = stats.goldGain;
 
             Instantiate(itemDrop, transform.position, Quaternion.identity);
         }

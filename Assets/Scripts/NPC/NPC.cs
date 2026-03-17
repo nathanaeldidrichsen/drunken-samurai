@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IInteractable
 {
     public string[] dialogue;
     public DialogueManager dialogueManager;
@@ -9,13 +9,18 @@ public class NPC : MonoBehaviour
     public string npcName;
     private bool playerIsClose = false;
     [SerializeField] private Patrolling patrolling;
+    public bool patrol;
+    [Header("Interaction")]
+    public GameObject promptTextObject;
 
     void Start()
     {
-        if (GetComponent<Patrolling>() != null)
+        if (GetComponent<Patrolling>() != null && patrol)
         {
             patrolling = GetComponent<Patrolling>();
         }
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -23,6 +28,8 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsClose = true;
+            if (promptTextObject != null)
+                promptTextObject.SetActive(true);
         }
     }
 
@@ -31,12 +38,19 @@ public class NPC : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerIsClose = false;
+            if (promptTextObject != null)
+                promptTextObject.SetActive(false);
             dialogueManager.EndDialogue();
         }
     }
 
     private void Update()
     {
+        if (promptTextObject != null)
+        {
+            promptTextObject.SetActive(playerIsClose);
+        }
+
         if(patrolling != null && dialogueManager.hasStartedConversation)
         {
             patrolling.isTalking = true;
@@ -71,5 +85,30 @@ public class NPC : MonoBehaviour
     private void StartDialogue()
     {
         dialogueManager.StartDialogue(dialogue, npcName, dialogueImage);
+    }
+
+    public void Interact(GameObject interactor)
+    {
+        if (playerIsClose)
+        {
+            if (!dialogueManager.hasStartedConversation || dialogueManager.hasFinishedConversation)
+            {
+                StartDialogue();
+            }
+            else if (!dialogueManager.isTyping)
+            {
+                dialogueManager.DisplayNextLine();
+            }
+        }
+    }
+
+    public bool CanInteract(GameObject interactor)
+    {
+        return playerIsClose;
+    }
+
+    public string GetInteractPrompt()
+    {
+        return "[E] Talk";
     }
 }

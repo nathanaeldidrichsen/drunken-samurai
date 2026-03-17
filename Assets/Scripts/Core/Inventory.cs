@@ -20,7 +20,6 @@ public class Inventory : MonoBehaviour
     public event Action OnInventoryChanged;
     [SerializeField] private ItemSlot grabbedItemSlot;
     [SerializeField] private Item grabbedItem;
-    [SerializeField] private ItemSlot selectedItemSlot;
 
     public GameObject grabbedItemGameObject;
     public Image grabbedItemImage;
@@ -29,6 +28,9 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] private ItemSlot weaponSlot;
     [SerializeField] private ItemSlot medallionSlot;
+
+    [SerializeField] private ItemSlot selectedItemSlot;
+    public SoundData uiSound;
 
 
     public void SetSelectedItemSlot(ItemSlot theSelectedSlot)
@@ -78,26 +80,37 @@ public class Inventory : MonoBehaviour
 
     public void GrabItem(ItemSlot slot)
     {
-
-
-        // if(GetSelectedItem() == null)
-        // {
-        //     return;
-        // }
-
         isHoldingItem = true;
         grabbedItemGameObject.SetActive(true);
         grabbedItemSlot = slot;
         grabbedItem = slot.item;
         grabbedItemImage.sprite = grabbedItemSlot.item.icon;
-        if(grabbedItemSlot.quantity > 1)
+        if (grabbedItemSlot.quantity > 1)
         {
-        grabbedItemQuantity.text = grabbedItemSlot.quantity.ToString();
+            grabbedItemQuantity.text = grabbedItemSlot.quantity.ToString();
         }
         GetSelectedItem().ClearSlot();
     }
 
-        public void PlaceItem()
+    //Being called from Player and calls GrabItem
+    public void HandleGrab()
+    {
+        ItemSlot selected = GetSelectedItem();
+
+        if (selected == null)
+            return;
+
+        if (isHoldingItem)
+        {
+            PlaceItem();
+        }
+        else
+        {
+            GrabItem(selected);
+        }
+    }
+
+    public void PlaceItem()
     {
         selectedItemSlot.AddItem(grabbedItem);
         grabbedItem = null;
@@ -105,13 +118,7 @@ public class Inventory : MonoBehaviour
         isHoldingItem = false;
         grabbedItemGameObject.SetActive(false);
 
-        // if (grabbedItemSlot != GetSelectedItem())
-        // {
-        // grabbedItemSlot.ClearSlot();
-
-        // }
     }
-
 
     public void DropItem()
     {
@@ -131,21 +138,10 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void GrabAndPlaceItem()
-    {
-        if (isHoldingItem)
-        {
-            PlaceItem();
-        }
-        else
-        {
-            GrabItem(GetSelectedItem());
-        }
-    }
-
     public void EquipSelectedItem()
     {
         //if the selected itemslot is medallion and there is an item there unequip and put it in the first available itemSlot
+
 
         if (GetSelectedItem() == null || GetSelectedItem().item.type != ItemType.Equipment)
         {
@@ -225,6 +221,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
+
     public void SelectFirstSlot()
     {
         if (itemSlots.Count > 0)
@@ -287,7 +284,6 @@ public class Inventory : MonoBehaviour
             OnInventoryChanged?.Invoke();
         }
     }
-
 
     private int FindFirstAvailableSlotIndex()
     {

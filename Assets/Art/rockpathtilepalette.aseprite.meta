@@ -121,15 +121,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: rockpathtilepalette
     originalName: 
-    pivot: {x: 2.346154, y: -2.2666667}
+    pivot: {x: 0.655914, y: -1.4166667}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 26
-      height: 30
+      width: 93
+      height: 48
     spriteID: 57503fb0553624648a5e167a23114982
     spriteBone: []
     spriteOutline: []
@@ -154,8 +154,8 @@ ScriptedImporter:
       cellRect:
         x: 99
         y: 68
-        width: 26
-        height: 30
+        width: 93
+        height: 48
       spriteId: 57503fb0553624648a5e167a23114982
     linkedCells: []
     parentIndex: -1

@@ -163,6 +163,19 @@ MonoBehaviour:
   pickUpRadius: 0
   isInventoryItem: 0
   item: {fileID: 0}
+  itemStackAmount: 0
+  gemSound:
+    id: 
+    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
+    volume: 0.268
+    pitchVariation: 0.261
+    cooldown: 0
+  flaskSound:
+    id: 
+    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
+    volume: 0.261
+    pitchVariation: 0.05
+    cooldown: 0
 --- !u!114 &4924713533815565060
 MonoBehaviour:
   m_ObjectHideFlags: 0

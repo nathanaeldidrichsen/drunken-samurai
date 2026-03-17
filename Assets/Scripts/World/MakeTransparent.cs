@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MakeTransparent : MonoBehaviour
 {
-    public float transparencyAmount = 0.5f; // Amount of transparency (0 = fully transparent, 1 = opaque)
+    private float transparencyAmount = 0.7f; // Amount of transparency (0 = fully transparent, 1 = opaque)
     private SpriteRenderer spriteRenderer;
 
     private void Start()

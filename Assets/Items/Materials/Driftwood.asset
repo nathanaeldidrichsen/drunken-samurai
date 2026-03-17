@@ -21,5 +21,6 @@ MonoBehaviour:
   isEquipable: 0
   isCraftable: 1
   sellPrice: 20
+  itemDescription: A piece of hard driftwood could be used for crafting
   prefab: {fileID: 3664074871130452653, guid: 6a021f48eebaf4243b9f35c626798632, type: 3}
   isEquipped: 0

@@ -1,104 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using System.Collections.Generic;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance { get; private set; }
+    public static SoundManager Instance;
 
-    public AudioClip hurtSound; // Assign in inspector
-    public AudioClip gemSound; // Assign in inspector
-    public AudioClip breakSound; // Assign in inspector
+    [Header("Mixer")]
+    public AudioMixerGroup sfxGroup;
+    public AudioMixerGroup musicGroup;
 
-    public AudioClip stepSound; // Assign in inspector
-    public AudioClip flaskSound; // Assign in inspector
-    public AudioClip levelUpSound; // Assign in inspector
-    public AudioClip npcSound; // Assign in inspector
-    public AudioSource gameMusic;
-        private Coroutine fadeCoroutine;
+    [Header("SFX Pool")]
+    public int poolSize = 12;
 
+    private List<AudioSource> sfxSources = new();
+    private Dictionary<string, float> lastPlayTime = new();
 
-
-
-    public int maxSimultaneousSounds = 2;
-
-    private List<AudioSource> audioSources = new List<AudioSource>();
-
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null)
         {
             Destroy(gameObject);
+            return;
         }
 
-        // Initialize audio sources
-        for (int i = 0; i < maxSimultaneousSounds; i++)
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        for (int i = 0; i < poolSize; i++)
         {
-            AudioSource source = gameObject.AddComponent<AudioSource>();
-            audioSources.Add(source);
+            AudioSource src = gameObject.AddComponent<AudioSource>();
+            src.outputAudioMixerGroup = sfxGroup;
+            src.playOnAwake = false;
+            sfxSources.Add(src);
         }
     }
 
-    // Method to change the game music with a fade transition
-    public void ChangeGameMusic(AudioClip audioClip, float volume = 1f, float pitchVariation = 0, float fadeDuration = 1f)
+    public void PlaySFX(SoundData sound)
     {
-        if (fadeCoroutine != null)
+        if (sound == null || sound.clip == null)
+            return;
+
+        // Cooldown check (for footsteps etc.)
+        if (sound.cooldown > 0f)
         {
-            StopCoroutine(fadeCoroutine);
-        }
-        gameMusic.volume = 0;
-        gameMusic.clip = audioClip;
-        gameMusic.Play();
-        fadeCoroutine = StartCoroutine(FadeMusic(audioClip, volume, pitchVariation, fadeDuration));
-    }
-
-        // Coroutine for fading the music
-    private IEnumerator FadeMusic(AudioClip audioClip, float targetVolume, float pitchVariation, float fadeDuration)
-    {
-        float startTime = Time.time;
-        float startVolume = 0;
-
-        while (Time.time < startTime + fadeDuration)
-        {
-            float t = (Time.time - startTime) / fadeDuration;
-            gameMusic.volume = Mathf.Lerp(startVolume, targetVolume, t);
-            yield return null;
-        }
-
-        gameMusic.volume = targetVolume;
-        gameMusic.clip = audioClip;
-        gameMusic.Play();
-    }
-
-    // Method to play any sound clip
-    public void PlaySound(AudioClip audioClip, float volume = 1f, float pitchVariation = 0.05f)
-    {
-
-
-        // Find an available audio source to play the sound
-        foreach (var source in audioSources)
-        {
-            if (!source.isPlaying)
+            if (lastPlayTime.TryGetValue(sound.id, out float lastTime))
             {
-
-                if (audioClip == stepSound && source.isPlaying)
-                {
+                if (Time.time - lastTime < sound.cooldown)
                     return;
-                }
-
-                source.clip = audioClip; // Assign the clip to play
-                source.volume = volume; // Set the volume for this clip
-                source.pitch = 1f + Random.Range(-pitchVariation, pitchVariation); // Optional: Slight pitch variation
-                source.Play();
-                return;
             }
+
+            lastPlayTime[sound.id] = Time.time;
         }
+
+        AudioSource src = GetFreeSource();
+        if (src == null) return;
+
+        src.clip = sound.clip;
+        src.volume = sound.volume;
+        src.pitch = 1f + Random.Range(-sound.pitchVariation, sound.pitchVariation);
+        src.Play();
     }
 
+    private AudioSource GetFreeSource()
+    {
+        foreach (var src in sfxSources)
+        {
+            if (!src.isPlaying)
+                return src;
+        }
 
+        // Steal oldest sound (better than failing silently)
+        return sfxSources[0];
+    }
 }

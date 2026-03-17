@@ -7,7 +7,7 @@ public class Consumable : MonoBehaviour
 
     public int expAmount = 0;
     public int healAmount = 0;
-    public int honorAmount = 0;
+    public int goldAmount = 0;
 
 
 }

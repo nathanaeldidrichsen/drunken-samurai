@@ -13,6 +13,9 @@ public class AnimatorFunctions : MonoBehaviour
     // [SerializeField] private Animator setBoolInAnimator;
     private bool stepSoundIsPlaying;
 
+    [Header("Audio")]
+    public SoundData stepSound;
+
     // If we don't specify what audio source to play sounds through, just use the one on player.
     void Start()
     {
@@ -24,7 +27,7 @@ public class AnimatorFunctions : MonoBehaviour
     {
         //NewPlayer.Instance.Hide(hide);
     }
-  
+
     //Sometimes we want an animated object to force the player to jump, like a jump pad.
     public void JumpPlayer(float power = 1f)
     {
@@ -33,10 +36,10 @@ public class AnimatorFunctions : MonoBehaviour
 
     IEnumerator FinishStepSound()
     {
-        if(!stepSoundIsPlaying)
+        if (!stepSoundIsPlaying)
         {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.stepSound, Random.Range(0.01f, 0.05f), Random.Range(0.03f, 0.05f));
-        stepSoundIsPlaying = true;
+            SoundManager.Instance.PlaySFX(stepSound);
+            stepSoundIsPlaying = true;
         }
 
         yield return new WaitForSeconds(0.2f);
@@ -50,6 +53,33 @@ public class AnimatorFunctions : MonoBehaviour
     }
 
 
+    // Called by animation event near end of Attack_1
+    public void EnableCombo()
+    {
+        // Player.Instance.canCombo = true;
+        CombatController.Instance.EnableComboWindow();
+        // UnFreezeMyPlayer();
+    }
+
+    // Called by animation event at end of Attack animations
+    public void ResetCombo()
+    {
+        CombatController.Instance.EndAttack();
+    }
+
+    public void AttackLunge()
+    {
+        CombatController.Instance.DoAttackLunge();
+    }
+
+    public void FreezeMyPlayer()
+    {
+        // Player.Instance.FreezePlayer(true);
+    }
+    public void UnFreezeMyPlayer()
+    {
+        Player.Instance.FreezePlayer(false);
+    }
 
     public void ScreenShake(float power)
     {
@@ -78,7 +108,7 @@ public class AnimatorFunctions : MonoBehaviour
 
     public void FadeOutMusic()
     {
-       //GameManager.Instance.gameMusic.GetComponent<AudioTrigger>().maxVolume = 0f;
+        //GameManager.Instance.gameMusic.GetComponent<AudioTrigger>().maxVolume = 0f;
     }
 
     public void LoadScene(string whichLevel)
@@ -92,4 +122,3 @@ public class AnimatorFunctions : MonoBehaviour
         Time.timeScale = timeScale;
     }
 }
-    

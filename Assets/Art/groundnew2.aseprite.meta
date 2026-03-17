@@ -119,6 +119,46 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
+  - name: tree
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 332
+      y: 4
+      width: 65
+      height: 97
+    spriteID: 42bce773efcab6c48a842e3ae63552a4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 332, y: 4}
+  - name: Layer 1
+    originalName: 
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 332
+      y: 109
+      width: 64
+      height: 26
+    spriteID: 4cfb7da5cac8d4741b4faa814ca2a35d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 332, y: 109}
   - name: ground
     originalName: 
     pivot: {x: 0.5, y: 0}
@@ -130,7 +170,7 @@ ScriptedImporter:
       y: 4
       width: 320
       height: 180
-    spriteID: 66494ee2abd66a34e86dbe1d7ebacccc
+    spriteID: d6a7396a9c5489146ab23b063052059e
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -141,16 +181,16 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: blueplant
     originalName: 
-    pivot: {x: 9.230769, y: -6.235294}
-    alignment: 9
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 332
-      y: 120
+      y: 143
       width: 13
       height: 17
-    spriteID: e59daccb096963146a9218fabdbff861
+    spriteID: 997f424dfde0a694189ad619a972c2d3
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -158,19 +198,19 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 332, y: 120}
+    uvTransform: {x: 332, y: 143}
   - name: purple plant
     originalName: 
-    pivot: {x: 12.142858, y: -12.5}
-    alignment: 9
+    pivot: {x: 0.5, y: 0}
+    alignment: 7
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 332
-      y: 145
+      y: 168
       width: 7
       height: 12
-    spriteID: 464762bfcb25fee4793e1a53ae10cef1
+    spriteID: dab638672c594c8419506d7b825b8c75
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -178,29 +218,45 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 332, y: 145}
-  - name: tree
-    originalName: 
-    pivot: {x: 0.67692304, y: -0.22222222}
-    alignment: 9
-    border: {x: 0, y: 0, z: 0, w: 0}
-    rect:
-      serializedVersion: 2
-      x: 332
-      y: 4
-      width: 65
-      height: 108
-    spriteID: 42bce773efcab6c48a842e3ae63552a4
-    spriteBone: []
-    spriteOutline: []
-    vertices: []
-    spritePhysicsOutline: []
-    indices: 
-    edges: []
-    tessellationDetail: 0
-    uvTransform: {x: 332, y: 4}
+    uvTransform: {x: 332, y: 168}
   spriteSheetImportData: []
   asepriteLayers:
+  - layerIndex: 3
+    guid: 780485269
+    name: tree
+    layerFlags: 3
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: tree
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 116
+        y: 35
+        width: 65
+        height: 97
+      spriteId: 42bce773efcab6c48a842e3ae63552a4
+    linkedCells: []
+    parentIndex: -1
+  - layerIndex: 4
+    guid: 1317222748
+    name: Layer 1
+    layerFlags: 3
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: Layer 1
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 117
+        y: 24
+        width: 64
+        height: 26
+      spriteId: 4cfb7da5cac8d4741b4faa814ca2a35d
+    linkedCells: []
+    parentIndex: -1
   - layerIndex: 0
     guid: 552218797
     name: ground
@@ -216,7 +272,7 @@ ScriptedImporter:
         y: 0
         width: 320
         height: 180
-      spriteId: 66494ee2abd66a34e86dbe1d7ebacccc
+      spriteId: d6a7396a9c5489146ab23b063052059e
     linkedCells: []
     parentIndex: -1
   - layerIndex: 1
@@ -234,7 +290,7 @@ ScriptedImporter:
         y: 106
         width: 13
         height: 17
-      spriteId: e59daccb096963146a9218fabdbff861
+      spriteId: 997f424dfde0a694189ad619a972c2d3
     linkedCells: []
     parentIndex: -1
   - layerIndex: 2
@@ -252,25 +308,7 @@ ScriptedImporter:
         y: 150
         width: 7
         height: 12
-      spriteId: 464762bfcb25fee4793e1a53ae10cef1
-    linkedCells: []
-    parentIndex: -1
-  - layerIndex: 3
-    guid: 780485269
-    name: tree
-    layerFlags: 3
-    layerType: 0
-    blendMode: 0
-    cells:
-    - name: tree
-      frameIndex: 0
-      additiveSortOrder: 0
-      cellRect:
-        x: 116
-        y: 24
-        width: 65
-        height: 108
-      spriteId: 42bce773efcab6c48a842e3ae63552a4
+      spriteId: dab638672c594c8419506d7b825b8c75
     linkedCells: []
     parentIndex: -1
   platformSettings:

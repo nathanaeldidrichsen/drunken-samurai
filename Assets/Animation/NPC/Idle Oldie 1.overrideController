@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Idle Oldie 1
+  m_Controller: {fileID: 9100000, guid: 3a289e67c6ab28741b291cd4365a4c4d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 3951eecfebd925b43904c6cbff0feb9a, type: 2}
+    m_OverrideClip: {fileID: -7568136395244761474, guid: af7d264b98c4f354db995aedab0add70, type: 3}

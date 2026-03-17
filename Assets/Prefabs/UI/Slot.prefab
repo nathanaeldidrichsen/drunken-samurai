@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 7369011682194653036}
   - component: {fileID: 7369011682194653037}
   - component: {fileID: 7369011682194653027}
-  - component: {fileID: 7369011682194653026}
   - component: {fileID: 7369011682194653025}
   - component: {fileID: 8028942491410476152}
   m_Layer: 0
@@ -262,30 +261,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7369011682194653026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7369011682194653039}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 1
-  m_ConstraintCount: 1
 --- !u!114 &7369011682194653025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,13 +273,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca51d4f8acadb7408eda641709ec2e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotContains: 0
+  slotType: 0
   item: {fileID: 0}
   quantity: 0
   itemCountText: {fileID: 7369011682081248996}
   itemNameText: {fileID: 0}
+  itemStatsText: {fileID: 0}
   slotSelectedImageGO: {fileID: 7369011683891036171}
   slotIsSelected: 0
   itemSlotImage: {fileID: 7369011682643530730}
+  uiSound:
+    id: 
+    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
+    volume: 0.196
+    pitchVariation: 0
+    cooldown: 0
 --- !u!114 &8028942491410476152
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ public class Breakable : MonoBehaviour
     [SerializeField] private GameObject breakParticle;
     [SerializeField] private GameObject dropItem;
 
+    [Header("Audio")]
+    public SoundData breakSound;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +44,7 @@ public class Breakable : MonoBehaviour
 
     public void DestroyObject()
     {
-        SoundManager.Instance.PlaySound(SoundManager.Instance.breakSound, 0.1f);
+        SoundManager.Instance.PlaySFX(breakSound);
         if (breakParticle != null)
         {
             GameObject particleObject = Instantiate(breakParticle, transform.position, Quaternion.identity);

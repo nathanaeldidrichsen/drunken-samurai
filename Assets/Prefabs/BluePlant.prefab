@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6332146721801646433}
   - component: {fileID: 6332146721801646438}
+  - component: {fileID: 7103520672171638019}
   m_Layer: 0
   m_Name: BluePlant
   m_TagString: Untagged
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -1823409464830483593, guid: c48ef6ccb05ddd84dae844f272de1fe0, type: 3}
+  m_Sprite: {fileID: -4855373888111555433, guid: c48ef6ccb05ddd84dae844f272de1fe0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -84,3 +85,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7103520672171638019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6332146721801646439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b35158491799c247b887624fd0749d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingMultiplier: 100
+  yOffset: 0

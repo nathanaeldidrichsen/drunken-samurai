@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a3a7a0e701b219489227cdcc5faa2d2, type: 3}
   m_Name: MyPlayerStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats/Wave
-  dashSpeed: 10
-  dashCooldown: 0.5
-  moveSpeed: 1
+  dashSpeed: 1
+  dashCooldown: 2
+  moveSpeed: 1.5
   currentHealth: 100
   maxHealth: 100
   damage: 1
-  defense: 0
+  defense: 1
   level: 1
-  currentExp: 40
-  expNeededToLevelUp: 300
-  honor: 50
+  currentExp: 0
+  expNeededToLevelUp: 220
+  gold: 69

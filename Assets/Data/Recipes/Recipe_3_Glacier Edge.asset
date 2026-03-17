@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca5f04e6646d9b4f8ff672672aa07da, type: 3}
+  m_Name: Recipe_3_Glacier Edge
+  m_EditorClassIdentifier: 
+  ore: {fileID: 11400000, guid: 5d06d643302768643815ea2a3dbe39db, type: 2}
+  fragment1: {fileID: 11400000, guid: b6bd02acecdd7cf408c3a5dc58458a17, type: 2}
+  fragment2: {fileID: 11400000, guid: 7c620d2f51fd7d2478457dd88721a7ab, type: 2}
+  results:
+  - resultItem: {fileID: 11400000, guid: fd3452ee2fa9b3449ae45fc88c99aa1c, type: 2}
+    chance: 70
+  - resultItem: {fileID: 11400000, guid: c974536b4c8124f438e81254a949e0b0, type: 2}
+    chance: 30

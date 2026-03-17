@@ -6,5 +6,7 @@ using UnityEngine;
 
 public class MaterialItem : Item
 {
+public enum MaterialType { Ore, Fragment }
+public MaterialType materialType;
 
 }

@@ -11,7 +11,7 @@ public class SoundTrigger : MonoBehaviour
         if (other.CompareTag("Player") && !hasTriggered)
         {
             // Call the method to change the game music in the SoundManager
-            SoundManager.Instance.ChangeGameMusic(musicClip, volume);
+            // SoundManager.Instance.ChangeGameMusic(musicClip, volume);
             hasTriggered = true;
         }
     }

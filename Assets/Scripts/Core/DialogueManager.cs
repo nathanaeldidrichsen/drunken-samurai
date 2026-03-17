@@ -15,6 +15,10 @@ public class DialogueManager : MonoBehaviour
     public bool hasFinishedConversation;
     public bool isTyping;
     public bool hasStartedConversation;
+        [Header("Audio")]
+    public SoundData npcStartAndFinishSound;
+    public SoundData npcTalkingSound;
+
 
 
     private string[] currentDialogueLines;
@@ -25,7 +29,7 @@ public class DialogueManager : MonoBehaviour
         if (!hasStartedConversation)
         {
             nameText.text = npcName.ToString();
-            SoundManager.Instance.PlaySound(SoundManager.Instance.npcSound, 0.1f);
+            SoundManager.Instance.PlaySFX(npcStartAndFinishSound);
             dialogueText.text = "";
             hasStartedConversation = true;
             dialogueImageIcon = image;
@@ -39,7 +43,8 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
-            SoundManager.Instance.PlaySound(SoundManager.Instance.npcSound, 0.1f, Random.Range(0, 0.05f));
+            SoundManager.Instance.PlaySFX(npcTalkingSound);
+
 
         continueButton.SetActive(false);
         if (currentLineIndex >= currentDialogueLines.Length - 1)
@@ -72,7 +77,8 @@ public class DialogueManager : MonoBehaviour
     {
         foreach (char letter in currentDialogueLines[currentLineIndex].ToCharArray())
         {
-            SoundManager.Instance.PlaySound(SoundManager.Instance.npcSound, Random.Range(0.02f, 0.05f), Random.Range(0.1f, 0.3f));
+            SoundManager.Instance.PlaySFX(npcTalkingSound);
+
             dialogueText.text += letter;
             isTyping = true;
             if (dialogueText.text == currentDialogueLines[currentLineIndex])

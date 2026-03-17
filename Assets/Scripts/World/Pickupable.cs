@@ -5,12 +5,17 @@ using UnityEngine;
 public class Pickupable : MonoBehaviour
 {
     private Rigidbody2D rb;
-    public float pickUpRadius;
+    private float pickUpRadius = 0.4f;
     private Transform playerTransform;
     public bool isInventoryItem;
     private Consumable consumable;
     [SerializeField] private Item item;
     public int itemStackAmount;
+
+    [Header("Audio")]
+    public SoundData gemSound;
+    public SoundData flaskSound;
+
     
     void Start()
     {
@@ -19,7 +24,7 @@ public class Pickupable : MonoBehaviour
             consumable = gameObject.GetComponent<Consumable>();
         }
         rb = GetComponent<Rigidbody2D>();
-        pickUpRadius = Player.Instance.itemPickUpRadius; // Make sure your Player class has a public float field named pickUpRadius
+        // pickUpRadius = Player.Instance.itemPickUpRadius; // Make sure your Player class has a public float field named pickUpRadius
         playerTransform = Player.Instance.transform; // Ensure your Player class has a Transform property or field accessible here
     }
     
@@ -35,7 +40,7 @@ public class Pickupable : MonoBehaviour
     void MoveTowardsPlayer()
     {
         Vector2 directionToPlayer = (playerTransform.position - transform.position).normalized;
-        rb.MovePosition(rb.position + directionToPlayer * Time.fixedDeltaTime); // You may want to multiply this by a speed variable
+        rb.MovePosition(rb.position + directionToPlayer * Time.fixedDeltaTime * 0.3f); // You may want to multiply this by a speed variable
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -44,24 +49,25 @@ public class Pickupable : MonoBehaviour
         {
             if (!isInventoryItem)
             {
+                SoundManager.Instance.PlaySFX(gemSound);
                 Player.Instance.GainExp(consumable.expAmount);
                 Player.Instance.GainHealth(consumable.healAmount);
-                Player.Instance.GainHonor(consumable.honorAmount);
-                if (consumable.expAmount > 0)
-                {
-                    SoundManager.Instance.PlaySound(SoundManager.Instance.gemSound, 0.15f, 0.1f);
-                }
-
-                if (consumable.healAmount > 0)
-                {
-                    SoundManager.Instance.PlaySound(SoundManager.Instance.flaskSound, 0.3f, 0.1f);
-                }
+                Player.Instance.GainGold(consumable.goldAmount);
+                // if (consumable.expAmount > 0)
+                // {
+                // }
                 Destroy(gameObject); // Destroys this pickupable item
+
+                // if (consumable.healAmount > 0)
+                // {
+                //     SoundManager.Instance.PlaySFX(flaskSound);
+                // Destroy(gameObject); // Destroys this pickupable item
+                // }
             }
             else
             {
                 Inventory.Instance.AddItem(item, itemStackAmount);
-                    SoundManager.Instance.PlaySound(SoundManager.Instance.gemSound, 0.15f, 0.1f);
+                SoundManager.Instance.PlaySFX(gemSound);
                 Destroy(gameObject); // Destroys this pickupable item
             }
 

@@ -51,6 +51,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Forge",
+                    "type": "Button",
+                    "id": "556341da-0f1a-48c0-9369-0baf77f4886c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(pressPoint=1)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "EquipInventoryItem",
                     "type": "Button",
                     "id": "a59d7a5a-551f-4d23-8171-15f51ae18b98",
@@ -326,7 +335,7 @@
                 {
                     "name": "",
                     "id": "73998343-e0d7-44dd-b1d6-b50ea37d8c52",
-                    "path": "<Keyboard>/#(I)",
+                    "path": "<Keyboard>/b",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -375,6 +384,39 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "GrabAndPlaceItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec054566-50f0-40af-af7a-cd6eee5df7c7",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Forge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e937730-a62b-4c73-be83-9727b602729b",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Forge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e56783ed-a310-4428-869d-2f4080e5d981",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

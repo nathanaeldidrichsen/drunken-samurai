@@ -1,0 +1,13 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: CoinHover
+  m_Controller: {fileID: 9100000, guid: c8fd9115ea9c595408e56da32dcb83a8, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 7d697129bda27bc4ebfeed7f1f9f9cb0, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: d0dc0224bb5e14e48b47317e5641bdb6, type: 2}
