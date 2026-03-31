@@ -45,6 +45,7 @@ public class HUD : MonoBehaviour
     [System.NonSerialized] public bool resetPlayer;
     public bool inventoryIsOpen;
     public bool forgeIsOpen;
+    public bool shopIsOpen;
 
 
     private static HUD instance;
@@ -101,8 +102,7 @@ public class HUD : MonoBehaviour
 
     public void OpenInventory()
     {
-        if (Instance.forgeIsOpen) return;
-
+        if (Instance.forgeIsOpen || Instance.shopIsOpen) return;
 
         SoundManager.Instance.PlaySFX(openMenuSound);
         if (inventoryScreen.activeSelf)
@@ -126,8 +126,7 @@ public class HUD : MonoBehaviour
 
     public void OpenForge()
     {
-
-        if (Instance.inventoryIsOpen) return;
+        if (Instance.inventoryIsOpen || Instance.shopIsOpen) return;
         SoundManager.Instance.PlaySFX(openMenuSound);
         // SoundManager.Instance.PlaySFX(openMenuSound);
         if (forgeScreen.activeSelf)

@@ -21,7 +21,7 @@ MonoBehaviour:
   isEquipable: 0
   isCraftable: 0
   sellPrice: 0
-  itemDescription: 
+  itemDescription: Icy ore used to forge magical swords with freezing effect
   prefab: {fileID: 3664074871130452653, guid: c0718e82f9edc9c4293053efa6514eb1, type: 3}
   isEquipped: 0
   materialType: 0

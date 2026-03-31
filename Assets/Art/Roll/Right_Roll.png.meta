@@ -122,10 +122,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: Right_Roll_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 85
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -159,36 +159,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Right_Roll_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43d58309d60b79f47bc5fc6abbeed874
-      internalID: -1319293535
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Right_Roll_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 170
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,12 +183,12 @@ TextureImporter:
       name: Right_Roll_4
       rect:
         serializedVersion: 2
-        x: 256
+        x: 255
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +204,12 @@ TextureImporter:
       name: Right_Roll_5
       rect:
         serializedVersion: 2
-        x: 320
+        x: 340
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -243,36 +222,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Right_Roll_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9eb953f05cef5cf42ae11dbbf925e184
-      internalID: -359871275
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Right_Roll_7
       rect:
         serializedVersion: 2
-        x: 448
+        x: 425
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,12 +246,12 @@ TextureImporter:
       name: Right_Roll_8
       rect:
         serializedVersion: 2
-        x: 512
+        x: 510
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -301,6 +259,48 @@ TextureImporter:
       bones: []
       spriteID: 6f712e0b8204cdd4eacc1bd3ab4da686
       internalID: -1979525750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Right_Roll_9
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 0
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 912626f2bd33e6547ac641d9e3169694
+      internalID: -805730029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Right_Roll_10
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 0
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d75fa4d1fa556884682ecd2c62f9b827
+      internalID: -1013731778
       vertices: []
       indices: 
       edges: []
@@ -318,6 +318,7 @@ TextureImporter:
     nameFileIdTable:
       Right_Roll_0: 829170962
       Right_Roll_1: -1144401025
+      Right_Roll_10: -1013731778
       Right_Roll_2: -1319293535
       Right_Roll_3: 646211411
       Right_Roll_4: 1384419601
@@ -325,6 +326,7 @@ TextureImporter:
       Right_Roll_6: -359871275
       Right_Roll_7: -527170342
       Right_Roll_8: -1979525750
+      Right_Roll_9: -805730029
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

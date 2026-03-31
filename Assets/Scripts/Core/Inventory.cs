@@ -259,6 +259,14 @@ public class Inventory : MonoBehaviour
         OnInventoryChanged?.Invoke();
     }
 
+    public bool CanAddItem(Item item)
+    {
+        if (item == null)
+            return false;
+
+        return FindItemSlot(item) != null;
+    }
+
     // Remove an item from the inventory
     public void RemoveItem(Item item, int quantity = 1)
     {

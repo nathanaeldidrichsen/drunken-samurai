@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public float horizontal;
     public float vertical;
     public bool isRolling;
-    public float rollForce;
+    private float rollForce = .04f;
 
     // --- Combo system ---
 
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
     private UnityEngine.Vector2 movement;
-    private float currentCooldown;
+    public float currentCooldown;
     private UnityEngine.Vector2 targetPosition;
     private SimpleFlash simpleFlash;
     // private bool isDashing = false;
@@ -85,19 +85,19 @@ public class Player : MonoBehaviour
             // rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
         }
-
-        // if (isDashing)
-        // {
-        //     DashTowardsTarget();
-        // }
     }
 
     void Update()
-{
-    HandleInput();
+    {
+        if (currentCooldown > 0f)
+        {
+            currentCooldown -= Time.deltaTime;
+        }
 
-    UpdateAnimator();
-}
+        HandleInput();
+
+        UpdateAnimator();
+    }
 
     public void LastFacingDirection()
     {
@@ -302,7 +302,7 @@ public void Move(InputAction.CallbackContext context)
     public void HandleInput()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             HUD.Instance.PauseGame();
         }
@@ -315,19 +315,30 @@ public void Move(InputAction.CallbackContext context)
 
     public void Roll(InputAction.CallbackContext context)
     {
-        if (currentCooldown <= 0 && !isRolling)
+        if (!context.started) return;
+
+        if (currentCooldown <= 0f && !isRolling)
         {
             isRolling = true;
             anim.SetBool("isRolling", true);
-            currentCooldown = dashCooldown; // Reset cooldown
-            anim.SetTrigger("Roll"); // Play attack animation
-            UnityEngine.Vector2 rollDirection = new UnityEngine.Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY")).normalized;
-            //Debug.Log("Roll Direction: " + rollDirection);
+            currentCooldown = rollCooldown; // Reset cooldown
+            anim.SetTrigger("Roll"); // Play roll animation
+
+            UnityEngine.Vector2 rollDirection = new UnityEngine.Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY"));
+            if (rollDirection == Vector2.zero)
+            {
+                rollDirection = movement.normalized;
+            }
+            if (rollDirection == Vector2.zero)
+            {
+                rollDirection = Vector2.down;
+            }
+            rollDirection.Normalize();
+
             horizontal = 0;
             vertical = 0;
             rb.velocity = Vector2.zero;
             rb.AddForce(rollDirection * rollForce, ForceMode2D.Impulse);
-            //Debug.Log("Force Applied: " + rollDirection);
             StartCoroutine(StopRolling());
         }
     }
@@ -409,6 +420,11 @@ public void Move(InputAction.CallbackContext context)
         stats.gold += goldAmount;
     }
 
+        public void SpendGold(int goldAmount)
+    {
+        stats.gold -= goldAmount;
+    }
+
     public void WearEquipment(EquipmentItem itemToWear, bool equip)
     {
         if (equip)
@@ -457,7 +473,7 @@ public void Move(InputAction.CallbackContext context)
 
     private void UpdateAnimator()
 {
-    if(HUD.Instance.inventoryIsOpen || HUD.Instance.forgeIsOpen) return;
+    if(HUD.Instance.inventoryIsOpen || HUD.Instance.forgeIsOpen || HUD.Instance.shopIsOpen) return;
 
 
     if (isFrozen)

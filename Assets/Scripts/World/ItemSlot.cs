@@ -16,7 +16,9 @@ public enum SlotType
 {
     InventorySlot,
     ForgeSlot,
-    RequiredForgeSlot
+    RequiredForgeSlot,
+    ShopSlot,
+    SellSlot
 }
 
 public class ItemSlot : MonoBehaviour
@@ -48,6 +50,7 @@ public class ItemSlot : MonoBehaviour
     void Start()
     {
         // Inventory.Instance.OnInventoryChanged += UpdateSlotUI;
+        UpdateSlotUI();
     }
     public void UpdateSlotUI()
     {
@@ -81,13 +84,24 @@ public class ItemSlot : MonoBehaviour
 
     public void ToggleSelection(bool isSelected)
     {
+        if (slotType == SlotType.ShopSlot)
+        {
+            HandleShopSlotSelection(isSelected);
+            return;
+        }
 
+        if (slotType == SlotType.SellSlot)
+        {
+            HandleSellSlotSelection(isSelected);
+            return;
+        }
 
         if (HUD.Instance.inventoryIsOpen)
         {
             HandleInventorySlotSelection(isSelected);
-
+            return;
         }
+
         if (HUD.Instance.forgeIsOpen)
         {
             HandleForgeSlotSelection(isSelected);
@@ -152,6 +166,44 @@ public class ItemSlot : MonoBehaviour
         else
         {
             ForgeManager.Instance.SetSelectedItemSlot(null);
+            slotSelectedImageGO.SetActive(false);
+            slotIsSelected = false;
+        }
+    }
+
+    public void HandleShopSlotSelection(bool isSelected)
+    {
+        if (isSelected)
+        {
+            slotSelectedImageGO.SetActive(true);
+            slotIsSelected = true;
+            ShopManager.Instance?.SetSelectedShopSlot(this);
+        }
+        else
+        {
+            if (ShopManager.Instance?.selectedShopSlot == this)
+            {
+                ShopManager.Instance.SetSelectedShopSlot(null);
+            }
+            slotSelectedImageGO.SetActive(false);
+            slotIsSelected = false;
+        }
+    }
+
+    public void HandleSellSlotSelection(bool isSelected)
+    {
+        if (isSelected)
+        {
+            slotSelectedImageGO.SetActive(true);
+            slotIsSelected = true;
+            ShopManager.Instance?.SetSelectedSellSlot(this);
+        }
+        else
+        {
+            if (ShopManager.Instance?.selectedSellSlot == this)
+            {
+                ShopManager.Instance.SetSelectedSellSlot(null);
+            }
             slotSelectedImageGO.SetActive(false);
             slotIsSelected = false;
         }

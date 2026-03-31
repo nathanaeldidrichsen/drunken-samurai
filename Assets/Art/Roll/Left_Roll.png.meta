@@ -122,10 +122,10 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -141,12 +141,12 @@ TextureImporter:
       name: Left_Roll_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 85
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -159,36 +159,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Left_Roll_2
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cd3a53b6273dd5b47a43d435af9f9f22
-      internalID: -209760361
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Left_Roll_3
       rect:
         serializedVersion: 2
-        x: 192
+        x: 170
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -204,12 +183,12 @@ TextureImporter:
       name: Left_Roll_4
       rect:
         serializedVersion: 2
-        x: 256
+        x: 255
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -225,12 +204,12 @@ TextureImporter:
       name: Left_Roll_5
       rect:
         serializedVersion: 2
-        x: 320
+        x: 340
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -243,36 +222,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Left_Roll_6
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 64
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6da0443802334994d890785278840bdb
-      internalID: 2054855528
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Left_Roll_7
       rect:
         serializedVersion: 2
-        x: 448
+        x: 425
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -288,12 +246,12 @@ TextureImporter:
       name: Left_Roll_8
       rect:
         serializedVersion: 2
-        x: 512
+        x: 510
         y: 0
-        width: 64
-        height: 64
+        width: 85
+        height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -301,6 +259,48 @@ TextureImporter:
       bones: []
       spriteID: 268dd56e1f05a9e4eb8778c12c11d6e3
       internalID: -2138312769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Roll_9
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 0
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f903272548ecd8543ae6914f56373502
+      internalID: 1866595853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Left_Roll_10
+      rect:
+        serializedVersion: 2
+        x: 680
+        y: 0
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ece617881d7c6f948beb0bbda166f29a
+      internalID: -699992067
       vertices: []
       indices: 
       edges: []
@@ -318,6 +318,7 @@ TextureImporter:
     nameFileIdTable:
       Left_Roll_0: 2106215300
       Left_Roll_1: -797943040
+      Left_Roll_10: -699992067
       Left_Roll_2: -209760361
       Left_Roll_3: 204737722
       Left_Roll_4: 989134916
@@ -325,6 +326,7 @@ TextureImporter:
       Left_Roll_6: 2054855528
       Left_Roll_7: -1337442084
       Left_Roll_8: -2138312769
+      Left_Roll_9: 1866595853
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

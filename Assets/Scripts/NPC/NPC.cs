@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class NPC : MonoBehaviour, IInteractable
 {
     public string[] dialogue;
     public DialogueManager dialogueManager;
     public Image dialogueImage;
+    public UnityEvent onDialogueEnd;
     public string npcName;
     private bool playerIsClose = false;
     [SerializeField] private Patrolling patrolling;
@@ -40,7 +42,7 @@ public class NPC : MonoBehaviour, IInteractable
             playerIsClose = false;
             if (promptTextObject != null)
                 promptTextObject.SetActive(false);
-            dialogueManager.EndDialogue();
+            dialogueManager.EndDialogue(false);
         }
     }
 
@@ -84,7 +86,12 @@ public class NPC : MonoBehaviour, IInteractable
 
     private void StartDialogue()
     {
-        dialogueManager.StartDialogue(dialogue, npcName, dialogueImage);
+        dialogueManager.StartDialogue(dialogue, npcName, dialogueImage, OnDialogueEnd);
+    }
+
+    private void OnDialogueEnd()
+    {
+        onDialogueEnd?.Invoke();
     }
 
     public void Interact(GameObject interactor)

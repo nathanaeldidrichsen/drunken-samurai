@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -24,7 +25,9 @@ public class DialogueManager : MonoBehaviour
     private string[] currentDialogueLines;
     public int currentLineIndex = 0;
 
-    public void StartDialogue(string[] dialogueLines, string npcName, Image image)
+    private Action onDialogueEndCallback;
+
+    public void StartDialogue(string[] dialogueLines, string npcName, Image image, Action onDialogueEnd = null)
     {
         if (!hasStartedConversation)
         {
@@ -37,6 +40,7 @@ public class DialogueManager : MonoBehaviour
             dialogueAnim.SetTrigger("show");
             currentDialogueLines = dialogueLines;
             currentLineIndex = 0;
+            onDialogueEndCallback = onDialogueEnd;
             DisplayNextLine();
         }
     }
@@ -63,14 +67,34 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void EndDialogue()
+    [SerializeField] private float hideAnimationDelay = 0.3f;
+
+    public void EndDialogue(bool invokeCallback = true)
     {
+        bool shouldInvoke = invokeCallback && onDialogueEndCallback != null;
+
         hasStartedConversation = false;
         hasFinishedConversation = true;
         isTyping = false;
         dialogueText.text = "";
         currentLineIndex = 0;
         dialogueAnim.SetTrigger("hide");
+
+        if (shouldInvoke)
+        {
+            StartCoroutine(InvokeEndCallbackAfterDelay());
+        }
+        else
+        {
+            onDialogueEndCallback = null;
+        }
+    }
+
+    private IEnumerator InvokeEndCallbackAfterDelay()
+    {
+        yield return new WaitForSeconds(hideAnimationDelay);
+        onDialogueEndCallback?.Invoke();
+        onDialogueEndCallback = null;
     }
 
     public IEnumerator Typing()
