@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public float itemSpawnRadius = 10f; // Adjust as needed
 
     [SerializeField] private List<Wave> waves = new List<Wave>(); // List of waves
-    [SerializeField] private int currentWaveIndex = 0; // Index of the current wave
+    [SerializeField] private int currentWaveIndex = 0; // Index of the current sp
     public GameObject[] spawnedEnemies;
     public GameObject[] itemsToSpawn;
     // private bool hasWon = false;

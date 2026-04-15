@@ -134,13 +134,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,6 +188,71 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+--- !u!1001 &74514067
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 256724644118997421, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_Name
+      value: ShootingMonster
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997426, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: health
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997426, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: projectileSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997431, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bcd0fde1cd45d9342a30170e5d67f071, type: 3}
 --- !u!1001 &130437531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195,13 +264,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -312,6 +385,7 @@ MonoBehaviour:
     pitchVariation: 0.106
     cooldown: 0.12
   currentLineIndex: 0
+  hideAnimationDelay: 0.3
 --- !u!1001 &318798042
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,13 +397,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 21
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -384,13 +462,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -614,13 +696,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -675,13 +761,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (11)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1001,13 +1091,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997426, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: attackRange
+      value: 0.28
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1580,13 +1678,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3781,13 +3883,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3842,13 +3948,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 24
+      value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3954,13 +4064,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4020,13 +4134,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4081,13 +4199,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 20
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4307,13 +4429,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4373,13 +4499,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4512,13 +4642,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6075,13 +6209,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6172,13 +6310,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: FragmentMonster1
       objectReference: {fileID: 0}
+    - target: {fileID: 256724644118997421, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 256724644118997429, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1245093338}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 256724644118997431, guid: 3015dc9a61fa2d74391cf11a8def57a2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6236,10 +6378,6 @@ PrefabInstance:
     - target: {fileID: 2092506165, guid: 0e821c23dc0091b45a9999f41c863a61, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2029709550985064285, guid: 0e821c23dc0091b45a9999f41c863a61, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -102.100586
       objectReference: {fileID: 0}
     - target: {fileID: 4636294459654071166, guid: 0e821c23dc0091b45a9999f41c863a61, type: 3}
       propertyPath: m_AnchorMax.x
@@ -6346,13 +6484,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5461486885951550472, guid: d8d1f587fa4ff1f42a37909fc7a9cd99, type: 3}
+      propertyPath: health
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5461486885951550473, guid: d8d1f587fa4ff1f42a37909fc7a9cd99, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 5461486885951550475, guid: d8d1f587fa4ff1f42a37909fc7a9cd99, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5461486885951550475, guid: d8d1f587fa4ff1f42a37909fc7a9cd99, type: 3}
       propertyPath: m_LocalPosition.x

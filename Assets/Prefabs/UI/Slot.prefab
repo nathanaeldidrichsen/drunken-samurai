@@ -285,10 +285,12 @@ MonoBehaviour:
   itemSlotImage: {fileID: 7369011682643530730}
   uiSound:
     id: 
-    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.196
+    clip: {fileID: 8300000, guid: 35469f362c7439649a7a2cbae7786b4c, type: 3}
+    volume: 0.125
     pitchVariation: 0
     cooldown: 0
+  slotPulseScale: 1.12
+  slotPulseDuration: 0.1
 --- !u!114 &8028942491410476152
 MonoBehaviour:
   m_ObjectHideFlags: 0

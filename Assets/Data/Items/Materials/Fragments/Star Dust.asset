@@ -21,7 +21,7 @@ MonoBehaviour:
   isEquipable: 0
   isCraftable: 0
   sellPrice: 0
-  itemDescription: 
+  itemDescription: A spec of dust from a star
   prefab: {fileID: 3664074871130452653, guid: 4b1edcfb925def2448aec223c576c077, type: 3}
   isEquipped: 0
   materialType: 1

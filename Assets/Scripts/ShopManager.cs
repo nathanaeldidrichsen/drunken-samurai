@@ -36,8 +36,20 @@ public class ShopManager : MonoBehaviour
     public TextMeshProUGUI selectedSellPriceText;
     public TextMeshProUGUI feedbackText;
     public Button buyButton;
+    public ToggleSelectedButton buySelectedToggle;
     public Button sellButton;
+    public ToggleSelectedButton sellSelectedToggle;
 
+    [Header("Audio")]
+    public SoundData buyCoinSound;
+    public SoundData uiSound;
+
+
+    [Header("Confirm UX")]
+    [SerializeField] private float buttonPulseScale = 1.08f;
+    [SerializeField] private float buttonPulseDuration = 0.12f;
+
+    private Coroutine pulseCoroutine;
     private enum ShopAction { None, Buy, Sell }
 
     [HideInInspector] public ItemSlot selectedShopSlot;
@@ -54,18 +66,24 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        if (Inventory.Instance != null)
-            Inventory.Instance.OnInventoryChanged += RefreshSellSlots;
+        // if (Inventory.Instance != null)
+        //     Inventory.Instance.OnInventoryChanged += RefreshSellSlots;
 
         RefreshShopSlots();
-        RefreshSellSlots();
+        // RefreshSellSlots();
         UpdateCurrencyDisplay();
         UpdateSelectedShopInfo();
-        UpdateSelectedSellInfo();
+        // UpdateSelectedSellInfo();
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            OpenShop();
+            return;
+        }
+
         if (shopScreen != null && shopScreen.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -83,8 +101,8 @@ public class ShopManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Inventory.Instance != null)
-            Inventory.Instance.OnInventoryChanged -= RefreshSellSlots;
+        // if (Inventory.Instance != null)
+        //     Inventory.Instance.OnInventoryChanged -= RefreshSellSlots;
     }
 
     public void OpenShop()
@@ -102,9 +120,10 @@ public class ShopManager : MonoBehaviour
                 Player.Instance.FreezePlayer(true);
 
             RefreshShopSlots();
-            RefreshSellSlots();
+            // RefreshSellSlots();
             SelectFirstShopSlot();
             currentAction = ShopAction.None;
+            SetButtonSelectedState(false, false);
             UpdateCurrencyDisplay();
             feedbackText.text = string.Empty;
             Time.timeScale = 0f;
@@ -122,38 +141,52 @@ public class ShopManager : MonoBehaviour
         HUD.Instance.shopIsOpen = false;
         if (Player.Instance != null)
             Player.Instance.FreezePlayer(false);
+
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
         Time.timeScale = 1f;
         currentAction = ShopAction.None;
+        SetButtonSelectedState(false, false);
         ClearShopSelection();
         ClearSellSelection();
     }
 
     public void SetSelectedShopSlot(ItemSlot slot)
     {
-        if (selectedShopSlot == slot)
-            return;
-
+        bool slotChanged = selectedShopSlot != slot;
         selectedShopSlot = slot;
-        currentAction = ShopAction.None;
-        selectedSellSlot = null;
+        if (slotChanged)
+        {
+            currentAction = ShopAction.None;
+            SetButtonSelectedState(false, false);
+        }
         DeselectAll(shopItemSlots, slot);
-        DeselectAll(sellItemSlots, null);
         UpdateSelectedShopInfo();
-        UpdateSelectedSellInfo();
     }
 
     public void SetSelectedSellSlot(ItemSlot slot)
     {
-        if (selectedSellSlot == slot)
-            return;
-
         selectedSellSlot = slot;
         currentAction = ShopAction.None;
-        selectedShopSlot = null;
-        DeselectAll(sellItemSlots, slot);
-        DeselectAll(shopItemSlots, null);
-        UpdateSelectedSellInfo();
-        UpdateSelectedShopInfo();
+        SetButtonSelectedState(false, false);
+        // selectedSellSlot = slot;
+        // currentAction = ShopAction.None;
+        // selectedShopSlot = null;
+        // DeselectAll(sellItemSlots, slot);
+        // DeselectAll(shopItemSlots, null);
+
+        // if (slot != null)
+        // {
+        //     slot.slotIsSelected = true;
+        //     if (slot.slotSelectedImageGO != null)
+        //         slot.slotSelectedImageGO.SetActive(true);
+        // }
+
+        // UpdateSelectedSellInfo();
+        // UpdateSelectedShopInfo();
     }
 
     private void HandleConfirmInput()
@@ -164,10 +197,18 @@ public class ShopManager : MonoBehaviour
             {
                 currentAction = ShopAction.Buy;
                 ClearSellSelection();
+                UpdateSelectedShopInfo();
+                SetButtonSelectedState(true, false);
                 if (buyButton != null)
                 {
-                    buyButton.Select();
+                    // buyButton.Select();
+                    buySelectedToggle.ToggleSelected(true);
+                    SoundManager.Instance?.PlaySFX(uiSound);
+
+                    // PulseButton(buyButton);
                 }
+
+                ShowFeedback($"Press Space to purchase.");
             }
             else
             {
@@ -176,22 +217,28 @@ public class ShopManager : MonoBehaviour
             return;
         }
 
-        if (selectedSellSlot != null && selectedSellSlot.item != null)
-        {
-            if (currentAction != ShopAction.Sell)
-            {
-                currentAction = ShopAction.Sell;
-                ClearShopSelection();
-                if (sellButton != null)
-                {
-                    sellButton.Select();
-                }
-            }
-            else
-            {
-                SellSelectedItem();
-            }
-        }
+        // Sell functionality disabled for now
+        // if (selectedSellSlot != null && selectedSellSlot.item != null)
+        // {
+        //     if (currentAction != ShopAction.Sell)
+        //     {
+        //         currentAction = ShopAction.Sell;
+        //         ClearShopSelection();
+        //         SetButtonSelectedState(false, true);
+        //         if (sellButton != null)
+        //         {
+        //             sellButton.Select();
+        //             sellSelectedToggle.ToggleSelected(true);
+        //             PulseButton(sellButton);
+        //         }
+        //
+        //         ShowFeedback($"Press Space again to sell {selectedSellSlot.item.itemName}.");
+        //     }
+        //     else
+        //     {
+        //         SellSelectedItem();
+        //     }
+        // }
     }
 
     public void BuySelectedItem()
@@ -222,26 +269,31 @@ public class ShopManager : MonoBehaviour
 
         Player.Instance.SpendGold(buyPrice);
         Inventory.Instance.AddItem(itemToBuy, 1);
-        RefreshSellSlots();
+        SoundManager.Instance?.PlaySFX(buyCoinSound);
+        HUD.Instance?.PulseGoldCoin();
+        // RefreshSellSlots();
         currentAction = ShopAction.None;
+        SetButtonSelectedState(false, false);
         UpdateCurrencyDisplay();
         ShowFeedback($"Bought {itemToBuy.itemName}.");
     }
 
     public void SellSelectedItem()
     {
-        if (selectedSellSlot == null || selectedSellSlot.item == null)
-            return;
-
-        Item itemToSell = selectedSellSlot.item;
-        int sellPrice = GetSellPrice(itemToSell);
-
-        Inventory.Instance.RemoveItem(itemToSell, 1);
-        Player.Instance.stats.gold += sellPrice;
-        RefreshSellSlots();
-        currentAction = ShopAction.None;
-        UpdateCurrencyDisplay();
-        ShowFeedback($"Sold {itemToSell.itemName}.");
+        // Sell functionality disabled for now
+        // if (selectedSellSlot == null || selectedSellSlot.item == null)
+        //     return;
+        //
+        // Item itemToSell = selectedSellSlot.item;
+        // int sellPrice = GetSellPrice(itemToSell);
+        //
+        // Inventory.Instance.RemoveItem(itemToSell, 1);
+        // Player.Instance.stats.gold += sellPrice;
+        // RefreshSellSlots();
+        // currentAction = ShopAction.None;
+        // SetButtonSelectedState(false, false);
+        // UpdateCurrencyDisplay();
+        // ShowFeedback($"Sold {itemToSell.itemName}.");
     }
 
     public void RefreshShopSlots()
@@ -265,33 +317,34 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshSellSlots()
     {
-        if (Inventory.Instance == null) return;
-
-        int index = 0;
-
-        foreach (var invSlot in Inventory.Instance.itemSlots)
-        {
-            if (invSlot.item == null)
-                continue;
-
-            if (index >= sellItemSlots.Count)
-                break;
-
-            ItemSlot slot = sellItemSlots[index];
-            slot.ClearSlot();
-            slot.slotType = SlotType.SellSlot;
-            slot.AddItem(invSlot.item, invSlot.quantity);
-            index++;
-        }
-
-        for (int i = index; i < sellItemSlots.Count; i++)
-        {
-            sellItemSlots[i].ClearSlot();
-            sellItemSlots[i].slotType = SlotType.SellSlot;
-        }
-
-        ClearSellSelection();
-        UpdateSelectedSellInfo();
+        // Sell functionality disabled for now
+        // if (Inventory.Instance == null) return;
+        //
+        // int index = 0;
+        //
+        // foreach (var invSlot in Inventory.Instance.itemSlots)
+        // {
+        //     if (invSlot.item == null)
+        //         continue;
+        //
+        //     if (index >= sellItemSlots.Count)
+        //         break;
+        //
+        //     ItemSlot slot = sellItemSlots[index];
+        //     slot.ClearSlot();
+        //     slot.slotType = SlotType.SellSlot;
+        //     slot.AddItem(invSlot.item, invSlot.quantity);
+        //     index++;
+        // }
+        //
+        // for (int i = index; i < sellItemSlots.Count; i++)
+        // {
+        //     sellItemSlots[i].ClearSlot();
+        //     sellItemSlots[i].slotType = SlotType.SellSlot;
+        // }
+        //
+        // ClearSellSelection();
+        // UpdateSelectedSellInfo();
     }
 
     public void UpdateCurrencyDisplay()
@@ -307,7 +360,7 @@ public class ShopManager : MonoBehaviour
             var item = selectedShopSlot.item;
             selectedShopNameText.text = item.itemName;
             selectedShopDescriptionText.text = item.itemDescription;
-            selectedShopPriceText.text = $"Buy: {GetBuyPrice(item)}";
+            selectedShopPriceText.text = $"Costs: {GetBuyPrice(item)} coins";
             buyButton.interactable = Player.Instance.stats.gold >= GetBuyPrice(item);
         }
         else
@@ -321,24 +374,24 @@ public class ShopManager : MonoBehaviour
 
     private void UpdateSelectedSellInfo()
     {
-        if (selectedSellSlot != null && selectedSellSlot.item != null)
-        {
-            var item = selectedSellSlot.item;
-            selectedSellNameText.text = item.itemName;
-            selectedSellDescriptionText.text = item.itemDescription;
-            selectedSellPriceText.text = $"Sell: {GetSellPrice(item)}";
-            sellButton.interactable = true;
-        }
-        else
-        {
-            selectedSellNameText.text = "No item selected";
-            selectedSellDescriptionText.text = string.Empty;
-            selectedSellPriceText.text = "Sell: -";
-            sellButton.interactable = false;
-        }
+        // Sell functionality disabled for now
+        // if (selectedSellSlot != null && selectedSellSlot.item != null)
+        // {
+        //     var item = selectedSellSlot.item;
+        //     selectedSellNameText.text = item.itemName;
+        //     selectedSellDescriptionText.text = item.itemDescription;
+        //     selectedSellPriceText.text = $"Sell: {GetSellPrice(item)}";
+        //     sellButton.interactable = true;
+        // }
+        // else
+        // {
+        //     selectedSellNameText.text = "No item selected";
+        //     selectedSellDescriptionText.text = string.Empty;
+        //     selectedSellPriceText.text = "Sell: -";
+        //     sellButton.interactable = false;
+        // }
     }
 
-    
 
     private int GetBuyPrice(Item item)
     {
@@ -363,6 +416,63 @@ public class ShopManager : MonoBehaviour
         feedbackText.text = message;
     }
 
+    private void SetButtonSelectedState(bool buySelected, bool sellSelected)
+    {
+        if (buySelectedToggle != null)
+        {
+            buySelectedToggle.ToggleSelected(buySelected);
+        }
+
+        if (sellSelectedToggle != null)
+        {
+            sellSelectedToggle.ToggleSelected(sellSelected);
+        }
+    }
+
+    private void PulseButton(Button button)
+    {
+        if (button == null)
+            return;
+
+        if (pulseCoroutine != null)
+        {
+            StopCoroutine(pulseCoroutine);
+        }
+
+        pulseCoroutine = StartCoroutine(PulseButtonRoutine(button));
+    }
+
+    private IEnumerator PulseButtonRoutine(Button button)
+    {
+        if (button == null)
+            yield break;
+
+        Transform target = button.transform;
+        Vector3 originalScale = target.localScale;
+        Vector3 targetScale = originalScale * buttonPulseScale;
+
+        float elapsed = 0f;
+        while (elapsed < buttonPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / buttonPulseDuration);
+            target.localScale = Vector3.Lerp(originalScale, targetScale, t);
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < buttonPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / buttonPulseDuration);
+            target.localScale = Vector3.Lerp(targetScale, originalScale, t);
+            yield return null;
+        }
+
+        target.localScale = originalScale;
+        pulseCoroutine = null;
+    }
+
     private void ClearShopSelection()
     {
         selectedShopSlot = null;
@@ -374,7 +484,7 @@ public class ShopManager : MonoBehaviour
     {
         selectedSellSlot = null;
         DeselectAll(sellItemSlots, null);
-        UpdateSelectedSellInfo();
+        // UpdateSelectedSellInfo();
     }
 
     private void DeselectAll(List<ItemSlot> slots, ItemSlot except)
@@ -405,15 +515,38 @@ public class ShopManager : MonoBehaviour
     private IEnumerator SelectFirstShopSlotNextFrame()
     {
         yield return null;
+        Canvas.ForceUpdateCanvases();
 
         if (shopItemSlots == null || shopItemSlots.Count == 0)
             yield break;
 
-        ItemSlot firstSlot = shopItemSlots[0];
+        ItemSlot firstSlot = null;
+
+        foreach (var slot in shopItemSlots)
+        {
+            if (slot != null && slot.item != null)
+            {
+                firstSlot = slot;
+                break;
+            }
+        }
+
+        if (firstSlot == null)
+        {
+            firstSlot = shopItemSlots[0];
+        }
+
         if (firstSlot == null)
             yield break;
 
-        firstSlot.ToggleSelection(true);
-        EventSystem.current.SetSelectedGameObject(firstSlot.gameObject);
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(firstSlot.gameObject);
+        }
+        else
+        {
+            firstSlot.ToggleSelection(true);
+        }
     }
 }

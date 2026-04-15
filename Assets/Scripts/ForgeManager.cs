@@ -359,10 +359,10 @@ public void ClearAllSelections()
     fragmentSlot1.ToggleSelection(false);
     fragmentSlot2.ToggleSelection(false);
 
-    foreach (var slot in materialSlots)
-    {
-        slot.ToggleSelection(false);
-    }
+    // foreach (var slot in materialSlots)
+    // {
+    //     slot.ToggleSelection(false);
+    // }
 }
 
 

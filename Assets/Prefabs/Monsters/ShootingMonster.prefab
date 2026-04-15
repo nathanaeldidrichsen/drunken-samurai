@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 256724644118997429}
   - component: {fileID: 256724644118997426}
   m_Layer: 0
-  m_Name: FragmentMonster1
+  m_Name: ShootingMonster
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,6 +35,7 @@ Transform:
   m_Children:
   - {fileID: 256724644748503280}
   - {fileID: 256724645528952759}
+  - {fileID: 419437681983202447}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -137,13 +138,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7edf5034fdfb1e34587766a77cec1f7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectRange: 4
-  attackRange: 0.28
-  moveSpeed: 0.38
+  detectRange: 2.57
+  attackRange: 2
+  moveSpeed: 0.64
+  useRangedAttack: 1
   attackDamage: 1
   attackCooldown: 0.8
   attackWindup: 0.2
-  health: 3
+  health: 30
+  projectilePrefab: {fileID: 7863149621958755657, guid: c0610d5218830ad4ea9ca1a0bdd8a8fc, type: 3}
+  projectileSpawnPoint: {fileID: 419437681983202447}
+  projectileSpeed: 2
+  projectileLifetime: 3
+  shootInterval: 1.2
+  projectileDamage: 1
 --- !u!1 &256724644748503283
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,7 +230,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -8656425089544617296, guid: c15104438e2f6b44d84b32d1734c8cd4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.7432761, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -394,3 +402,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortingMultiplier: 100
   yOffset: 0
+--- !u!1 &1811784258457412672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 419437681983202447}
+  m_Layer: 0
+  m_Name: ShootingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419437681983202447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1811784258457412672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.019, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 256724644118997431}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

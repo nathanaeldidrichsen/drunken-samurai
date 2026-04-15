@@ -35,11 +35,16 @@ public class EnemyBase : MonoBehaviour
     public EnemyStats stats;
 
     public EnemyBrain brain;
+    private bool attackAnimationFinished;
+    private bool attackDamageAppliedThisCycle;
 
     void Awake()
     {
         // ensure an EnemyStats component exists on this GameObject
         stats = GetComponent<EnemyStats>() ?? gameObject.AddComponent<EnemyStats>();
+
+        if (player == null && Player.Instance != null)
+            player = Player.Instance.transform;
 
         if (brain == null)
             brain = new EnemyBrain(this);
@@ -89,6 +94,11 @@ public class EnemyBase : MonoBehaviour
         return Vector3.Distance(transform.position, player.position) <= stats.attackRange;
     }
 
+    public bool IsRangedEnemy()
+    {
+        return stats != null && stats.useRangedAttack;
+    }
+
     public void MoveTowardsPlayer()
     {
         if (player == null || stats == null) return;
@@ -114,8 +124,93 @@ public class EnemyBase : MonoBehaviour
 
     public void PlayAttackAnimation()
     {
+        attackAnimationFinished = false;
+        attackDamageAppliedThisCycle = false;
         Animator a = GetComponentInChildren<Animator>();
         if (a != null) a.SetTrigger("Attack");
+    }
+
+    // Animation event hook: call this from the attack clip at the hit frame.
+    public void AnimationEvent_AttackHit()
+    {
+        TryDealAttackDamage();
+    }
+
+    // Animation event hook: call this on the final frame of the attack clip.
+    public void AnimationEvent_AttackFinished()
+    {
+        attackAnimationFinished = true;
+    }
+
+    public bool HasAttackAnimationFinished()
+    {
+        return attackAnimationFinished;
+    }
+
+    public bool TryDealAttackDamage()
+    {
+        if (attackDamageAppliedThisCycle)
+            return false;
+
+        if (player == null && Player.Instance != null)
+            player = Player.Instance.transform;
+
+        if (!InAttackRange())
+            return false;
+
+        Player playerComponent = Player.Instance;
+        if (playerComponent == null)
+            return false;
+
+        int damage = stats != null ? Mathf.Max(stats.attackDamage, 0) : 0;
+        if (damage <= 0)
+            return false;
+
+        playerComponent.GetHurt(damage);
+        attackDamageAppliedThisCycle = true;
+        return true;
+    }
+
+    public bool TryShootProjectileAtPlayer()
+    {
+        if (stats == null || stats.projectilePrefab == null)
+            return false;
+
+        if (player == null && Player.Instance != null)
+            player = Player.Instance.transform;
+
+        if (player == null)
+            return false;
+
+        Transform spawnPoint = stats.projectileSpawnPoint != null ? stats.projectileSpawnPoint : transform;
+        Vector2 direction = ((Vector2)player.position - (Vector2)spawnPoint.position).normalized;
+        if (direction == Vector2.zero)
+            direction = Vector2.right;
+
+        Quaternion rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
+        GameObject projectileObj = Instantiate(stats.projectilePrefab, spawnPoint.position, rotation);
+
+        EnemyProjectile projectile = projectileObj.GetComponent<EnemyProjectile>();
+        if (projectile != null)
+        {
+            projectile.Initialize(
+                direction,
+                stats.projectileSpeed,
+                Mathf.Max(stats.projectileDamage, 0),
+                stats.projectileLifetime
+            );
+        }
+        else
+        {
+            Rigidbody2D rb2 = projectileObj.GetComponent<Rigidbody2D>();
+            if (rb2 != null)
+                rb2.velocity = direction * stats.projectileSpeed;
+
+            if (stats.projectileLifetime > 0f)
+                Destroy(projectileObj, stats.projectileLifetime);
+        }
+
+        return true;
     }
 
     public void PlayDeathAnimation()

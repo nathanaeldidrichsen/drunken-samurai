@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fragment1
+  m_Name: ShootingMonster
   m_Controller: {fileID: 9100000, guid: 815b63e29b5b07140aee79a12c0b53fa, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: bc1db6f72ad52634f87b7bce487525f8, type: 2}

@@ -286,7 +286,7 @@ MonoBehaviour:
   uiSound:
     id: 
     clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.196
+    volume: 0.239
     pitchVariation: 0
     cooldown: 0
 --- !u!114 &8028942491410476152

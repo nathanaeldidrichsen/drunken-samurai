@@ -8,11 +8,12 @@ class ChaseState : State
 
     public override void Update()
     {
-        enemy.MoveTowardsPlayer();
-
         if (enemy.InAttackRange())
         {
             brain.ChangeState(brain.attack);
+            return;
         }
+
+        enemy.MoveTowardsPlayer();
     }
 }

@@ -1000,11 +1000,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 8a5573900360d014daee0edbba56c9c3, type: 2}
   moveSpeed: 0.7
-  health: 100
+  health: 10
   defense: 0
   dashSpeed: 10
   dashCooldown: 1
-  rollCooldown: 2
+  rollCooldown: 1
   attackCoolDown: 0.35
   isFrozen: 0
   enemySpawnRadius: 6
@@ -1012,7 +1012,6 @@ MonoBehaviour:
   horizontal: 0
   vertical: 0
   isRolling: 0
-  rollForce: 0.015
   levelUpSound:
     id: 
     clip: {fileID: 0}
@@ -1020,6 +1019,7 @@ MonoBehaviour:
     pitchVariation: 0.05
     cooldown: 0
   anim: {fileID: 0}
+  currentCooldown: 0
   playerPos: {fileID: 11400000, guid: 069a0008456219e4a81e5ba8f19b5d30, type: 2}
 --- !u!50 &5461486885951550474
 Rigidbody2D:
@@ -1273,12 +1273,14 @@ MonoBehaviour:
   anim: {fileID: 5461486885305912445}
   rb: {fileID: 5461486885951550474}
   attackCooldown: 0.32
+  fullComboCooldown: 1
   attackLungeForce: 0.015
   attackLungeDuration: 0.1
   maxCombo: 3
   comboWindow: 0.35
   comboStep: 0
   bufferedClicks: 0
+  inputBufferTime: 0.25
 --- !u!1001 &5010624057081011310
 PrefabInstance:
   m_ObjectHideFlags: 0

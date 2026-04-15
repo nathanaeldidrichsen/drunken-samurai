@@ -30,7 +30,9 @@ public class HUD : MonoBehaviour
     public SoundData gemSound;
 
     public TextMeshProUGUI lvlText;
-    public TextMeshProUGUI honorText;
+    public TextMeshProUGUI goldText;
+    public Image goldCoinImage;
+
     public TextMeshProUGUI infoText;
 
     public TextMeshProUGUI uiHealth;
@@ -58,9 +60,48 @@ public class HUD : MonoBehaviour
         }
     }
 
+    private Coroutine goldCoinPulseCoroutine;
+    [SerializeField] private float goldCoinPulseScale = 1.35f;
+    [SerializeField] private float goldCoinPulseDuration = 0.12f;
+    private Vector3 goldCoinBaseScale = Vector3.one;
+
+    public void PulseGoldCoin()
+    {
+        if (goldCoinImage == null) return;
+        if (goldCoinPulseCoroutine != null) StopCoroutine(goldCoinPulseCoroutine);
+        goldCoinImage.transform.localScale = goldCoinBaseScale;
+        goldCoinPulseCoroutine = StartCoroutine(PulseGoldCoinRoutine());
+    }
+
+    private IEnumerator PulseGoldCoinRoutine()
+    {
+        Transform t = goldCoinImage.transform;
+        Vector3 original = goldCoinBaseScale;
+        Vector3 target = goldCoinBaseScale * goldCoinPulseScale;
+
+        float elapsed = 0f;
+        while (elapsed < goldCoinPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            t.localScale = Vector3.Lerp(original, target, Mathf.Clamp01(elapsed / goldCoinPulseDuration));
+            yield return null;
+        }
+        elapsed = 0f;
+        while (elapsed < goldCoinPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            t.localScale = Vector3.Lerp(target, original, Mathf.Clamp01(elapsed / goldCoinPulseDuration));
+            yield return null;
+        }
+        t.localScale = original;
+        goldCoinPulseCoroutine = null;
+    }
+
     void Awake()
     {
         anim = GetComponent<Animator>();
+        if (goldCoinImage != null)
+            goldCoinBaseScale = goldCoinImage.transform.localScale;
     }
 
     void Start()
@@ -83,7 +124,7 @@ public class HUD : MonoBehaviour
         expSlider.value = Player.Instance.stats.currentExp;
         expSlider.maxValue = Player.Instance.stats.expNeededToLevelUp;
         lvlText.text = Player.Instance.stats.level.ToString();
-        honorText.text = Player.Instance.stats.gold.ToString();
+        goldText.text = Player.Instance.stats.gold.ToString();
         uiHealth.text = Player.Instance.stats.maxHealth.ToString();
         uiDmg.text = Player.Instance.stats.damage.ToString();
         uiDef.text = Player.Instance.stats.defense.ToString();

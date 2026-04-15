@@ -418,6 +418,7 @@ public void Move(InputAction.CallbackContext context)
     public void GainGold(int goldAmount)
     {
         stats.gold += goldAmount;
+        HUD.Instance?.PulseGoldCoin();
     }
 
         public void SpendGold(int goldAmount)
@@ -494,11 +495,11 @@ public void ResetStatsToBase()
     // BASE STATS (HARDCODED)
 
     stats.dashSpeed = 1f;
-    stats.dashCooldown = 2f;
+    stats.dashCooldown = 1f;
     stats.moveSpeed = 1.5f;
 
-    stats.maxHealth = 100;
-    stats.currentHealth = 100;
+    stats.maxHealth = 10;
+    stats.currentHealth = 10;
 
     stats.damage = 1;
     stats.defense = 1;

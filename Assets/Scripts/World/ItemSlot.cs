@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
 public enum SlotContains
 {
@@ -21,7 +22,7 @@ public enum SlotType
     SellSlot
 }
 
-public class ItemSlot : MonoBehaviour
+public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
 {
     public SlotContains slotContains = SlotContains.Any;
     public SlotType slotType = SlotType.InventorySlot;
@@ -39,10 +40,18 @@ public class ItemSlot : MonoBehaviour
     [Header("Audio")]
     public SoundData uiSound;
 
+    [Header("Selection Pulse")]
+    [SerializeField] private float slotPulseScale = 1.12f;
+    [SerializeField] private float slotPulseDuration = 0.1f;
+    private Coroutine slotPulseCoroutine;
+    private Vector3 slotSelectedBaseScale = Vector3.one;
+
     // Called whenever the item slot needs to be updated
 
     void Awake()
     {
+        if (slotSelectedImageGO != null)
+            slotSelectedBaseScale = slotSelectedImageGO.transform.localScale;
 
         UpdateSlotUI();
     }
@@ -82,6 +91,16 @@ public class ItemSlot : MonoBehaviour
             itemCountText.text = "";
     }
 
+    public void OnSelect(BaseEventData eventData)
+    {
+        ToggleSelection(true);
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        ToggleSelection(false);
+    }
+
     public void ToggleSelection(bool isSelected)
     {
         if (slotType == SlotType.ShopSlot)
@@ -112,11 +131,12 @@ public class ItemSlot : MonoBehaviour
     {
         if (isSelected)
         {
-            // SoundManager.Instance.PlaySFX(uiSound);
+            SoundManager.Instance.PlaySFX(uiSound);
             // Shows the border around the slot
             slotSelectedImageGO.SetActive(true);
             Inventory.Instance.SetSelectedItemSlot(this.gameObject.GetComponent<ItemSlot>());
             slotIsSelected = true;
+            PulseSlot();
             if (item != null)
             {
                 itemNameText.text = item.name;
@@ -160,7 +180,8 @@ public class ItemSlot : MonoBehaviour
             slotSelectedImageGO.SetActive(true);
             ForgeManager.Instance.SetSelectedItemSlot(this.gameObject.GetComponent<ItemSlot>());
             slotIsSelected = true;
-            // SoundManager.Instance.PlaySFX(uiSound);
+            SoundManager.Instance.PlaySFX(uiSound);
+            PulseSlot();
 
         }
         else
@@ -171,20 +192,69 @@ public class ItemSlot : MonoBehaviour
         }
     }
 
+    private void PulseSlot()
+    {
+        if (slotSelectedImageGO == null)
+            return;
+
+        if (slotPulseCoroutine != null)
+            StopCoroutine(slotPulseCoroutine);
+
+        slotSelectedImageGO.transform.localScale = slotSelectedBaseScale;
+        slotPulseCoroutine = StartCoroutine(PulseSlotRoutine());
+    }
+
+    private System.Collections.IEnumerator PulseSlotRoutine()
+    {
+        Transform selectedTransform = slotSelectedImageGO.transform;
+        Vector3 originalScale = slotSelectedBaseScale;
+        Vector3 targetScale = slotSelectedBaseScale * slotPulseScale;
+
+        float elapsed = 0f;
+        while (elapsed < slotPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            selectedTransform.localScale = Vector3.Lerp(originalScale, targetScale, Mathf.Clamp01(elapsed / slotPulseDuration));
+            yield return null;
+        }
+
+        elapsed = 0f;
+        while (elapsed < slotPulseDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            selectedTransform.localScale = Vector3.Lerp(targetScale, originalScale, Mathf.Clamp01(elapsed / slotPulseDuration));
+            yield return null;
+        }
+
+        selectedTransform.localScale = originalScale;
+        slotPulseCoroutine = null;
+    }
+
     public void HandleShopSlotSelection(bool isSelected)
     {
         if (isSelected)
         {
             slotSelectedImageGO.SetActive(true);
             slotIsSelected = true;
-            ShopManager.Instance?.SetSelectedShopSlot(this);
+            SoundManager.Instance.PlaySFX(uiSound);
+            PulseSlot();
+
+            if (ShopManager.Instance != null)
+            {
+                Debug.Log("Selected shop slot: " + this.name);
+                ShopManager.Instance.SetSelectedShopSlot(this);
+            }
         }
         else
         {
-            if (ShopManager.Instance?.selectedShopSlot == this)
+            // Keep the logical shop item selected even if UI focus moves to the buy button.
+            if (ShopManager.Instance != null && ShopManager.Instance.selectedShopSlot == this)
             {
-                ShopManager.Instance.SetSelectedShopSlot(null);
+                slotSelectedImageGO.SetActive(true);
+                slotIsSelected = true;
+                return;
             }
+
             slotSelectedImageGO.SetActive(false);
             slotIsSelected = false;
         }
@@ -196,14 +266,22 @@ public class ItemSlot : MonoBehaviour
         {
             slotSelectedImageGO.SetActive(true);
             slotIsSelected = true;
-            ShopManager.Instance?.SetSelectedSellSlot(this);
+
+            if (ShopManager.Instance != null)
+            {
+                ShopManager.Instance.SetSelectedSellSlot(this);
+            }
         }
         else
         {
-            if (ShopManager.Instance?.selectedSellSlot == this)
+            // Keep the logical sell item selected even if UI focus moves to the sell button.
+            if (ShopManager.Instance != null && ShopManager.Instance.selectedSellSlot == this)
             {
-                ShopManager.Instance.SetSelectedSellSlot(null);
+                slotSelectedImageGO.SetActive(true);
+                slotIsSelected = true;
+                return;
             }
+
             slotSelectedImageGO.SetActive(false);
             slotIsSelected = false;
         }
