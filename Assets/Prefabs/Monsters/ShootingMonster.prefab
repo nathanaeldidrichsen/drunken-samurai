@@ -112,7 +112,13 @@ MonoBehaviour:
   dieSound:
     id: 
     clip: {fileID: 8300000, guid: e0c5dd250be7e9949a0e5201840ec577, type: 3}
-    volume: 0.171
+    volume: 0.023
+    pitchVariation: 0
+    cooldown: 0
+  fireSound:
+    id: 
+    clip: {fileID: 8300000, guid: 280d5385a057466439de70bceb816de6, type: 3}
+    volume: 0.016
     pitchVariation: 0
     cooldown: 0
   itemsToDrop:
@@ -148,7 +154,7 @@ MonoBehaviour:
   health: 30
   projectilePrefab: {fileID: 7863149621958755657, guid: c0610d5218830ad4ea9ca1a0bdd8a8fc, type: 3}
   projectileSpawnPoint: {fileID: 419437681983202447}
-  projectileSpeed: 2
+  projectileSpeed: 1
   projectileLifetime: 3
   shootInterval: 1.2
   projectileDamage: 1

@@ -119,6 +119,9 @@ public class ShopManager : MonoBehaviour
             if (Player.Instance != null)
                 Player.Instance.FreezePlayer(true);
 
+            if (EventSystem.current != null)
+                EventSystem.current.SetSelectedGameObject(null);
+
             RefreshShopSlots();
             // RefreshSellSlots();
             SelectFirstShopSlot();
@@ -358,8 +361,17 @@ public class ShopManager : MonoBehaviour
         if (selectedShopSlot != null && selectedShopSlot.item != null)
         {
             var item = selectedShopSlot.item;
-            selectedShopNameText.text = item.itemName;
-            selectedShopDescriptionText.text = item.itemDescription;
+            // Show recipe info if RecipeItem
+            if (item is RecipeItem recipe)
+            {
+                selectedShopNameText.text = !string.IsNullOrEmpty(recipe.recipeName) ? recipe.recipeName : item.itemName;
+                selectedShopDescriptionText.text = !string.IsNullOrEmpty(recipe.recipeDescription) ? recipe.recipeDescription : item.itemDescription;
+            }
+            else
+            {
+                selectedShopNameText.text = item.itemName;
+                selectedShopDescriptionText.text = item.itemDescription;
+            }
             selectedShopPriceText.text = $"Costs: {GetBuyPrice(item)} coins";
             buyButton.interactable = Player.Instance.stats.gold >= GetBuyPrice(item);
         }

@@ -10,7 +10,7 @@ public class Pickupable : MonoBehaviour
     public bool isInventoryItem;
     private Consumable consumable;
     [SerializeField] private Item item;
-    public int itemStackAmount;
+    public int itemStackAmount = 1;
 
     [Header("Audio")]
     public SoundData gemSound;
@@ -66,7 +66,7 @@ public class Pickupable : MonoBehaviour
             }
             else
             {
-                Inventory.Instance.AddItem(item, itemStackAmount);
+                Inventory.Instance.AddItem(item, Mathf.Max(1, itemStackAmount));
                 SoundManager.Instance.PlaySFX(gemSound);
                 Destroy(gameObject); // Destroys this pickupable item
             }

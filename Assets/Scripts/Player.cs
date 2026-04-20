@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float rollCooldown = 2f; // Seconds
     [SerializeField] private float attackCoolDown = 1f; // Seconds
 
+
     public bool isFrozen = false;
     public float enemySpawnRadius = 10f;
     [HideInInspector] public float itemPickUpRadius = 0.2f;
@@ -31,8 +32,12 @@ public class Player : MonoBehaviour
 
     // --- Combo system ---
 
+    private int wellHealCost = 5;
+
     [Header("Audio")]
     public SoundData levelUpSound;
+    public SoundData hurtSound;
+    public SoundData wellHealSound;
 
     public Animator anim;
     private SpriteRenderer sprite;
@@ -80,7 +85,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!isRolling && !isFrozen)
+        if (!isRolling && !isFrozen && !isKnockedBack)
         {
             // rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
             rb.MovePosition(rb.position + movement.normalized * moveSpeed * Time.fixedDeltaTime);
@@ -128,34 +133,34 @@ public class Player : MonoBehaviour
     //     LastFacingDirection();
     // }
 
-int SnapAxis(float value)
-{
-    if (value > 0.3f) return 1;
-    if (value < -0.3f) return -1;
-    return 0;
-}
+    int SnapAxis(float value)
+    {
+        if (value > 0.3f) return 1;
+        if (value < -0.3f) return -1;
+        return 0;
+    }
 
-Vector2 Snap4Dir(Vector2 input)
-{
-    if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
-        return new Vector2(Mathf.Sign(input.x), 0);
-    else if (Mathf.Abs(input.y) > 0)
-        return new Vector2(0, Mathf.Sign(input.y));
+    Vector2 Snap4Dir(Vector2 input)
+    {
+        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+            return new Vector2(Mathf.Sign(input.x), 0);
+        else if (Mathf.Abs(input.y) > 0)
+            return new Vector2(0, Mathf.Sign(input.y));
 
-    return Vector2.zero;
-}
+        return Vector2.zero;
+    }
 
-public void Move(InputAction.CallbackContext context)
-{
-    Vector2 input = context.ReadValue<Vector2>();
+    public void Move(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
 
-    horizontal = SnapAxis(input.x);
-    vertical = SnapAxis(input.y);
+        horizontal = SnapAxis(input.x);
+        vertical = SnapAxis(input.y);
 
-    movement = new Vector2(horizontal, vertical);
+        movement = new Vector2(horizontal, vertical);
 
-    LastFacingDirection();
-}
+        LastFacingDirection();
+    }
 
 
     // public void Move(InputAction.CallbackContext context)
@@ -215,7 +220,7 @@ public void Move(InputAction.CallbackContext context)
         HUD.Instance.OpenInventory();
     }
 
-        public void ShowForge(InputAction.CallbackContext context)
+    public void ShowForge(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
@@ -269,15 +274,15 @@ public void Move(InputAction.CallbackContext context)
 
         if (HUD.Instance.inventoryIsOpen)
         {
-        Inventory.Instance.HandleGrab();
-        return;
-    }
+            Inventory.Instance.HandleGrab();
+            return;
+        }
 
-    if (HUD.Instance.forgeIsOpen)
-    {
-        ForgeManager.Instance.HandleGrab();
-        return;
-    }
+        if (HUD.Instance.forgeIsOpen)
+        {
+            // ForgeManager.Instance.HandleGrab();
+            return;
+        }
     }
 
 
@@ -310,6 +315,15 @@ public void Move(InputAction.CallbackContext context)
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
+        if (HUD.Instance.inventoryIsOpen && Input.GetKeyDown(KeyCode.Space))
+        {
+            var selected = Inventory.Instance.GetSelectedItem();
+            if (selected != null && selected.item != null && selected.item.type == ItemType.Recipe)
+            {
+                Inventory.Instance.LearnSelectedRecipe();
+            }
         }
     }
 
@@ -352,19 +366,66 @@ public void Move(InputAction.CallbackContext context)
     }
 
 
-    public void GetHurt(int dmgAmount)
+    public void GetHurt(int dmgAmount, Vector2 knockbackDir = default, float knockbackForce = 5f)
     {
         if (!recoveryCounter.recovering)
         {
             recoveryCounter.counter = 0;
             simpleFlash.Flash();
             stats.currentHealth -= dmgAmount;
+            SoundManager.Instance?.PlaySFX(hurtSound);
             // anim.SetTrigger("Hurt");
+            CameraShake.Instance?.ScreenShake();
+
+            if (knockbackDir != Vector2.zero)
+                StartCoroutine(KnockBack(knockbackDir, knockbackForce, 0.15f));
+
             if (stats.currentHealth <= 0)
             {
                 Die();
             }
         }
+    }
+
+    private bool isKnockedBack;
+
+    private IEnumerator KnockBack(Vector2 direction, float force, float duration)
+    {
+        isKnockedBack = true;
+        rb.velocity = Vector2.zero;
+        float timer = 0f;
+        while (timer < duration)
+        {
+            float t = timer / duration;
+            rb.velocity = direction.normalized * Mathf.Lerp(force, 0f, t);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        rb.velocity = Vector2.zero;
+        isKnockedBack = false;
+    }
+
+        public void HealFromWell()
+    {
+        var player = Player.Instance;
+        if (player == null) return;
+
+        if (player.stats.currentHealth >= player.stats.maxHealth)
+        {
+            HUD.Instance?.ShowFeedback("Already at full health!");
+            return;
+        }
+
+        if (player.stats.gold < wellHealCost)
+        {
+            HUD.Instance?.ShowFeedback("Not enough gold!");
+            return;
+        }
+
+        player.SpendGold(wellHealCost);
+        player.stats.currentHealth = player.stats.maxHealth;
+        SoundManager.Instance?.PlaySFX(wellHealSound);
+        HUD.Instance?.ShowFeedback("Healed to full!");
     }
 
     public void Die()
@@ -404,7 +465,7 @@ public void Move(InputAction.CallbackContext context)
         stats.currentExp = 0;
         stats.level = 1;
         stats.expNeededToLevelUp = 100;
-        stats.moveSpeed = 0.7f;
+        stats.moveSpeed = 1.5f;
         stats.damage = 1;
         stats.moveSpeed = 1;
         stats.dashCooldown = 0.5f;
@@ -421,7 +482,7 @@ public void Move(InputAction.CallbackContext context)
         HUD.Instance?.PulseGoldCoin();
     }
 
-        public void SpendGold(int goldAmount)
+    public void SpendGold(int goldAmount)
     {
         stats.gold -= goldAmount;
     }
@@ -473,45 +534,45 @@ public void Move(InputAction.CallbackContext context)
     }
 
     private void UpdateAnimator()
-{
-    if(HUD.Instance.inventoryIsOpen || HUD.Instance.forgeIsOpen || HUD.Instance.shopIsOpen) return;
-
-
-    if (isFrozen)
     {
-        anim.SetFloat("Speed", 0f);
-        return;
+        if (HUD.Instance.inventoryIsOpen || HUD.Instance.forgeIsOpen || HUD.Instance.shopIsOpen) return;
+
+
+        if (isFrozen)
+        {
+            anim.SetFloat("Speed", 0f);
+            return;
+        }
+
+        anim.SetFloat("Horizontal", movement.x);
+        anim.SetFloat("Vertical", movement.y);
+        anim.SetFloat("Speed", movement.sqrMagnitude);
+
+        LastFacingDirection();
     }
 
-    anim.SetFloat("Horizontal", movement.x);
-    anim.SetFloat("Vertical", movement.y);
-    anim.SetFloat("Speed", movement.sqrMagnitude);
+    public void ResetStatsToBase()
+    {
+        // BASE STATS (HARDCODED)
 
-    LastFacingDirection();
-}
+        stats.dashSpeed = 1f;
+        stats.dashCooldown = 1f;
+        stats.moveSpeed = 1.5f;
 
-public void ResetStatsToBase()
-{
-    // BASE STATS (HARDCODED)
+        stats.maxHealth = 10;
+        stats.currentHealth = 10;
 
-    stats.dashSpeed = 1f;
-    stats.dashCooldown = 1f;
-    stats.moveSpeed = 1.5f;
+        stats.damage = 1;
+        stats.defense = 1;
 
-    stats.maxHealth = 10;
-    stats.currentHealth = 10;
+        stats.level = 1;
+        stats.currentExp = 0;
+        stats.expNeededToLevelUp = 220;
 
-    stats.damage = 1;
-    stats.defense = 1;
+        stats.gold = 0;
 
-    stats.level = 1;
-    stats.currentExp = 0;
-    stats.expNeededToLevelUp = 220;
-
-    stats.gold = 0;
-
-    Debug.Log("Player stats reset to base values.");
-}
+        Debug.Log("Player stats reset to base values.");
+    }
 
 
 }

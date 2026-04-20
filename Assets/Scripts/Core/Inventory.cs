@@ -16,6 +16,11 @@ public class Inventory : MonoBehaviour
     public List<Item> items = new List<Item>(); // List of item slots
     public static Inventory Instance { get; private set; }
 
+    // List of learned recipes (ScriptableObjects)
+    public List<RecipeItem> learnedRecipes = new List<RecipeItem>();
+    // List of learned ForgeRecipes for the forge UI
+    public List<ForgeRecipe> learnedForgeRecipes = new List<ForgeRecipe>();
+
     // Event for inventory changes
     public event Action OnInventoryChanged;
     [SerializeField] private ItemSlot grabbedItemSlot;
@@ -31,12 +36,41 @@ public class Inventory : MonoBehaviour
 
     [SerializeField] private ItemSlot selectedItemSlot;
     public SoundData uiSound;
+    public SoundData recipeSound;
+    public SoundData equipSound;
 
 
     public void SetSelectedItemSlot(ItemSlot theSelectedSlot)
     {
         selectedItemSlot = theSelectedSlot;
     }
+
+    // Call this when SPACE is pressed on a selected recipe item
+public void LearnSelectedRecipe()
+{
+    ItemSlot selected = GetSelectedItem();
+    if (selected == null || selected.item == null) return;
+    if (selected.item.type != ItemType.Recipe) return;
+
+    RecipeItem recipe = selected.item as RecipeItem;
+    if (recipe == null) return;
+
+    if (!learnedRecipes.Contains(recipe))
+    {
+        learnedRecipes.Add(recipe);
+        SoundManager.Instance.PlaySFX(recipeSound);
+        HUD.Instance?.ShowFeedback($"Learned recipe: {recipe.recipeName}");
+        if (recipe.forgeRecipe != null && !learnedForgeRecipes.Contains(recipe.forgeRecipe))
+            learnedForgeRecipes.Add(recipe.forgeRecipe);
+    }
+
+    // Remove the recipe item from the selected slot
+    selected.RemoveItem(1);
+
+    // Refresh UI
+    // UpdateItemSlots();
+    OnInventoryChanged?.Invoke();
+}
 
     public ItemSlot GetSelectedItem()
     {
@@ -67,15 +101,20 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Multiple Inventory instances found in the scene. Make sure to only have one.");
             Destroy(gameObject);
+            return;
         }
 
         if (weaponSlot == null || medallionSlot == null)
         {
             Debug.LogWarning("You have forgotten to ref medallion or weapon slot in the editor come on man.. get yo shit together");
         }
+    }
 
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     public void GrabItem(ItemSlot slot)
@@ -181,6 +220,7 @@ public class Inventory : MonoBehaviour
                 GetSelectedItem().ClearSlot();
                 medallionSlot.AddItem(equipmentItem, 1);
                 Player.Instance.WearEquipment(equipmentItem, true);
+                SoundManager.Instance?.PlaySFX(equipSound);
             }
         }
         else
@@ -189,12 +229,14 @@ public class Inventory : MonoBehaviour
             if (weaponSlot.item != null)
             {
                 weaponSlot.SwapItemWithThis(GetSelectedItem());
+                SoundManager.Instance?.PlaySFX(equipSound);
             }
             else
             {
                 GetSelectedItem().ClearSlot();
                 weaponSlot.AddItem(equipmentItem, 1);
                 Player.Instance.WearEquipment(equipmentItem, true);
+                SoundManager.Instance?.PlaySFX(equipSound);
             }
         }
         UpdateItemSlots();
@@ -212,7 +254,7 @@ public class Inventory : MonoBehaviour
         {
             Player.Instance.WearEquipment((EquipmentItem)unequipSlot.item, false);
             firstAvailableSlot.SwapItemWithThis(unequipSlot);
-
+            SoundManager.Instance?.PlaySFX(equipSound);
             OnInventoryChanged?.Invoke();
         }
         else
@@ -240,10 +282,8 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("Tried to add null item to inventory.");
             return;
         }
-
         // Find an empty slot or stackable slot for the item
         ItemSlot slot = FindItemSlot(item);
-
         if (slot != null)
         {
             //slot.quantity += quantity;
@@ -254,7 +294,6 @@ public class Inventory : MonoBehaviour
             Debug.LogWarning("Inventory is full.");
             return;
         }
-
         // Trigger inventory changed event
         OnInventoryChanged?.Invoke();
     }
@@ -320,20 +359,38 @@ public class Inventory : MonoBehaviour
     // Find an empty slot or stackable slot for the item
     private ItemSlot FindItemSlot(Item item)
     {
+        // First: try to find an existing slot with the same stackable item
+        foreach (var slot in itemSlots)
+        {
+            if (slot.item == item && item.isStackable && slot.quantity < item.maxStack)
+                return slot;
+        }
+
+        // Second: fall back to first empty slot
         foreach (var slot in itemSlots)
         {
             if (slot.item == null)
-            {
-                // If the slot is empty, return it
                 return slot;
-            }
-            else if (slot.item == item && slot.quantity < item.maxStack)
-            {
-                // If the slot has the same item and is not at max stack, return it
-                return slot;
-            }
         }
+
         return null;
+    }
+
+    public bool HasItem(Item item, int amount = 1)
+    {
+        return GetItemCount(item) >= amount;
+    }
+
+    public int GetItemCount(Item item)
+    {
+        if (item == null) return 0;
+        int total = 0;
+        foreach (var slot in itemSlots)
+        {
+            if (slot.item == item)
+                total += slot.quantity;
+        }
+        return total;
     }
 
     // Update item slots based on inventory contents

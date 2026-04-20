@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 8896076291741860080}
   - component: {fileID: 8896076291741859982}
   - component: {fileID: 8896076291741859983}
+  - component: {fileID: 4687291647784997835}
   m_Layer: 0
   m_Name: idle_npc
   m_TagString: Untagged
@@ -330,12 +331,26 @@ MonoBehaviour:
   - A samurai with no honor
   - is like a genshi a lost spirit
   - never heard of anyone coming back from that...
-  dialogueManager: {fileID: 0}
   dialogueImage: {fileID: 0}
+  onDialogueEnd:
+    m_PersistentCalls:
+      m_Calls: []
   npcName: Old man
   patrolling: {fileID: 0}
   patrol: 0
   promptTextObject: {fileID: 1724282830}
+--- !u!114 &4687291647784997835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896076291741860084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81421720b662bc4ebc376c1a2f90ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8896076292659860379
 GameObject:
   m_ObjectHideFlags: 0

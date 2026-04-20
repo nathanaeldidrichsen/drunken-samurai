@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ca5f04e6646d9b4f8ff672672aa07da, type: 3}
+  m_Name: Silversting
+  m_EditorClassIdentifier: 
+  ore: {fileID: 11400000, guid: 56252d5d93beb6943be0a3fbf17da351, type: 2}
+  fragment1: {fileID: 11400000, guid: a7c81e8ec4d2dc0469feab4e01bbb0cf, type: 2}
+  fragment2: {fileID: 11400000, guid: a7c81e8ec4d2dc0469feab4e01bbb0cf, type: 2}
+  results:
+  - resultItem: {fileID: 11400000, guid: a4d6f16607f107346a2224d8bd5d2857, type: 2}
+    chance: 100

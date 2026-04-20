@@ -5,7 +5,6 @@ using UnityEngine.Events;
 public class NPC : MonoBehaviour, IInteractable
 {
     public string[] dialogue;
-    public DialogueManager dialogueManager;
     public Image dialogueImage;
     public UnityEvent onDialogueEnd;
     public string npcName;
@@ -15,14 +14,14 @@ public class NPC : MonoBehaviour, IInteractable
     [Header("Interaction")]
     public GameObject promptTextObject;
 
+    private DialogueManager dialogueManager => DialogueManager.Instance;
+
     void Start()
     {
         if (GetComponent<Patrolling>() != null && patrol)
         {
             patrolling = GetComponent<Patrolling>();
         }
-
-        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,7 +41,7 @@ public class NPC : MonoBehaviour, IInteractable
             playerIsClose = false;
             if (promptTextObject != null)
                 promptTextObject.SetActive(false);
-            dialogueManager.EndDialogue(false);
+            dialogueManager?.EndDialogue(false);
         }
     }
 
@@ -53,32 +52,33 @@ public class NPC : MonoBehaviour, IInteractable
             promptTextObject.SetActive(playerIsClose);
         }
 
-        if(patrolling != null && dialogueManager.hasStartedConversation)
+        var dm = dialogueManager;
+        if (dm == null) return;
+
+        if (patrolling != null && dm.hasStartedConversation)
         {
             patrolling.isTalking = true;
         }
 
-
-
         if (playerIsClose && Input.GetKeyDown(KeyCode.E))
         {
-            if (!dialogueManager.hasStartedConversation || dialogueManager.hasFinishedConversation)
+            if (!dm.hasStartedConversation || dm.hasFinishedConversation)
             {
                 StartDialogue();
             }
-            else if (!dialogueManager.isTyping)
+            else if (!dm.isTyping)
             {
-                dialogueManager.DisplayNextLine();
+                dm.DisplayNextLine();
             }
         }
 
         // Check if NPC is in dialogue
-        if (patrolling != null && dialogueManager.hasStartedConversation)
+        if (patrolling != null && dm.hasStartedConversation)
         {
             patrolling.StopPatrol();
         }
 
-        if (patrolling != null && !dialogueManager.hasStartedConversation || patrolling != null && dialogueManager.hasFinishedConversation)
+        if (patrolling != null && (!dm.hasStartedConversation || dm.hasFinishedConversation))
         {
             patrolling.StartPatrol();
         }
@@ -86,7 +86,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     private void StartDialogue()
     {
-        dialogueManager.StartDialogue(dialogue, npcName, dialogueImage, OnDialogueEnd);
+        dialogueManager?.StartDialogue(dialogue, npcName, dialogueImage, OnDialogueEnd);
     }
 
     private void OnDialogueEnd()

@@ -17,6 +17,7 @@ public class HUD : MonoBehaviour
     //[SerializeField] private GameObject healthBar;
     //[SerializeField] private GameObject startUp;
     [SerializeField] private GameObject deadScreen;
+    [SerializeField] private UnityEngine.UI.Button tryAgainButton;
     [SerializeField] private GameObject pauseScreen;
     private bool isPaused = false;
 
@@ -99,6 +100,13 @@ public class HUD : MonoBehaviour
 
     void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+
         anim = GetComponent<Animator>();
         if (goldCoinImage != null)
             goldCoinBaseScale = goldCoinImage.transform.localScale;
@@ -134,6 +142,18 @@ public class HUD : MonoBehaviour
         //healthBarWidth = (float)Player.Instance.health / (float)Player.Instance.maxHealth;
         // healthBarWidthEased += (healthBarWidth - healthBarWidthEased) * Time.deltaTime * healthBarWidthEased;
         // healthBar.transform.localScale = new Vector2(healthBarWidthEased, 1);
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (inventoryIsOpen) OpenInventory();
+            else if (forgeIsOpen) OpenForge();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && deadScreen.activeSelf)
+        {
+            if (UnityEngine.EventSystems.EventSystem.current?.currentSelectedGameObject == tryAgainButton?.gameObject)
+                ReloadScene();
+        }
     }
 
     public void PlayCoverScreenAnimation()
@@ -160,9 +180,30 @@ public class HUD : MonoBehaviour
         {
             inventoryIsOpen = true;
             inventoryScreen.SetActive(true);
+            if (UnityEngine.EventSystems.EventSystem.current != null)
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
             Inventory.Instance.SelectFirstSlot();
             Time.timeScale = 0;
         }
+    }
+
+    public void ShowFeedback(string message)
+{
+    if (infoText != null)
+    {
+        infoText.text = message;
+        // Optionally, you can add logic to fade out or clear the message after a few seconds
+    }
+}
+
+    public void ReloadScene()
+    {
+        deadScreen.SetActive(false);
+        //Player.Instance.ResetStats();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Player.Instance.ResetStatsToBase();
+        Time.timeScale = 1;
+
     }
 
     public void OpenForge()
@@ -173,8 +214,7 @@ public class HUD : MonoBehaviour
         if (forgeScreen.activeSelf)
         {
             Time.timeScale = 1;
-            ForgeManager.Instance.ClearAllSelections();
-            ForgeManager.Instance.ClearForgeSlots();
+            // ForgeManager.Instance.ClearAllSelections();
             forgeScreen.SetActive(false);
             forgeIsOpen = false;
         }
@@ -182,10 +222,11 @@ public class HUD : MonoBehaviour
         {
             forgeScreen.SetActive(true);
             ForgeManager.Instance.RefreshMaterialList();
-            ForgeManager.Instance.SelectFirstSlot();
+            if (UnityEngine.EventSystems.EventSystem.current != null)
+                UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
+            ForgeManager.Instance.SelectFirstListItem();
             forgeIsOpen = true;
             Time.timeScale = 0;
-
         }
     }
 
@@ -197,6 +238,7 @@ public class HUD : MonoBehaviour
     public void LostGame()
     {
         deadScreen.SetActive(true);
+        tryAgainButton?.Select();
         Time.timeScale = 0;
     }
 

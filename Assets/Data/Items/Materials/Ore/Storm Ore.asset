@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Storm Ore
   id: 0
-  icon: {fileID: 0}
+  icon: {fileID: -1551898196, guid: 57cf980a9d810c7479d07962bdbf465a, type: 3}
   type: 1
   maxStack: 99
   isStackable: 1

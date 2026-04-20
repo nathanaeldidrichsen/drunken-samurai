@@ -114,6 +114,12 @@ MonoBehaviour:
     volume: 0.171
     pitchVariation: 0
     cooldown: 0
+  fireSound:
+    id: 
+    clip: {fileID: 8300000, guid: 280d5385a057466439de70bceb816de6, type: 3}
+    volume: 0.076
+    pitchVariation: 0
+    cooldown: 0
   itemsToDrop:
   - {fileID: 5915748451900643244, guid: 05f782d28aebc4a459332d5ea267a396, type: 3}
   - {fileID: 5915748451900643244, guid: 05f782d28aebc4a459332d5ea267a396, type: 3}
@@ -140,10 +146,17 @@ MonoBehaviour:
   detectRange: 4
   attackRange: 0.28
   moveSpeed: 0.38
+  useRangedAttack: 0
   attackDamage: 1
   attackCooldown: 0.8
   attackWindup: 0.2
   health: 3
+  projectilePrefab: {fileID: 0}
+  projectileSpawnPoint: {fileID: 0}
+  projectileSpeed: 6
+  projectileLifetime: 3
+  shootInterval: 1.2
+  projectileDamage: 1
 --- !u!1 &256724644748503283
 GameObject:
   m_ObjectHideFlags: 0

@@ -1018,6 +1018,18 @@ MonoBehaviour:
     volume: 1
     pitchVariation: 0.05
     cooldown: 0
+  hurtSound:
+    id: 
+    clip: {fileID: 8300000, guid: 68165d71c4c40ba4c815c5bb712d49ee, type: 3}
+    volume: 0.901
+    pitchVariation: 0.011
+    cooldown: 0
+  wellHealSound:
+    id: 
+    clip: {fileID: 8300000, guid: 3ed080e3d07a4f84581b7ce759ecfbc2, type: 3}
+    volume: 0.565
+    pitchVariation: 0
+    cooldown: 0
   anim: {fileID: 0}
   currentCooldown: 0
   playerPos: {fileID: 11400000, guid: 069a0008456219e4a81e5ba8f19b5d30, type: 2}
@@ -1070,7 +1082,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9835664edbb7295499c9ac5f0e277d0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryTime: 1
+  recoveryTime: 0.1
 --- !u!114 &5461486885951550479
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1137,7 +1149,19 @@ MonoBehaviour:
     m_ActionId: cdd92e82-f6dc-4760-a829-0abee542d76e
     m_ActionName: UI/Navigate[/DualShock4GamepadHID/leftStick/up,/DualShock4GamepadHID/rightStick/up,/DualShock4GamepadHID/leftStick/down,/DualShock4GamepadHID/rightStick/down,/DualShock4GamepadHID/leftStick/left,/DualShock4GamepadHID/rightStick/left,/DualShock4GamepadHID/leftStick/right,/DualShock4GamepadHID/rightStick/right,/DualShock4GamepadHID/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5461486885951550479}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 16bab6f3-fe5f-45a1-8b83-c0d8f2b2763c
     m_ActionName: UI/Submit[/Keyboard/enter,/DualShock4GamepadHID/buttonSouth]
   - m_PersistentCalls:

@@ -21,10 +21,11 @@ MonoBehaviour:
   isEquipable: 1
   isCraftable: 0
   sellPrice: 350
+  itemDescription: 
   prefab: {fileID: 8432040968707695482, guid: c79d3b56eb3107b43917d5fb05de349c, type: 3}
   isEquipped: 0
   equipmentType: 0
   damageStat: 0
   defenseStat: 0
-  healthStat: 50
+  healthStat: 20
   moveSpeedStat: 0

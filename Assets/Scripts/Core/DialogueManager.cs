@@ -6,6 +6,24 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    public static DialogueManager Instance { get; private set; }
+
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     public TextMeshProUGUI dialogueText;
     public TextMeshProUGUI nameText;
     public GameObject dialoguePanel;
@@ -47,7 +65,9 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextLine()
     {
-            SoundManager.Instance.PlaySFX(npcTalkingSound);
+        if (continueButton == null) return;
+
+        SoundManager.Instance.PlaySFX(npcTalkingSound);
 
 
         continueButton.SetActive(false);

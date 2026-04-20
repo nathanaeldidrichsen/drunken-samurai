@@ -101,6 +101,36 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
         ToggleSelection(false);
     }
 
+    public void SetSlotDisplayOnly(Item displayItem)
+    {
+        item = displayItem;
+        quantity = (displayItem != null && displayItem.isStackable) ? 1 : 0;
+        UpdateSlotUI();
+    }
+
+    // For RequiredForgeSlot: shows owned/required quantity with color feedback
+    public void SetRequiredSlot(Item requiredItem, int required = 1)
+    {
+        slotType = SlotType.RequiredForgeSlot;
+        item = requiredItem;
+
+        if (requiredItem == null)
+        {
+            itemSlotImage.color = new Color(itemSlotImage.color.r, itemSlotImage.color.g, itemSlotImage.color.b, 0f);
+            itemCountText.text = "";
+            return;
+        }
+
+        itemSlotImage.color = Color.white;
+        itemSlotImage.sprite = requiredItem.icon;
+
+        int owned = Inventory.Instance != null ? Inventory.Instance.GetItemCount(requiredItem) : 0;
+        bool hasEnough = owned >= required;
+
+        itemCountText.text = $"{owned}/{required}";
+        itemCountText.color = hasEnough ? Color.white : Color.red;
+    }
+
     public void ToggleSelection(bool isSelected)
     {
         if (slotType == SlotType.ShopSlot)
@@ -146,18 +176,22 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
                 {
                     if (Inventory.Instance.isHoldingItem == false)
                     {
-                        HUD.Instance.infoText.text = "F - EQUIP/ UNEQUIP    G - grab";
+                        HUD.Instance.ShowFeedback("F - EQUIP/ UNEQUIP    G - grab");
                     }
                     else
                     {
-                        HUD.Instance.infoText.text = "F - EQUIP/ UNEQUIP    G - Place";
+                        HUD.Instance.ShowFeedback("F - EQUIP/ UNEQUIP    G - Place");
                     }
+                }
+                else if (Inventory.Instance.GetSelectedItem().item.type == ItemType.Recipe)
+                {
+                    HUD.Instance.ShowFeedback("SPACE - Learn Recipe");
                 }
                 else
                 {
                     if (Inventory.Instance.isHoldingItem == false)
                     {
-                        HUD.Instance.infoText.text = "G - Grab";
+                        HUD.Instance.ShowFeedback("G - Grab");
                     }
                 }
             }
@@ -166,7 +200,7 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
             Inventory.Instance.SetSelectedItemSlot(null);
             itemNameText.text = "empty slot";
-            HUD.Instance.infoText.text = "";
+            HUD.Instance.ShowFeedback("");
             slotSelectedImageGO.SetActive(false);
 
             slotIsSelected = false;
@@ -175,21 +209,21 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void HandleForgeSlotSelection(bool isSelected)
     {
-        if (isSelected)
-        {
-            slotSelectedImageGO.SetActive(true);
-            ForgeManager.Instance.SetSelectedItemSlot(this.gameObject.GetComponent<ItemSlot>());
-            slotIsSelected = true;
-            SoundManager.Instance.PlaySFX(uiSound);
-            PulseSlot();
+        // if (isSelected)
+        // {
+        //     slotSelectedImageGO.SetActive(true);
+        //     ForgeManager.Instance.SetSelectedItemSlot(this.gameObject.GetComponent<ItemSlot>());
+        //     slotIsSelected = true;
+        //     SoundManager.Instance.PlaySFX(uiSound);
+        //     PulseSlot();
 
-        }
-        else
-        {
-            ForgeManager.Instance.SetSelectedItemSlot(null);
-            slotSelectedImageGO.SetActive(false);
-            slotIsSelected = false;
-        }
+        // }
+        // else
+        // {
+        //     ForgeManager.Instance.SetSelectedItemSlot(null);
+        //     slotSelectedImageGO.SetActive(false);
+        //     slotIsSelected = false;
+        // }
     }
 
     private void PulseSlot()
@@ -345,11 +379,20 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void RemoveItem(int amount)
     {
-        if (item != null && item.isStackable)
+        if (item != null)
         {
-            quantity -= amount;
-            if (quantity <= 0)
+            if (item.isStackable)
             {
+                quantity -= amount;
+                if (quantity <= 0)
+                {
+                    item = null;
+                    quantity = 0;
+                }
+            }
+            else
+            {
+                // For non-stackable items (like recipes), just clear the slot
                 item = null;
                 quantity = 0;
             }
@@ -395,17 +438,17 @@ public class ItemSlot : MonoBehaviour, ISelectHandler, IDeselectHandler
 
     public void TrySendToForge()
     {
-        if (item == null)
-            return;
+        // if (item == null)
+        //     return;
 
-        if (ForgeManager.Instance == null)
-            return;
+        // if (ForgeManager.Instance == null)
+        //     return;
 
-        bool success = ForgeManager.Instance.TryAutoPlaceMaterial(this);
+        // bool success = ForgeManager.Instance.TryAutoPlaceMaterial(this);
 
-        if (success)
-        {
-            Debug.Log("Placed material into forge");
-        }
+        // if (success)
+        // {
+        //     Debug.Log("Placed material into forge");
+        // }
     }
 }

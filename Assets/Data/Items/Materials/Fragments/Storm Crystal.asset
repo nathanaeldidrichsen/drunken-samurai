@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Storm Crystal
   id: 0
-  icon: {fileID: 1501473691, guid: 1345b7e0ecf7a6841a4053532220859e, type: 3}
+  icon: {fileID: -1551898196, guid: 57cf980a9d810c7479d07962bdbf465a, type: 3}
   type: 1
   maxStack: 99
   isStackable: 1
   isEquipable: 0
-  isCraftable: 0
+  isCraftable: 1
   sellPrice: 0
   itemDescription: 
   prefab: {fileID: 3664074871130452653, guid: 4e1392829d39b4b4ead613967411e2ae, type: 3}

@@ -6,6 +6,15 @@ using UnityEngine.UI;
 
 public class ForgeManager : MonoBehaviour
 {
+    [Header("List UI")]
+    public Transform recipeListParent;
+
+    public Transform materialListParent;
+    public GameObject listItemPrefab;
+
+    private List<ListItem> recipeListItems = new();
+    private List<ListItem> materialListItems = new();
+
     [Header("Forge Slots")]
     //items required for recipes
     public ItemSlot oreSlot;
@@ -20,12 +29,14 @@ public class ForgeManager : MonoBehaviour
     public Transform inventoryMaterialParent;
     public static ForgeManager Instance;
 
-    [SerializeField] private ItemSlot selectedItemSlot;
+    [SerializeField] private ListItem selectedListItem;
     [Header("Crafted Item")]
 
     public UnityEngine.UI.Image craftedItemImage;
     public GameObject craftedItemObject;
     public Button claimCraftedItemButton;
+    public Button forgeButton;
+
     private Item craftedItem;
     public SoundData craftSound;
 
@@ -34,81 +45,77 @@ public class ForgeManager : MonoBehaviour
 
 
 
-
-    public void SetSelectedItemSlot(ItemSlot theSelectedSlot)
+    public void SetSelectedListItem(ListItem newSelectedListItem)
     {
-        selectedItemSlot = theSelectedSlot;
+        selectedListItem = newSelectedListItem;
     }
 
-    public ItemSlot GetSelectedItem()
-    {
-        if (oreSlot.slotIsSelected)
-        {
-            return oreSlot;
-        }
-        if (fragmentSlot1.slotIsSelected)
-        {
-            return fragmentSlot1;
-        }
-        if (fragmentSlot2.slotIsSelected)
-        {
-            return fragmentSlot2;
-        }
 
-        foreach (ItemSlot selectedSlot in materialSlots)
-        {
-            if (selectedSlot != null && selectedSlot.slotIsSelected)
-            {
-                return selectedSlot;
-            }
-        }
-        return null;
-    }
 
-    void Awake()
-    {
+    void Awake()    {
         Instance = this;
 
+        RefreshRecipeList();
+        RefreshMaterialList();
+
         if (Inventory.Instance != null)
+        {
             Inventory.Instance.OnInventoryChanged += RefreshMaterialList;
+            Inventory.Instance.OnInventoryChanged += RefreshRecipeList;
+            Inventory.Instance.OnInventoryChanged += RefreshSelectedRecipeSlots;
+        }
 
     }
 
     void OnDestroy()
     {
         if (Inventory.Instance != null)
+        {
             Inventory.Instance.OnInventoryChanged -= RefreshMaterialList;
+            Inventory.Instance.OnInventoryChanged -= RefreshRecipeList;
+            Inventory.Instance.OnInventoryChanged -= RefreshSelectedRecipeSlots;
+        }
+    }
+
+    public void SelectFirstRecipeListItem()
+    {
+        if (recipeListItems.Count > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(recipeListItems[0].gameObject);
+            recipeListItems[0].SetSelected(true);
+        }
     }
 
 
     // Call from Forge Button
     public void TryForge()
     {
-        if (!HasValidItems())
+        // Check that a recipe is selected and the player has all required materials in inventory
+        if (selectedListItem == null || selectedListItem.item is not RecipeItem selectedRecipe || selectedRecipe.forgeRecipe == null)
         {
-            Debug.Log("Missing materials");
-        SoundManager.Instance.PlaySFX(errorSound);
-
+            Debug.Log("No recipe selected");
+            SoundManager.Instance.PlaySFX(errorSound);
             return;
         }
 
-        ForgeRecipe recipe = FindMatchingRecipe();
+        ForgeRecipe recipe = selectedRecipe.forgeRecipe;
 
-        if (recipe == null)
+        if (!Inventory.Instance.HasItem(recipe.ore) ||
+            !Inventory.Instance.HasItem(recipe.fragment1) ||
+            !Inventory.Instance.HasItem(recipe.fragment2))
         {
-            Debug.Log("No matching recipe");
-        SoundManager.Instance.PlaySFX(errorSound);
-
+            Debug.Log("Missing materials in inventory");
+            SoundManager.Instance.PlaySFX(errorSound);
             return;
         }
 
         Item result = RollResult(recipe);
 
         craftedItem = result;
-        ConsumeMaterials();
+        ConsumeMaterials(recipe);
 
         //Temp holder of craftedItem until claimed
-        ClearForgeSlots();
+        // ClearForgeSlots();
 
         DisplaySuccesfullyCraftedItem();
 
@@ -116,7 +123,6 @@ public class ForgeManager : MonoBehaviour
     }
 
     // -----------------------
-
 
     public void DisplaySuccesfullyCraftedItem()
     {
@@ -132,13 +138,8 @@ public class ForgeManager : MonoBehaviour
     {
         Inventory.Instance.AddItem(craftedItem, 1);
         craftedItemObject.SetActive(false);
-        SelectFirstSlot();
+        SelectFirstListItem();
     }
-
-
-
-
-
 
     bool HasValidItems()
     {
@@ -189,209 +190,154 @@ public class ForgeManager : MonoBehaviour
         return recipe.results[0].resultItem;
     }
 
-    void ConsumeMaterials()
+    void ConsumeMaterials(ForgeRecipe recipe)
     {
-
-        Inventory.Instance.RemoveItem(fragmentSlot1.item);
-        Inventory.Instance.RemoveItem(fragmentSlot2.item);
-        Inventory.Instance.RemoveItem(oreSlot.item);
-
-        oreSlot.RemoveItem(1);
-        fragmentSlot1.RemoveItem(1);
-        fragmentSlot2.RemoveItem(1);
+        Inventory.Instance.RemoveItem(recipe.ore);
+        Inventory.Instance.RemoveItem(recipe.fragment1);
+        Inventory.Instance.RemoveItem(recipe.fragment2);
 
         RefreshMaterialList();
-    }
-
-    public void ClearForgeSlots()
-    {
-        // if (oreSlot.quantity <= 0)
-            oreSlot.ClearSlot();
-
-        // if (fragmentSlot1.quantity <= 0)
-            fragmentSlot1.ClearSlot();
-
-        // if (fragmentSlot2.quantity <= 0)
-            fragmentSlot2.ClearSlot();
+        SetForgeSlotsForRecipe(recipe);
     }
 
     public void RefreshMaterialList()
     {
 
-        Debug.Log("REFRESHED FORGESLTS");
-        // Clear all forge material slots
-        foreach (var slot in materialSlots)
-        {
-            slot.ClearSlot();
-        }
+        // Clear old material list items
+        foreach (Transform child in materialListParent)
+            Destroy(child.gameObject);
+        materialListItems.Clear();
 
-        int index = 0;
-
+        // Add all materials/ores from inventory
         foreach (var invSlot in Inventory.Instance.itemSlots)
         {
-            if (invSlot.item == null)
-                continue;
-
-            if (invSlot.item.type != ItemType.Material)
-                continue;
-
-            if (index >= materialSlots.Count)
-                break;
-
-            materialSlots[index].AddItem(
-                invSlot.item,
-                invSlot.quantity
-            );
-
-            index++;
+            if (invSlot.item == null) continue;
+            if (invSlot.item.type != ItemType.Material) continue;
+            var go = Instantiate(listItemPrefab, materialListParent);
+            var li = go.GetComponent<ListItem>();
+            li.Setup(invSlot.item, invSlot.quantity);
+            materialListItems.Add(li);
         }
     }
 
-public bool TryAutoPlaceMaterial(ItemSlot fromSlot)
-{
-    if (fromSlot == null || fromSlot.item == null)
-        return false;
-
-    if (fromSlot.item.type != ItemType.Material)
-        return false;
-
-    MaterialItem mat = fromSlot.item as MaterialItem;
-    if (mat == null)
-        return false;
-
-    // -------- ORE (single slot → allow swap) --------
-    if (mat.materialType == MaterialItem.MaterialType.Ore)
+    public void RefreshRecipeList()
     {
-        return TryPlaceOre(fromSlot, oreSlot);
+        // Clear old recipe list items
+        foreach (Transform child in recipeListParent)
+            Destroy(child.gameObject);
+        recipeListItems.Clear();
+
+        // Use learnedRecipes directly — each RecipeItem already has a .forgeRecipe reference
+        foreach (var recipeItem in Inventory.Instance.learnedRecipes)
+        {
+            if (recipeItem == null || recipeItem.forgeRecipe == null) continue;
+            var go = Instantiate(listItemPrefab, recipeListParent);
+            var li = go.GetComponent<ListItem>();
+            li.Setup(recipeItem, 1);
+            recipeListItems.Add(li);
+        }
+
+        // Wire explicit navigation: up/down through list, left/right goes to forge button
+        for (int i = 0; i < recipeListItems.Count; i++)
+        {
+            var button = recipeListItems[i].GetComponent<Button>();
+            if (button == null) continue;
+
+            var nav = new Navigation { mode = Navigation.Mode.Explicit };
+            nav.selectOnUp    = i > 0 ? recipeListItems[i - 1].GetComponent<Button>() : null;
+            nav.selectOnDown  = i < recipeListItems.Count - 1 ? recipeListItems[i + 1].GetComponent<Button>() : null;
+            nav.selectOnRight = forgeButton;
+            nav.selectOnLeft  = forgeButton;
+            button.navigation = nav;
+        }
+
+        // Wire forge button navigation: left/right goes to first recipe list item, up/down stays on forge button
+        var forgeNav = new Navigation { mode = Navigation.Mode.Explicit };
+        var firstRecipeButton = recipeListItems.Count > 0 ? recipeListItems[0].GetComponent<Button>() : null;
+        forgeNav.selectOnLeft  = firstRecipeButton;
+        forgeNav.selectOnRight = firstRecipeButton;
+        forgeNav.selectOnUp    = forgeButton;
+        forgeNav.selectOnDown  = forgeButton;
+        forgeButton.navigation = forgeNav;
     }
 
-    // -------- FRAGMENTS (only empty slots) --------
-    if (mat.materialType == MaterialItem.MaterialType.Fragment)
+    void Update()
     {
-        if (fragmentSlot1.item == null)
-            return TryPlaceFragment(fromSlot, fragmentSlot1);
-
-        if (fragmentSlot2.item == null)
-            return TryPlaceFragment(fromSlot, fragmentSlot2);
-
-        // Both full → later holding logic
-        // TODO: Implement holding item here
-
-        return false;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            var selected = EventSystem.current.currentSelectedGameObject;
+            if (selected == claimCraftedItemButton.gameObject)
+            {
+                ClaimCraftedItem();
+            }
+            else if (selected == forgeButton.gameObject)
+            {
+                TryForge();
+            }
+            else if (selectedListItem != null && selectedListItem.item is RecipeItem)
+            {
+                forgeButton.Select();
+            }
+        }
     }
 
-    return false;
-}
-
-bool TryPlaceOre(ItemSlot from, ItemSlot to)
-{
-    if (from.item == null)
-        return false;
-
-    // Empty → move
-    if (to.item == null)
+    public void OnListItemSelected(ListItem item)
     {
-        to.AddItem(from.item, 1);
-        from.RemoveItem(1);
-        return true;
+        // If a RecipeItem is selected, show required materials in forge slots using its forgeRecipe
+        if (item.item is RecipeItem recipe && recipe.forgeRecipe != null)
+        {
+            ShowRecipeRequirements(recipe.forgeRecipe);
+            SetForgeSlotsForRecipe(recipe.forgeRecipe);
+            UpdateForgeButtonState(recipe.forgeRecipe);
+        }
+        // Optionally, handle material selection here
     }
 
-    // Occupied → swap
-    from.SwapItemWithThis(to);
-    return true;
-}
-
-bool TryPlaceFragment(ItemSlot from, ItemSlot to)
-{
-    if (from.item == null)
-        return false;
-
-    if (to.item != null)
-        return false;
-
-    to.AddItem(from.item, 1);
-    from.RemoveItem(1);
-
-    return true;
-}
-
-
-
-    public void HandleGrab()
+    private void RefreshSelectedRecipeSlots()
     {
-        ItemSlot selected = GetSelectedItem();
-
-        if (selected == null)
-            return;
-
-        // Only allow sending from forge material slots
-        if (selected.slotType != SlotType.ForgeSlot)
-            return;
-
-        TryAutoPlaceMaterial(selected);
+        if (selectedListItem != null && selectedListItem.item is RecipeItem recipe && recipe.forgeRecipe != null)
+        {
+            SetForgeSlotsForRecipe(recipe.forgeRecipe);
+            UpdateForgeButtonState(recipe.forgeRecipe);
+        }
     }
 
-
-public void SelectFirstSlot()
-{
-    if (materialSlots.Count == 0)
-        return;
-
-    // Clear old selections
-    ClearAllSelections();
-
-    // Delay by 1 frame so UI is ready
-    StartCoroutine(SelectNextFrame());
-    // EventSystem.current.SetSelectedGameObject(materialSlots[0].gameObject);
-    // materialSlots[0].ToggleSelection(true);
-}
-
-private System.Collections.IEnumerator SelectNextFrame()
-{
-    yield return null; // wait 1 frame
-
-    EventSystem.current.SetSelectedGameObject(materialSlots[0].gameObject);
-    materialSlots[0].ToggleSelection(true);
-}
-public void ClearAllSelections()
-{
-    oreSlot.ToggleSelection(false);
-    fragmentSlot1.ToggleSelection(false);
-    fragmentSlot2.ToggleSelection(false);
-
-    // foreach (var slot in materialSlots)
-    // {
-    //     slot.ToggleSelection(false);
-    // }
-}
-
-
-
-    bool TryPlaceInSlot(ItemSlot from, ItemSlot to)
-{
-    if (from.item == null)
-        return false;
-
-    // Case 1: target empty → move entire stack
-    if (to.item == null)
+    private void UpdateForgeButtonState(ForgeRecipe recipe)
     {
-        to.AddItem(from.item, from.quantity);
-        from.ClearSlot();
-        return true;
+        bool hasAll = Inventory.Instance.HasItem(recipe.ore) &&
+                      Inventory.Instance.HasItem(recipe.fragment1) &&
+                      Inventory.Instance.HasItem(recipe.fragment2);
+        forgeButton.interactable = hasAll;
     }
 
-    // Case 2: same item → stack
-    if (to.item == from.item && to.item.isStackable)
+    private void SetForgeSlotsForRecipe(ForgeRecipe forgeRecipe)
     {
-        to.AddItem(from.item, from.quantity);
-        from.ClearSlot();
-        return true;
+        // Display required material in each slot with owned/required quantity and color feedback
+        oreSlot.SetRequiredSlot(forgeRecipe.ore, 1);
+        fragmentSlot1.SetRequiredSlot(forgeRecipe.fragment1, 1);
+        fragmentSlot2.SetRequiredSlot(forgeRecipe.fragment2, 1);
     }
 
-    // Case 3: different item → swap
-    from.SwapItemWithThis(to);
-    return true;
-}
+    private void ShowRecipeRequirements(ForgeRecipe forgeRecipe)
+    {
+        // Example: highlight or display required ore/fragment icons and amounts
+        Debug.Log($"Recipe requires: {forgeRecipe.ore?.itemName}, {forgeRecipe.fragment1?.itemName}, {forgeRecipe.fragment2?.itemName}");
+        // UI update is handled in SetForgeSlotsForRecipe
+    }
 
-
+    public void SelectFirstListItem()
+    {
+        // Improved navigation: select the first recipe list item if available
+        if (recipeListItems.Count > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(recipeListItems[0].gameObject);
+            recipeListItems[0].SetSelected(true);
+            OnListItemSelected(recipeListItems[0]);
+        }
+        else if (materialListItems.Count > 0)
+        {
+            EventSystem.current.SetSelectedGameObject(materialListItems[0].gameObject);
+            materialListItems[0].SetSelected(true);
+        }
+    }
 }

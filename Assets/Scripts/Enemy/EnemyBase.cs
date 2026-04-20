@@ -27,6 +27,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] float dropUpwardBias = 0.3f; // optional randomness
     public SoundData hurtSound;
     public SoundData dieSound;
+    public SoundData fireSound;
 
     [SerializeField] GameObject[] itemsToDrop;
 
@@ -37,6 +38,10 @@ public class EnemyBase : MonoBehaviour
     public EnemyBrain brain;
     private bool attackAnimationFinished;
     private bool attackDamageAppliedThisCycle;
+    private WavesManager registeredWave;
+
+    public void RegisterToWave(WavesManager wave) => registeredWave = wave;
+    public void NotifyWaveDied() => registeredWave?.OnEnemyDied();
 
     void Awake()
     {
@@ -105,7 +110,9 @@ public class EnemyBase : MonoBehaviour
         Vector3 dir = (player.position - transform.position).normalized;
         transform.position += dir * stats.moveSpeed * Time.deltaTime;
         // optional: face player
-        if (dir.x != 0) transform.localScale = new Vector3(Mathf.Sign(dir.x) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        if (dir.x != 0) transform.localScale = new Vector3(-Mathf.Sign(dir.x) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        // uncomment line under if u want to inverse the x flip
+        // if (dir.x != 0) transform.localScale = new Vector3(Mathf.Sign(dir.x) * Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
     }
 
     public void StopMoving()
@@ -166,7 +173,8 @@ public class EnemyBase : MonoBehaviour
         if (damage <= 0)
             return false;
 
-        playerComponent.GetHurt(damage);
+        Vector2 knockbackDir = player != null ? ((Vector2)(player.position - transform.position)).normalized : Vector2.zero;
+        playerComponent.GetHurt(damage, knockbackDir);
         attackDamageAppliedThisCycle = true;
         return true;
     }
@@ -189,6 +197,7 @@ public class EnemyBase : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(0f, 0f, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg);
         GameObject projectileObj = Instantiate(stats.projectilePrefab, spawnPoint.position, rotation);
+        SoundManager.Instance?.PlaySFX(fireSound);
 
         EnemyProjectile projectile = projectileObj.GetComponent<EnemyProjectile>();
         if (projectile != null)

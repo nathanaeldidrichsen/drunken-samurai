@@ -49,7 +49,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Player.Instance?.GetHurt(damage);
+            Player.Instance?.GetHurt(damage, direction);
             Destroy(gameObject);
             return;
         }
@@ -62,7 +62,7 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            Player.Instance?.GetHurt(damage);
+            Player.Instance?.GetHurt(damage, direction);
             Destroy(gameObject);
             return;
         }

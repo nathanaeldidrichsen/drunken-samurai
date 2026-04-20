@@ -11,5 +11,6 @@ class DeadState : State
         enemy.PlayDeathAnimation();
         enemy.DropItem();
         enemy.DisableCollision();
+        enemy.NotifyWaveDied();
     }
 }

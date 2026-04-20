@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Frost Ore
   id: 0
-  icon: {fileID: -1902253414, guid: 1345b7e0ecf7a6841a4053532220859e, type: 3}
+  icon: {fileID: -1531729274, guid: 57cf980a9d810c7479d07962bdbf465a, type: 3}
   type: 1
   maxStack: 99
   isStackable: 1
