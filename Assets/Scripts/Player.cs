@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
     public SoundData hurtSound;
     public SoundData wellHealSound;
 
+    [Header("VFX")]
+    public ParticleSystem healParticle;
+
     public Animator anim;
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
@@ -425,6 +428,7 @@ public class Player : MonoBehaviour
         player.SpendGold(wellHealCost);
         player.stats.currentHealth = player.stats.maxHealth;
         SoundManager.Instance?.PlaySFX(wellHealSound);
+        player.healParticle?.Play();
         HUD.Instance?.ShowFeedback("Healed to full!");
     }
 
