@@ -121,7 +121,7 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: portal_Frame_0
     originalName: 
-    pivot: {x: 0.51612896, y: -0.09459459}
+    pivot: {x: 0.51612896, y: -0.1}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -129,7 +129,7 @@ ScriptedImporter:
       x: 4
       y: 4
       width: 62
-      height: 74
+      height: 70
     spriteID: 4cf3e0426a49ca24dbee3ae581fd32c0
     spriteBone: []
     spriteOutline: []
@@ -141,15 +141,15 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 4}
   - name: portal_Frame_1
     originalName: 
-    pivot: {x: 0.51612896, y: -0.09459459}
+    pivot: {x: 0.51612896, y: -0.1}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 86
+      y: 82
       width: 62
-      height: 74
+      height: 70
     spriteID: 045b8f693b8bc56439ddd27162ab8fe1
     spriteBone: []
     spriteOutline: []
@@ -158,18 +158,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 86}
+    uvTransform: {x: 4, y: 82}
   - name: portal_Frame_2
     originalName: 
-    pivot: {x: 0.51612896, y: -0.09459459}
+    pivot: {x: 0.51612896, y: -0.1}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
       x: 4
-      y: 168
+      y: 160
       width: 62
-      height: 74
+      height: 70
     spriteID: 3183d660e8c14e94780c08b747f1f44f
     spriteBone: []
     spriteOutline: []
@@ -178,10 +178,10 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 168}
+    uvTransform: {x: 4, y: 160}
   - name: portal_Frame_3
     originalName: 
-    pivot: {x: 0.51612896, y: -0.09459459}
+    pivot: {x: 0.51612896, y: -0.1}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
@@ -189,7 +189,7 @@ ScriptedImporter:
       x: 74
       y: 4
       width: 62
-      height: 74
+      height: 70
     spriteID: 8f570f8f49f0a0c40afbcaf06977a0fc
     spriteBone: []
     spriteOutline: []
@@ -215,7 +215,7 @@ ScriptedImporter:
         x: 16
         y: 7
         width: 62
-        height: 74
+        height: 70
       spriteId: 4cf3e0426a49ca24dbee3ae581fd32c0
     - name: portal_Frame_1
       frameIndex: 1
@@ -224,7 +224,7 @@ ScriptedImporter:
         x: 16
         y: 7
         width: 62
-        height: 74
+        height: 70
       spriteId: 045b8f693b8bc56439ddd27162ab8fe1
     - name: portal_Frame_2
       frameIndex: 2
@@ -233,7 +233,7 @@ ScriptedImporter:
         x: 16
         y: 7
         width: 62
-        height: 74
+        height: 70
       spriteId: 3183d660e8c14e94780c08b747f1f44f
     - name: portal_Frame_3
       frameIndex: 3
@@ -242,7 +242,7 @@ ScriptedImporter:
         x: 16
         y: 7
         width: 62
-        height: 74
+        height: 70
       spriteId: 8f570f8f49f0a0c40afbcaf06977a0fc
     linkedCells: []
     parentIndex: -1

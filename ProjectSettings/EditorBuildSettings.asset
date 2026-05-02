@@ -10,17 +10,11 @@ EditorBuildSettings:
     guid: c529cd69b46538449a6c8ec411653f3b
   - enabled: 1
     path: Assets/Scenes/Game.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/Scenes/Portals.unity
-    guid: 6815465e23fdd8c4fbc52e9beae60a76
-  - enabled: 1
-    path: Assets/Scenes/Arena1.unity
-    guid: 2effd6985ee5ba24e8da300cf365d4a6
-  - enabled: 1
-    path: Assets/Scenes/House.unity
-    guid: 4d3d835718a1a974c8cfe35d6c33fadc
+    guid: 5ecf7f9fd85441a4ea8f51d72ff52c2a
   - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: 603a7872422bdf345af4badaa993d750
+  - enabled: 1
+    path: Assets/Scenes/House.unity
+    guid: 4d3d835718a1a974c8cfe35d6c33fadc
   m_configObjects: {}

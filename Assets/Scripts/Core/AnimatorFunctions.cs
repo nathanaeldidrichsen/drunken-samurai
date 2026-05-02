@@ -101,6 +101,12 @@ public class AnimatorFunctions : MonoBehaviour
         //Player.Instance.StopRolling();
     }
 
+    public void PlayRollSound()
+    {
+        if (Player.Instance != null)
+            Player.Instance.PlayRollSound();
+    }
+
     public void SetAnimBoolToTrue(string boolName)
     {
         // setBoolInAnimator.SetBool(boolName, true);

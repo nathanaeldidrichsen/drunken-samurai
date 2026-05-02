@@ -125,6 +125,8 @@ hurtSound
 
         if (other.CompareTag("PlayerAttack"))
         {
+            Vector2 hitDirection = ((Vector2)transform.position - (Vector2)other.transform.position).normalized;
+            CameraShake.Instance?.ScreenShake(hitDirection, 0.8f);
 
             // PlayerStats stats = other.gameObject.GetComponentInParent<Player>().stats;
             // if (stats == null) return;

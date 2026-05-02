@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingMultiplier: 100
-  yOffset: 0
+  yOffset: -0.04
 --- !u!1 &3664074870687947763
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,6 +333,7 @@ MonoBehaviour:
     volume: 0.268
     pitchVariation: 0.057
     cooldown: 0
+  pickupDelay: 0.5
 --- !u!1 &7360644949488606188
 GameObject:
   m_ObjectHideFlags: 0

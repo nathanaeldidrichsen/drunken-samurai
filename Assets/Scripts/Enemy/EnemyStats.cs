@@ -20,6 +20,7 @@ public class EnemyStats : MonoBehaviour
     public int attackDamage = 1;
     public float attackCooldown = 0.8f;
     public float attackWindup = 0.2f;
+    public float attackCommitmentDuration = 0.25f;
     public int health = 3;
 
     [Header("Ranged")]

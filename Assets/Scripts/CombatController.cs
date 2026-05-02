@@ -18,18 +18,31 @@ public class CombatController : MonoBehaviour
     public float attackLungeDuration = 0.1f;
     public int maxCombo = 3;
     public float comboWindow = 0.35f;
+    public float stuckComboTimeout = 0.9f;
+
+    [Header("Debug")]
+    public bool showDebugOverlay = false;
+    public KeyCode toggleDebugKey = KeyCode.F3;
 
     // --- State ---
     [SerializeField] private int comboStep = 0;
     [SerializeField] private int bufferedClicks = 0;
 
     private bool canAcceptNextInput = false;
+    private bool queuedFollowUp = false;
     private bool attackOnCooldown = false;
 
     private float comboTimer;
     private float attackCooldownTimer;
+    private float stuckComboTimer;
+    private float bufferedConsumeFlashTimer;
+    private float failSafeFlashTimer;
+    private int failSafeTriggerCount;
+    private const float BufferedConsumeFlashDuration = 0.14f;
+    private const float FailSafeFlashDuration = 0.5f;
 
     public bool IsAttacking => comboStep > 0;
+    public bool IsFinisherActive => comboStep >= maxCombo && comboStep > 0;
 
     public float inputBufferTime = 0.25f; // maximum time a buffered tap waits
     private float inputBufferTimer;
@@ -49,6 +62,9 @@ public class CombatController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(toggleDebugKey))
+            showDebugOverlay = !showDebugOverlay;
+
         // Attack cooldown
         if (attackOnCooldown)
         {
@@ -57,12 +73,33 @@ public class CombatController : MonoBehaviour
                 attackOnCooldown = false;
         }
 
-        // Combo timeout
+        if (bufferedConsumeFlashTimer > 0f)
+            bufferedConsumeFlashTimer -= Time.deltaTime;
+
+        if (failSafeFlashTimer > 0f)
+            failSafeFlashTimer -= Time.deltaTime;
+
+        // Failsafe: if combo state stops receiving events, force recovery.
         if (comboStep > 0)
+        {
+            stuckComboTimer -= Time.deltaTime;
+            if (stuckComboTimer <= 0f)
+                ForceRecoverFromStuckCombo();
+        }
+        else
+        {
+            stuckComboTimer = 0f;
+        }
+
+        // Combo timeout is only active while the combo window is open.
+        if (comboStep > 0 && canAcceptNextInput)
         {
             comboTimer -= Time.deltaTime;
             if (comboTimer <= 0f)
+            {
+                StartCooldown(fullCombo: false);
                 ResetCombo();
+            }
         }
 
         // Buffered input timeout (spam safety)
@@ -87,6 +124,7 @@ public class CombatController : MonoBehaviour
         if (maxBuffer <= 0) return;
 
         bufferedClicks = Mathf.Min(bufferedClicks + 1, maxBuffer);
+        inputBufferTimer = inputBufferTime;
 
         // Try immediately if we can transition now.
         TryConsumeBufferedInput();
@@ -104,9 +142,11 @@ public class CombatController : MonoBehaviour
                 return;
 
             bufferedClicks--;
+            bufferedConsumeFlashTimer = BufferedConsumeFlashDuration;
             comboStep = 1;
-            comboTimer = comboWindow;
             canAcceptNextInput = false;
+            queuedFollowUp = false;
+            RefreshStuckComboTimer();
 
             HandleAttackDirection();
             anim.SetInteger("ComboStep", comboStep);
@@ -122,10 +162,11 @@ public class CombatController : MonoBehaviour
         if (comboStep >= maxCombo) return;
 
         bufferedClicks--;
+        bufferedConsumeFlashTimer = BufferedConsumeFlashDuration;
         comboStep++;
-
-        comboTimer = comboWindow;
         canAcceptNextInput = false;
+        queuedFollowUp = true;
+        RefreshStuckComboTimer();
 
         HandleAttackDirection();
         anim.SetInteger("ComboStep", comboStep);
@@ -142,6 +183,8 @@ public class CombatController : MonoBehaviour
     public void EnableComboWindow()
     {
         canAcceptNextInput = true;
+        comboTimer = comboWindow;
+        RefreshStuckComboTimer();
         TryConsumeBufferedInput(); // consume early clicks instantly
     }
 
@@ -155,6 +198,16 @@ public class CombatController : MonoBehaviour
     // Called at end of each attack animation
     public void EndAttack()
     {
+        // A follow-up was queued from this animation, so skip end handling for
+        // non-final steps only. If we are already on max combo, we must finalize.
+        if (queuedFollowUp && comboStep < maxCombo)
+        {
+            queuedFollowUp = false;
+            return;
+        }
+
+        queuedFollowUp = false;
+
         // If the combo is finished (max), finalize with longer cooldown and unfreeze.
         if (comboStep >= maxCombo)
         {
@@ -174,6 +227,7 @@ public class CombatController : MonoBehaviour
             return;
 
         // Otherwise, no pending combo input -> finish attack and allow movement.
+        StartCooldown(fullCombo: false);
         player.FreezePlayer(false);
         ResetCombo();
     }
@@ -211,13 +265,85 @@ public class CombatController : MonoBehaviour
         attackCooldownTimer = fullCombo ? fullComboCooldown : attackCooldown;
     }
 
+    private void RefreshStuckComboTimer()
+    {
+        if (comboStep <= 0) return;
+        stuckComboTimer = stuckComboTimeout;
+    }
+
+    private void ForceRecoverFromStuckCombo()
+    {
+        failSafeTriggerCount++;
+        failSafeFlashTimer = FailSafeFlashDuration;
+        StartCooldown(fullCombo: false);
+        ResetCombo();
+    }
+
     private void ResetCombo()
     {
         comboStep = 0;
         bufferedClicks = 0;
         canAcceptNextInput = false;
+        queuedFollowUp = false;
+        comboTimer = 0f;
+        stuckComboTimer = 0f;
 
         anim.SetInteger("ComboStep", 0);
         player.FreezePlayer(false);
+    }
+
+    private void OnGUI()
+    {
+        if (!showDebugOverlay) return;
+
+        GUILayout.BeginArea(new Rect(14f, 14f, 320f, 220f), GUI.skin.box);
+        GUILayout.Label("Combat Debug");
+        GUILayout.Label("comboStep: " + comboStep + " / " + maxCombo);
+        GUILayout.Label("bufferedClicks: " + bufferedClicks);
+
+        Color previousColor = GUI.color;
+        if (bufferedConsumeFlashTimer > 0f)
+        {
+            GUI.color = Color.green;
+            GUILayout.Label("Buffered Input Consumed!");
+        }
+        else
+        {
+            GUI.color = Color.gray;
+            GUILayout.Label("Buffered Input Waiting");
+        }
+        GUI.color = previousColor;
+
+        GUILayout.Label("comboTimer: " + Mathf.Max(0f, comboTimer).ToString("0.000"));
+        GUILayout.Label("inputBufferTimer: " + Mathf.Max(0f, inputBufferTimer).ToString("0.000"));
+        GUILayout.Label("attackCooldownTimer: " + Mathf.Max(0f, attackCooldownTimer).ToString("0.000"));
+        GUILayout.Label("stuckComboTimer: " + Mathf.Max(0f, stuckComboTimer).ToString("0.000"));
+        GUILayout.Label("canAcceptNextInput: " + canAcceptNextInput);
+        GUILayout.Label("queuedFollowUp: " + queuedFollowUp);
+        GUILayout.Label("attackOnCooldown: " + attackOnCooldown);
+
+        previousColor = GUI.color;
+        if (failSafeFlashTimer > 0f)
+        {
+            GUI.color = Color.yellow;
+            GUILayout.Label("Fail-safe recovery TRIGGERED");
+        }
+        else
+        {
+            GUI.color = Color.gray;
+            GUILayout.Label("Fail-safe idle");
+        }
+        GUI.color = previousColor;
+        GUILayout.Label("failSafeTriggerCount: " + failSafeTriggerCount);
+
+        GUILayout.Space(8f);
+        GUILayout.Label("HitStop Debug");
+        GUILayout.Label("Enemy hitstop count: " + EnemyBase.DebugHitStopTriggerCount);
+        GUILayout.Label("Enemy last duration: " + EnemyBase.DebugLastHitStopDuration.ToString("0.000"));
+        GUILayout.Label("Enemy active: " + EnemyBase.DebugHitStopActive);
+        GUILayout.Label("Boss hitstop count: " + BossBase.DebugHitStopTriggerCount);
+        GUILayout.Label("Boss last duration: " + BossBase.DebugLastHitStopDuration.ToString("0.000"));
+        GUILayout.Label("Boss active: " + BossBase.DebugHitStopActive);
+        GUILayout.EndArea();
     }
 }

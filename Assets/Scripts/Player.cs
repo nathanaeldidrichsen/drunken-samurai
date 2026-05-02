@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -16,7 +17,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float dashSpeed = 1f;
     [SerializeField] private float dashCooldown = 2f; // Seconds
     [SerializeField] private float rollCooldown = 2f; // Seconds
-    [SerializeField] private float attackCoolDown = 1f; // Seconds
 
 
     public bool isFrozen = false;
@@ -29,8 +29,28 @@ public class Player : MonoBehaviour
     public float vertical;
     public bool isRolling;
     private float rollForce = .04f;
+    
+    [Header("Roll Invulnerability")]
+    [SerializeField] private float rollInvulnerabilityDuration = 1f;
+    private float invulnerabilityTimer = 0f;
 
-    // --- Combo system ---
+    [Header("Hit Stop")]
+    [SerializeField] private float onHitStopDuration = 0.03f;
+    private static bool hitStopActive;
+
+    [Header("Damage Popup")]
+    private Vector3 damagePopupOffset = new Vector3(0f, 0.0f, 0f);
+    private float damagePopupRiseSpeed = 0.8f;
+    [SerializeField] private float damagePopupDuration = 1f;
+    [SerializeField] private float damagePopupFontSize = 1f;
+    [SerializeField] private TMP_FontAsset damagePopupFont;
+    [SerializeField] private FontStyles damagePopupFontStyle = FontStyles.Normal;
+
+    [Header("Attack Recoil")]
+    [SerializeField] private float attackRecoilForce = 1.1f;
+    [SerializeField] private float attackRecoilDuration = 0.06f;
+    [SerializeField] private float attackRecoilCooldown = 0.08f;
+    private float nextAttackRecoilTime;
 
     private int wellHealCost = 5;
 
@@ -38,15 +58,29 @@ public class Player : MonoBehaviour
     public SoundData levelUpSound;
     public SoundData hurtSound;
     public SoundData wellHealSound;
+    public SoundData rollSound;
 
     [Header("VFX")]
     public ParticleSystem healParticle;
+
+    [Header("Reset Defaults")]
+    [SerializeField] private float resetDashSpeed = 1f;
+    [SerializeField] private float resetDashCooldown = 1f;
+    [SerializeField] private float resetMoveSpeed = 1.5f;
+    [SerializeField] private int resetMaxHealth = 10;
+    [SerializeField] private int resetCurrentHealth = 10;
+    [SerializeField] private int resetDamage = 1;
+    [SerializeField] private int resetDefense = 1;
+    [SerializeField] private int resetLevel = 1;
+    [SerializeField] private int resetCurrentExp = 0;
+    [SerializeField] private int resetExpNeededToLevelUp = 220;
+    [SerializeField] private int resetGold = 0;
 
     public Animator anim;
     private SpriteRenderer sprite;
     private Rigidbody2D rb;
     private UnityEngine.Vector2 movement;
-    public float currentCooldown;
+    private float rollCooldownTimer;
     private UnityEngine.Vector2 targetPosition;
     private SimpleFlash simpleFlash;
     // private bool isDashing = false;
@@ -97,9 +131,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (currentCooldown > 0f)
+        if (rollCooldownTimer > 0f)
         {
-            currentCooldown -= Time.deltaTime;
+            rollCooldownTimer -= Time.deltaTime;
+        }
+
+        if (invulnerabilityTimer > 0f)
+        {
+            invulnerabilityTimer -= Time.deltaTime;
         }
 
         HandleInput();
@@ -317,7 +356,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            HUD.Instance?.ReloadScene();
         }
 
         if (HUD.Instance.inventoryIsOpen && Input.GetKeyDown(KeyCode.Space))
@@ -334,12 +373,15 @@ public class Player : MonoBehaviour
     {
         if (!context.started) return;
 
-        if (currentCooldown <= 0f && !isRolling)
+        if (rollCooldownTimer <= 0f && !isRolling)
         {
             isRolling = true;
             anim.SetBool("isRolling", true);
-            currentCooldown = rollCooldown; // Reset cooldown
+            rollCooldownTimer = rollCooldown; // Reset cooldown
             anim.SetTrigger("Roll"); // Play roll animation
+
+            // Grant invulnerability during and after roll
+            invulnerabilityTimer = rollInvulnerabilityDuration;
 
             UnityEngine.Vector2 rollDirection = new UnityEngine.Vector2(anim.GetFloat("LastMoveX"), anim.GetFloat("LastMoveY"));
             if (rollDirection == Vector2.zero)
@@ -371,23 +413,35 @@ public class Player : MonoBehaviour
 
     public void GetHurt(int dmgAmount, Vector2 knockbackDir = default, float knockbackForce = 5f)
     {
-        if (!recoveryCounter.recovering)
+        // Skip damage if invulnerable or already recovering
+        if (invulnerabilityTimer > 0f || recoveryCounter.recovering)
+            return;
+
+        recoveryCounter.counter = 0;
+        simpleFlash.Flash();
+        stats.currentHealth -= dmgAmount;
+        ShowDamagePopup(dmgAmount, Color.white);
+        // TriggerHitStop(onHitStopDuration);
+        SoundManager.Instance?.PlaySFX(hurtSound);
+        // anim.SetTrigger("Hurt");
+        Vector2 shakeDirection = knockbackDir != Vector2.zero ? knockbackDir : Vector2.zero;
+        CameraShake.Instance?.ScreenShake(shakeDirection, 0.9f);
+
+        if (knockbackDir != Vector2.zero)
+            StartCoroutine(KnockBack(knockbackDir, knockbackForce, 0.15f));
+
+        if (stats.currentHealth <= 0)
         {
-            recoveryCounter.counter = 0;
-            simpleFlash.Flash();
-            stats.currentHealth -= dmgAmount;
-            SoundManager.Instance?.PlaySFX(hurtSound);
-            // anim.SetTrigger("Hurt");
-            CameraShake.Instance?.ScreenShake();
-
-            if (knockbackDir != Vector2.zero)
-                StartCoroutine(KnockBack(knockbackDir, knockbackForce, 0.15f));
-
-            if (stats.currentHealth <= 0)
-            {
-                Die();
-            }
+            Die();
         }
+    }
+
+    public void PlayRollSound()
+    {
+        if (rollSound == null)
+            return;
+
+        SoundManager.Instance?.PlaySFX(rollSound);
     }
 
     private bool isKnockedBack;
@@ -406,6 +460,112 @@ public class Player : MonoBehaviour
         }
         rb.velocity = Vector2.zero;
         isKnockedBack = false;
+    }
+
+    public void ApplyAttackRecoil(Vector2 recoilDirection)
+    {
+        if (Time.time < nextAttackRecoilTime)
+            return;
+
+        if (isRolling || isFrozen || isKnockedBack)
+            return;
+
+        if (recoilDirection == Vector2.zero)
+            return;
+
+        nextAttackRecoilTime = Time.time + attackRecoilCooldown;
+        StartCoroutine(AttackRecoilCoroutine(recoilDirection.normalized));
+    }
+
+    private IEnumerator AttackRecoilCoroutine(Vector2 recoilDirection)
+    {
+        isKnockedBack = true;
+        rb.velocity = Vector2.zero;
+
+        float timer = 0f;
+        while (timer < attackRecoilDuration)
+        {
+            float t = timer / attackRecoilDuration;
+            rb.velocity = recoilDirection * Mathf.Lerp(attackRecoilForce, 0f, t);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        rb.velocity = Vector2.zero;
+        isKnockedBack = false;
+    }
+
+    private void TriggerHitStop(float duration)
+    {
+        if (duration <= 0f || hitStopActive)
+            return;
+
+        StartCoroutine(HitStopRoutine(duration));
+    }
+
+    private IEnumerator HitStopRoutine(float duration)
+    {
+        hitStopActive = true;
+        float previousTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(duration);
+
+        if (Mathf.Approximately(Time.timeScale, 0f))
+            Time.timeScale = previousTimeScale <= 0f ? 1f : previousTimeScale;
+
+        hitStopActive = false;
+    }
+
+    private void ShowDamagePopup(int amount, Color color)
+    {
+        if (amount <= 0)
+            return;
+
+        GameObject popup = new GameObject("DamagePopup_Player");
+        popup.transform.position = transform.position + damagePopupOffset;
+
+        TextMeshPro text = popup.AddComponent<TextMeshPro>();
+        text.text = amount.ToString();
+        text.fontSize = damagePopupFontSize;
+        text.alignment = TextAlignmentOptions.Center;
+        text.color = color;
+        text.fontStyle = damagePopupFontStyle;
+        if (damagePopupFont != null)
+            text.font = damagePopupFont;
+
+        StartCoroutine(DamagePopupRoutine(
+            popup.transform,
+            text,
+            Mathf.Max(0.05f, damagePopupDuration),
+            Mathf.Max(0f, damagePopupRiseSpeed)
+        ));
+    }
+
+    private IEnumerator DamagePopupRoutine(Transform popupTransform, TextMeshPro text, float duration, float riseSpeed)
+    {
+        float elapsed = 0f;
+        Color startColor = text.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            popupTransform.position += Vector3.up * riseSpeed * Time.deltaTime;
+
+            Camera cam = Camera.main;
+            if (cam != null)
+                popupTransform.forward = cam.transform.forward;
+
+            float t = Mathf.Clamp01(elapsed / duration);
+            Color c = startColor;
+            c.a = 1f - t;
+            text.color = c;
+
+            yield return null;
+        }
+
+        if (popupTransform != null)
+            Destroy(popupTransform.gameObject);
     }
 
         public void HealFromWell()
@@ -557,25 +717,40 @@ public class Player : MonoBehaviour
 
     public void ResetStatsToBase()
     {
-        // BASE STATS (HARDCODED)
+        stats.dashSpeed = resetDashSpeed;
+        stats.dashCooldown = resetDashCooldown;
+        stats.moveSpeed = resetMoveSpeed;
 
-        stats.dashSpeed = 1f;
-        stats.dashCooldown = 1f;
-        stats.moveSpeed = 1.5f;
+        stats.maxHealth = resetMaxHealth;
+        stats.currentHealth = Mathf.Clamp(resetCurrentHealth, 0, stats.maxHealth);
 
-        stats.maxHealth = 10;
-        stats.currentHealth = 10;
+        stats.damage = resetDamage;
+        stats.defense = resetDefense;
 
-        stats.damage = 1;
-        stats.defense = 1;
+        stats.level = resetLevel;
+        stats.currentExp = resetCurrentExp;
+        stats.expNeededToLevelUp = resetExpNeededToLevelUp;
 
-        stats.level = 1;
-        stats.currentExp = 0;
-        stats.expNeededToLevelUp = 220;
-
-        stats.gold = 0;
+        stats.gold = resetGold;
 
         Debug.Log("Player stats reset to base values.");
+    }
+
+    public void PrepareForRespawn()
+    {
+        stats.currentHealth = stats.maxHealth;
+        invulnerabilityTimer = 0f;
+        isFrozen = false;
+        isRolling = false;
+        isKnockedBack = false;
+        rollCooldownTimer = 0f;
+    }
+
+    public void ResetAllProgress()
+    {
+        ResetStatsToBase();
+        Inventory.Instance?.ResetAllProgress();
+        PrepareForRespawn();
     }
 
 
@@ -600,6 +775,15 @@ public class PlayerEditor : Editor
             Undo.RecordObject(player, "Reset Player Stats");
 
             player.ResetStatsToBase();
+
+            EditorUtility.SetDirty(player);
+        }
+
+        if (GUILayout.Button("Reset Player (All Progress)"))
+        {
+            Undo.RecordObject(player, "Reset Player All Progress");
+
+            player.ResetAllProgress();
 
             EditorUtility.SetDirty(player);
         }

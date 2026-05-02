@@ -26,4 +26,4 @@ MonoBehaviour:
   isEquipped: 0
   recipeName: Wooden Sword Recipe
   recipeDescription: Recipe for crafting Wooden Sword
-  forgeRecipe: {fileID: 11400000, guid: 757b780bb698aa043a9151b9469ff637, type: 2}
+  forgeRecipe: {fileID: 11400000, guid: 0eec3db4642a43c46b012e874565dccc, type: 2}

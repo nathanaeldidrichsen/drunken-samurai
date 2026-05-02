@@ -5876,13 +5876,21 @@ MonoBehaviour:
   dashSpeed: 10
   dashCooldown: 1
   rollCooldown: 1
-  attackCoolDown: 0.35
   isFrozen: 0
   enemySpawnRadius: 6
   itemPickUpRadius: 0.1
   horizontal: 0
   vertical: 0
   isRolling: 0
+  rollInvulnerabilityDuration: 1
+  onHitStopDuration: 0.05
+  damagePopupDuration: 1
+  damagePopupFontSize: 1
+  damagePopupFont: {fileID: 11400000, guid: 9fda2656a16409e42b1a3b4dc7923f5f, type: 2}
+  damagePopupFontStyle: 0
+  attackRecoilForce: 1.1
+  attackRecoilDuration: 0.06
+  attackRecoilCooldown: 0.08
   levelUpSound:
     id: 
     clip: {fileID: 0}
@@ -5898,12 +5906,28 @@ MonoBehaviour:
   wellHealSound:
     id: 
     clip: {fileID: 8300000, guid: 3ed080e3d07a4f84581b7ce759ecfbc2, type: 3}
-    volume: 0.565
+    volume: 0.143
+    pitchVariation: 0
+    cooldown: 0
+  rollSound:
+    id: roll
+    clip: {fileID: 8300000, guid: 2a9138a49aa152545aff4d60a6faab5c, type: 3}
+    volume: 0.455
     pitchVariation: 0
     cooldown: 0
   healParticle: {fileID: 68268312784494062}
+  resetDashSpeed: 1
+  resetDashCooldown: 1
+  resetMoveSpeed: 1.5
+  resetMaxHealth: 10
+  resetCurrentHealth: 10
+  resetDamage: 1
+  resetDefense: 1
+  resetLevel: 1
+  resetCurrentExp: 0
+  resetExpNeededToLevelUp: 220
+  resetGold: 30
   anim: {fileID: 0}
-  currentCooldown: 0
   playerPos: {fileID: 11400000, guid: 069a0008456219e4a81e5ba8f19b5d30, type: 2}
 --- !u!50 &5461486885951550474
 Rigidbody2D:
@@ -6169,11 +6193,14 @@ MonoBehaviour:
   anim: {fileID: 5461486885305912445}
   rb: {fileID: 5461486885951550474}
   attackCooldown: 0.32
-  fullComboCooldown: 1
-  attackLungeForce: 0.015
+  fullComboCooldown: 0.4
+  attackLungeForce: 0.018
   attackLungeDuration: 0.1
   maxCombo: 3
   comboWindow: 0.35
+  stuckComboTimeout: 0.9
+  showDebugOverlay: 0
+  toggleDebugKey: 284
   comboStep: 0
   bufferedClicks: 0
   inputBufferTime: 0.25

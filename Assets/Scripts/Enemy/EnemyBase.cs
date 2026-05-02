@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using TMPro;
 
 /*
  * EnemyBase
@@ -25,6 +27,21 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] float dropForce = 3f;
     [SerializeField] float dropUpwardBias = 0.3f; // optional randomness
+    [Header("Hit Stop")]
+    [SerializeField] private float onHitStopDuration = 0.03f;
+    private static bool hitStopActive;
+    public static bool DebugHitStopActive => hitStopActive;
+    public static int DebugHitStopTriggerCount { get; private set; }
+    public static float DebugLastHitStopDuration { get; private set; }
+
+    [Header("Damage Popup")]
+    private Vector3 damagePopupOffset = new Vector3(0f, 0.0f, 0f);
+    private float damagePopupRiseSpeed = 0.8f;
+    [SerializeField] private float damagePopupDuration = 1f;
+    private float damagePopupFontSize = 1f;
+    [SerializeField] private TMP_FontAsset damagePopupFont;
+    [SerializeField] private FontStyles damagePopupFontStyle = FontStyles.Normal;
+
     public SoundData hurtSound;
     public SoundData dieSound;
     public SoundData fireSound;
@@ -38,7 +55,10 @@ public class EnemyBase : MonoBehaviour
     public EnemyBrain brain;
     private bool attackAnimationFinished;
     private bool attackDamageAppliedThisCycle;
+    private float attackCommitmentTimer;
+    private float pendingKnockbackScale = 1f;
     private WavesManager registeredWave;
+    private SimpleFlash simpleFlash;
 
     public void RegisterToWave(WavesManager wave) => registeredWave = wave;
     public void NotifyWaveDied() => registeredWave?.OnEnemyDied();
@@ -47,6 +67,7 @@ public class EnemyBase : MonoBehaviour
     {
         // ensure an EnemyStats component exists on this GameObject
         stats = GetComponent<EnemyStats>() ?? gameObject.AddComponent<EnemyStats>();
+        simpleFlash = GetComponentInChildren<SimpleFlash>();
 
         if (player == null && Player.Instance != null)
             player = Player.Instance.transform;
@@ -57,16 +78,22 @@ public class EnemyBase : MonoBehaviour
 
     void Update()
     {
+        if (attackCommitmentTimer > 0f)
+            attackCommitmentTimer -= Time.deltaTime;
+
         brain.Update();
     }
 
     // Apply damage to this enemy. If `applyKnockback` is true the brain
     // will transition into the Knockback state, otherwise into Hurt (or Dead).
     // Other systems (player, projectiles) should call this method to damage the enemy.
-    public void TakeDamage(int damage, bool applyKnockback = false)
+    public void TakeDamage(int damage, bool applyKnockback = false, float knockbackScale = 1f)
     {
+        ShowDamagePopup(damage, Color.red);
         SoundManager.Instance.PlaySFX(hurtSound);
         stats.health -= damage;
+        simpleFlash.Flash();
+        // TriggerHitStop(onHitStopDuration);
 
         if (stats.health <= 0)
         {
@@ -77,8 +104,14 @@ public class EnemyBase : MonoBehaviour
             return;
         }
 
+        // During the early attack commitment window, enemy still takes damage
+        // but will not be interrupted out of the attack state.
+        if (IsInAttackCommitmentWindow())
+            return;
+
         if (applyKnockback)
         {
+            pendingKnockbackScale = Mathf.Max(0f, knockbackScale);
             brain.ChangeState(brain.knockback);
             PlayHurtAnimation();
         }
@@ -133,8 +166,94 @@ public class EnemyBase : MonoBehaviour
     {
         attackAnimationFinished = false;
         attackDamageAppliedThisCycle = false;
+        attackCommitmentTimer = stats != null ? Mathf.Max(0f, stats.attackCommitmentDuration) : 0.25f;
         Animator a = GetComponentInChildren<Animator>();
         if (a != null) a.SetTrigger("Attack");
+    }
+
+    private bool IsInAttackCommitmentWindow()
+    {
+        if (brain == null)
+            return false;
+
+        return attackCommitmentTimer > 0f && brain.currentState == brain.attack;
+    }
+
+    private void TriggerHitStop(float duration)
+    {
+        if (duration <= 0f || hitStopActive)
+            return;
+
+        DebugHitStopTriggerCount++;
+        DebugLastHitStopDuration = duration;
+        Debug.Log($"[EnemyBase] HitStop triggered. Duration={duration:0.000}s Count={DebugHitStopTriggerCount}");
+
+        StartCoroutine(HitStopRoutine(duration));
+    }
+
+    private IEnumerator HitStopRoutine(float duration)
+    {
+        hitStopActive = true;
+        float previousTimeScale = Time.timeScale;
+        Time.timeScale = 0f;
+
+        yield return new WaitForSecondsRealtime(duration);
+
+        if (Mathf.Approximately(Time.timeScale, 0f))
+            Time.timeScale = previousTimeScale <= 0f ? 1f : previousTimeScale;
+
+        hitStopActive = false;
+    }
+
+    private void ShowDamagePopup(int amount, Color color)
+    {
+        if (amount <= 0)
+            return;
+
+        GameObject popup = new GameObject("DamagePopup_Enemy");
+        popup.transform.position = transform.position + damagePopupOffset;
+
+        TextMeshPro text = popup.AddComponent<TextMeshPro>();
+        text.text = amount.ToString();
+        text.fontSize = damagePopupFontSize;
+        text.alignment = TextAlignmentOptions.Center;
+        text.color = color;
+        text.fontStyle = damagePopupFontStyle;
+        if (damagePopupFont != null)
+            text.font = damagePopupFont;
+
+        StartCoroutine(DamagePopupRoutine(
+            popup.transform,
+            text,
+            Mathf.Max(0.05f, damagePopupDuration),
+            Mathf.Max(0f, damagePopupRiseSpeed)
+        ));
+    }
+
+    private IEnumerator DamagePopupRoutine(Transform popupTransform, TextMeshPro text, float duration, float riseSpeed)
+    {
+        float elapsed = 0f;
+        Color startColor = text.color;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            popupTransform.position += Vector3.up * riseSpeed * Time.deltaTime;
+
+            Camera cam = Camera.main;
+            if (cam != null)
+                popupTransform.forward = cam.transform.forward;
+
+            float t = Mathf.Clamp01(elapsed / duration);
+            Color c = startColor;
+            c.a = 1f - t;
+            text.color = c;
+
+            yield return null;
+        }
+
+        if (popupTransform != null)
+            Destroy(popupTransform.gameObject);
     }
 
     // Animation event hook: call this from the attack clip at the hit frame.
@@ -240,20 +359,22 @@ public class EnemyBase : MonoBehaviour
     {
         if (player == null) return;
         Vector3 dir = (transform.position - player.position).normalized;
+        float scaledForce = 0.1f * Mathf.Max(0f, pendingKnockbackScale);
+        pendingKnockbackScale = 1f;
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(dir * 0.1f, ForceMode.Impulse);
+            rb.AddForce(dir * scaledForce, ForceMode.Impulse);
             return;
         }
         Rigidbody2D rb2 = GetComponent<Rigidbody2D>();
         if (rb2 != null)
         {
-            rb2.AddForce((Vector2)dir * 0.1f, ForceMode2D.Impulse);
+            rb2.AddForce((Vector2)dir * scaledForce, ForceMode2D.Impulse);
             return;
         }
         // fallback: nudge position
-        transform.position += dir * 0.1f;
+        transform.position += dir * scaledForce;
     }
 
     public void DropItem()

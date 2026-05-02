@@ -121,15 +121,15 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: fragment_monster1_Frame_0
     originalName: 
-    pivot: {x: 0.53846157, y: 0.53571427}
+    pivot: {x: 0.5263158, y: 0.50000006}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 217
-      width: 26
-      height: 28
+      x: 158
+      y: 57
+      width: 38
+      height: 38
     spriteID: ae5707a5daecc2349968b179296ea3e1
     spriteBone: []
     spriteOutline: []
@@ -138,18 +138,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 217}
+    uvTransform: {x: 158, y: 57}
   - name: fragment_monster1_Frame_1
     originalName: 
-    pivot: {x: 0.53846157, y: 0.55172414}
+    pivot: {x: 0.55555564, y: 0.49999997}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 119
-      width: 26
-      height: 29
+      x: 4
+      y: 57
+      width: 45
+      height: 46
     spriteID: ab75d57e0764c254d8782a6d8b01bb51
     spriteBone: []
     spriteOutline: []
@@ -158,18 +158,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 119}
+    uvTransform: {x: 4, y: 57}
   - name: fragment_monster1_Frame_2
     originalName: 
-    pivot: {x: 0.53846157, y: 0.5862069}
+    pivot: {x: 0.5531914, y: 0.53333336}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 156
-      width: 26
-      height: 29
+      x: 4
+      y: 4
+      width: 47
+      height: 45
     spriteID: fb14636b27cdf024daaeb3d138c23b1a
     spriteBone: []
     spriteOutline: []
@@ -178,18 +178,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 156}
+    uvTransform: {x: 4, y: 4}
   - name: fragment_monster1_Frame_3
     originalName: 
-    pivot: {x: 0.53846157, y: 0.60714287}
+    pivot: {x: 0.5714286, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
+      x: 165
       y: 4
-      width: 26
-      height: 28
+      width: 42
+      height: 44
     spriteID: 0991817707ecfd84cb046e4816a84aaa
     spriteBone: []
     spriteOutline: []
@@ -198,18 +198,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 4}
+    uvTransform: {x: 165, y: 4}
   - name: fragment_monster1_Frame_4
     originalName: 
-    pivot: {x: 0.53846157, y: 0.57142854}
+    pivot: {x: 0.54545456, y: 0.49999997}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 40
-      width: 26
-      height: 28
+      x: 57
+      y: 57
+      width: 44
+      height: 46
     spriteID: 66dd2007fc8405e4dbc9cbd6dcbcf768
     spriteBone: []
     spriteOutline: []
@@ -218,18 +218,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 40}
+    uvTransform: {x: 57, y: 57}
   - name: fragment_monster1_Frame_5
     originalName: 
-    pivot: {x: 0.53846157, y: 0.53571427}
+    pivot: {x: 0.5652173, y: 0.53333336}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 76
-      width: 26
-      height: 28
+      x: 59
+      y: 4
+      width: 46
+      height: 45
     spriteID: 9d82acf249f5d0343823b77c5a7895f7
     spriteBone: []
     spriteOutline: []
@@ -238,18 +238,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 76}
+    uvTransform: {x: 59, y: 4}
   - name: fragment_monster1_Frame_6
     originalName: 
-    pivot: {x: 0.49999997, y: 0.51724136}
+    pivot: {x: 0.54545456, y: 0.5}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 193
-      width: 26
-      height: 29
+      x: 113
+      y: 4
+      width: 44
+      height: 44
     spriteID: 5ed666d9e7af89d419bf8fff2500e878
     spriteBone: []
     spriteOutline: []
@@ -258,18 +258,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 193}
+    uvTransform: {x: 113, y: 4}
   - name: fragment_monster1_Frame_7
     originalName: 
-    pivot: {x: 0.59259254, y: 0.44827586}
+    pivot: {x: 0.5609756, y: 0.4878049}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 45
-      width: 27
-      height: 29
+      x: 109
+      y: 57
+      width: 41
+      height: 41
     spriteID: d2c01eb353130704ea76ff5abcda42d2
     spriteBone: []
     spriteOutline: []
@@ -278,18 +278,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 45}
+    uvTransform: {x: 109, y: 57}
   - name: fragment_monster1_Frame_8
     originalName: 
-    pivot: {x: 0.59259254, y: 0.41379312}
+    pivot: {x: 0.53846157, y: 0.53571427}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 82
-      width: 27
-      height: 29
+      x: 4
+      y: 184
+      width: 26
+      height: 28
     spriteID: 5a97443e3f56ed24faa168061a40f783
     spriteBone: []
     spriteOutline: []
@@ -298,18 +298,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 82}
+    uvTransform: {x: 4, y: 184}
   - name: fragment_monster1_Frame_9
     originalName: 
-    pivot: {x: 0.53571427, y: 0.5185185}
+    pivot: {x: 0.53846157, y: 0.55172414}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 42
-      width: 28
-      height: 27
+      x: 146
+      y: 111
+      width: 26
+      height: 29
     spriteID: b30fc40d47f695e4487e7119c70933cc
     spriteBone: []
     spriteOutline: []
@@ -318,18 +318,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 42}
+    uvTransform: {x: 146, y: 111}
   - name: fragment_monster1_Frame_10
     originalName: 
-    pivot: {x: 0.51851857, y: 0.5185185}
+    pivot: {x: 0.53846157, y: 0.5862069}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 77
-      width: 27
-      height: 27
+      x: 180
+      y: 111
+      width: 26
+      height: 29
     spriteID: bb458b29f0ace5149ab123e6747cbcb0
     spriteBone: []
     spriteOutline: []
@@ -338,18 +338,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 77}
+    uvTransform: {x: 180, y: 111}
   - name: fragment_monster1_Frame_11
     originalName: 
-    pivot: {x: 0.5555556, y: 0.5185185}
+    pivot: {x: 0.53846157, y: 0.60714287}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 112
-      width: 27
-      height: 27
+      x: 38
+      y: 184
+      width: 26
+      height: 28
     spriteID: b598e4fa7f6be47478107701437df07b
     spriteBone: []
     spriteOutline: []
@@ -358,18 +358,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 112}
+    uvTransform: {x: 38, y: 184}
   - name: fragment_monster1_Frame_12
     originalName: 
-    pivot: {x: 0.5555556, y: 0.6060606}
+    pivot: {x: 0.53846157, y: 0.57142854}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 57
-      y: 4
-      width: 27
-      height: 33
+      x: 72
+      y: 184
+      width: 26
+      height: 28
     spriteID: 50d89d0bbabafdf47a656c82cad57d1d
     spriteBone: []
     spriteOutline: []
@@ -378,18 +378,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 57, y: 4}
+    uvTransform: {x: 72, y: 184}
   - name: fragment_monster1_Frame_13
     originalName: 
-    pivot: {x: 0.5555556, y: 0.75000006}
+    pivot: {x: 0.53846157, y: 0.53571427}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 208
-      width: 27
-      height: 36
+      x: 106
+      y: 184
+      width: 26
+      height: 28
     spriteID: 73f79e6c5a8f7c142bbd86962efb5013
     spriteBone: []
     spriteOutline: []
@@ -398,18 +398,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 208}
+    uvTransform: {x: 106, y: 184}
   - name: fragment_monster1_Frame_14
     originalName: 
-    pivot: {x: 0.6071429, y: 0.90000004}
+    pivot: {x: 0.49999997, y: 0.51724136}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 4
-      width: 28
-      height: 30
+      x: 214
+      y: 111
+      width: 26
+      height: 29
     spriteID: 580a66314bb172449bf5c700137839de
     spriteBone: []
     spriteOutline: []
@@ -418,18 +418,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 4}
+    uvTransform: {x: 214, y: 111}
   - name: fragment_monster1_Frame_15
     originalName: 
-    pivot: {x: 0.6071429, y: 1.08}
+    pivot: {x: 0.59259254, y: 0.44827586}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 162
-      y: 4
-      width: 28
-      height: 25
+      x: 40
+      y: 111
+      width: 27
+      height: 29
     spriteID: 166dcf82313fa6f4994968a729db8d10
     spriteBone: []
     spriteOutline: []
@@ -438,18 +438,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 162, y: 4}
+    uvTransform: {x: 40, y: 111}
   - name: fragment_monster1_Frame_16
     originalName: 
-    pivot: {x: 0.6071429, y: 3.375}
+    pivot: {x: 0.59259254, y: 0.41379312}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 162
-      y: 37
-      width: 28
-      height: 8
+      x: 75
+      y: 111
+      width: 27
+      height: 29
     spriteID: ad37b5e8a1f1bf2459730f6462c4d799
     spriteBone: []
     spriteOutline: []
@@ -458,18 +458,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 162, y: 37}
+    uvTransform: {x: 75, y: 111}
   - name: fragment_monster1_Frame_17
     originalName: 
-    pivot: {x: 0.53846157, y: 0.57142854}
+    pivot: {x: 0.53571427, y: 0.5185185}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 112
-      width: 26
-      height: 28
+      x: 110
+      y: 111
+      width: 28
+      height: 27
     spriteID: 72cde4604e697074395b63062ec2f6ba
     spriteBone: []
     spriteOutline: []
@@ -478,18 +478,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 112}
+    uvTransform: {x: 110, y: 111}
   - name: fragment_monster1_Frame_18
     originalName: 
-    pivot: {x: 0.53846157, y: 0.64285713}
+    pivot: {x: 0.51851857, y: 0.5185185}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 148
-      width: 26
-      height: 28
+      x: 4
+      y: 149
+      width: 27
+      height: 27
     spriteID: 8ad4cf8c95ea931409a19fe8edb2e807
     spriteBone: []
     spriteOutline: []
@@ -498,16 +498,16 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 148}
+    uvTransform: {x: 4, y: 149}
   - name: fragment_monster1_Frame_19
     originalName: 
-    pivot: {x: 0.5555556, y: 0.6296296}
+    pivot: {x: 0.5555556, y: 0.5185185}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 147
+      x: 39
+      y: 149
       width: 27
       height: 27
     spriteID: 24053c31d5baf5c42ae7aea91a160693
@@ -518,18 +518,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 147}
+    uvTransform: {x: 39, y: 149}
   - name: fragment_monster1_Frame_20
     originalName: 
-    pivot: {x: 0.53846157, y: 0.59259254}
+    pivot: {x: 0.5555556, y: 0.6060606}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 220
-      width: 26
-      height: 27
+      x: 204
+      y: 57
+      width: 27
+      height: 33
     spriteID: 4db22fa9b928d25469633d2daf12e3bc
     spriteBone: []
     spriteOutline: []
@@ -538,18 +538,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 220}
+    uvTransform: {x: 204, y: 57}
   - name: fragment_monster1_Frame_21
     originalName: 
-    pivot: {x: 0.5555556, y: 0.6296296}
+    pivot: {x: 0.5555556, y: 0.75000006}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 92
-      y: 182
+      x: 215
+      y: 4
       width: 27
-      height: 27
+      height: 36
     spriteID: 685c67551bb2ec441843a25d6ae81bea
     spriteBone: []
     spriteOutline: []
@@ -558,18 +558,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 92, y: 182}
+    uvTransform: {x: 215, y: 4}
   - name: fragment_monster1_Frame_22
     originalName: 
-    pivot: {x: 0.53846157, y: 0.53571427}
+    pivot: {x: 0.6071429, y: 0.90000004}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 128
-      y: 184
-      width: 26
-      height: 28
+      x: 4
+      y: 111
+      width: 28
+      height: 30
     spriteID: 292b3dc5f4252d84f9eef89d1c05e2c5
     spriteBone: []
     spriteOutline: []
@@ -578,18 +578,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 128, y: 184}
+    uvTransform: {x: 4, y: 111}
   - name: fragment_monster1_Frame_23
     originalName: 
-    pivot: {x: 0.5277778, y: 0.50000006}
+    pivot: {x: 0.6071429, y: 1.08}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 162
-      width: 36
-      height: 38
+      x: 178
+      y: 149
+      width: 28
+      height: 25
     spriteID: 298d0cfbbcb995343bd1ab077d7fff62
     spriteBone: []
     spriteOutline: []
@@ -598,18 +598,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 162}
+    uvTransform: {x: 178, y: 149}
   - name: fragment_monster1_Frame_24
     originalName: 
-    pivot: {x: 0.55555564, y: 0.49999997}
+    pivot: {x: 0.6071429, y: 3.375}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 4
-      width: 45
-      height: 46
+      x: 214
+      y: 149
+      width: 28
+      height: 8
     spriteID: 788a81d240eb00d4d99b9ce649eff52c
     spriteBone: []
     spriteOutline: []
@@ -618,18 +618,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 214, y: 149}
   - name: fragment_monster1_Frame_25
     originalName: 
-    pivot: {x: 0.54545456, y: 0.54545456}
+    pivot: {x: 0.53846157, y: 0.57142854}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 58
-      width: 44
-      height: 44
+      x: 140
+      y: 184
+      width: 26
+      height: 28
     spriteID: cb8565f9033b89a44841ff434158902b
     spriteBone: []
     spriteOutline: []
@@ -638,18 +638,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 58}
+    uvTransform: {x: 140, y: 184}
   - name: fragment_monster1_Frame_26
     originalName: 
-    pivot: {x: 0.5714286, y: 0.5}
+    pivot: {x: 0.53846157, y: 0.64285713}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     rect:
       serializedVersion: 2
-      x: 4
-      y: 110
-      width: 42
-      height: 44
+      x: 174
+      y: 184
+      width: 26
+      height: 28
     spriteID: ddff13c95751ecb47a523f4e450cc659
     spriteBone: []
     spriteOutline: []
@@ -658,7 +658,87 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 110}
+    uvTransform: {x: 174, y: 184}
+  - name: fragment_monster1_Frame_19
+    originalName: 
+    pivot: {x: 0.5555556, y: 0.6296296}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 74
+      y: 149
+      width: 27
+      height: 27
+    spriteID: f46cddc7d139ff349bae77bd45d2e3b4
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 74, y: 149}
+  - name: fragment_monster1_Frame_20
+    originalName: 
+    pivot: {x: 0.53846157, y: 0.59259254}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 144
+      y: 149
+      width: 26
+      height: 27
+    spriteID: 9786c10449fbbdd49b990a5a293b4040
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 144, y: 149}
+  - name: fragment_monster1_Frame_21
+    originalName: 
+    pivot: {x: 0.5555556, y: 0.6296296}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 109
+      y: 149
+      width: 27
+      height: 27
+    spriteID: 40dc580a6774fe34489fbb53d50b85ba
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 109, y: 149}
+  - name: fragment_monster1_Frame_22
+    originalName: 
+    pivot: {x: 0.53846157, y: 0.53571427}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 208
+      y: 184
+      width: 26
+      height: 28
+    spriteID: fdb27327579d62643be733bf9d736c66
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 208, y: 184}
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
@@ -668,222 +748,15 @@ ScriptedImporter:
     layerType: 0
     blendMode: 0
     cells:
-    - name: fragment_monster1_Frame_0
-      frameIndex: 0
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 25
-        width: 26
-        height: 28
-      spriteId: ae5707a5daecc2349968b179296ea3e1
-    - name: fragment_monster1_Frame_1
-      frameIndex: 1
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 24
-        width: 26
-        height: 29
-      spriteId: ab75d57e0764c254d8782a6d8b01bb51
-    - name: fragment_monster1_Frame_2
-      frameIndex: 2
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 23
-        width: 26
-        height: 29
-      spriteId: fb14636b27cdf024daaeb3d138c23b1a
-    - name: fragment_monster1_Frame_3
-      frameIndex: 3
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 23
-        width: 26
-        height: 28
-      spriteId: 0991817707ecfd84cb046e4816a84aaa
-    - name: fragment_monster1_Frame_4
-      frameIndex: 4
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 24
-        width: 26
-        height: 28
-      spriteId: 66dd2007fc8405e4dbc9cbd6dcbcf768
-    - name: fragment_monster1_Frame_5
-      frameIndex: 5
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 25
-        width: 26
-        height: 28
-      spriteId: 9d82acf249f5d0343823b77c5a7895f7
-    - name: fragment_monster1_Frame_6
-      frameIndex: 6
-      additiveSortOrder: 0
-      cellRect:
-        x: 35
-        y: 25
-        width: 26
-        height: 29
-      spriteId: 5ed666d9e7af89d419bf8fff2500e878
-    - name: fragment_monster1_Frame_7
-      frameIndex: 7
-      additiveSortOrder: 0
-      cellRect:
-        x: 32
-        y: 27
-        width: 27
-        height: 29
-      spriteId: d2c01eb353130704ea76ff5abcda42d2
-    - name: fragment_monster1_Frame_8
-      frameIndex: 8
-      additiveSortOrder: 0
-      cellRect:
-        x: 32
-        y: 28
-        width: 27
-        height: 29
-      spriteId: 5a97443e3f56ed24faa168061a40f783
-    - name: fragment_monster1_Frame_9
-      frameIndex: 9
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 26
-        width: 28
-        height: 27
-      spriteId: b30fc40d47f695e4487e7119c70933cc
-    - name: fragment_monster1_Frame_10
-      frameIndex: 10
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 26
-        width: 27
-        height: 27
-      spriteId: bb458b29f0ace5149ab123e6747cbcb0
-    - name: fragment_monster1_Frame_11
-      frameIndex: 11
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 26
-        width: 27
-        height: 27
-      spriteId: b598e4fa7f6be47478107701437df07b
-    - name: fragment_monster1_Frame_12
-      frameIndex: 12
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 20
-        width: 27
-        height: 33
-      spriteId: 50d89d0bbabafdf47a656c82cad57d1d
-    - name: fragment_monster1_Frame_13
-      frameIndex: 13
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 13
-        width: 27
-        height: 36
-      spriteId: 73f79e6c5a8f7c142bbd86962efb5013
-    - name: fragment_monster1_Frame_14
-      frameIndex: 14
-      additiveSortOrder: 0
-      cellRect:
-        x: 31
-        y: 13
-        width: 28
-        height: 30
-      spriteId: 580a66314bb172449bf5c700137839de
-    - name: fragment_monster1_Frame_15
-      frameIndex: 15
-      additiveSortOrder: 0
-      cellRect:
-        x: 31
-        y: 13
-        width: 28
-        height: 25
-      spriteId: 166dcf82313fa6f4994968a729db8d10
-    - name: fragment_monster1_Frame_16
-      frameIndex: 16
-      additiveSortOrder: 0
-      cellRect:
-        x: 31
-        y: 13
-        width: 28
-        height: 8
-      spriteId: ad37b5e8a1f1bf2459730f6462c4d799
-    - name: fragment_monster1_Frame_17
-      frameIndex: 17
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 24
-        width: 26
-        height: 28
-      spriteId: 72cde4604e697074395b63062ec2f6ba
-    - name: fragment_monster1_Frame_18
-      frameIndex: 18
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 22
-        width: 26
-        height: 28
-      spriteId: 8ad4cf8c95ea931409a19fe8edb2e807
-    - name: fragment_monster1_Frame_19
-      frameIndex: 19
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 23
-        width: 27
-        height: 27
-      spriteId: 24053c31d5baf5c42ae7aea91a160693
-    - name: fragment_monster1_Frame_20
-      frameIndex: 20
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 24
-        width: 26
-        height: 27
-      spriteId: 4db22fa9b928d25469633d2daf12e3bc
-    - name: fragment_monster1_Frame_21
-      frameIndex: 21
-      additiveSortOrder: 0
-      cellRect:
-        x: 33
-        y: 23
-        width: 27
-        height: 27
-      spriteId: 685c67551bb2ec441843a25d6ae81bea
-    - name: fragment_monster1_Frame_22
-      frameIndex: 22
-      additiveSortOrder: 0
-      cellRect:
-        x: 34
-        y: 25
-        width: 26
-        height: 28
-      spriteId: 292b3dc5f4252d84f9eef89d1c05e2c5
     - name: fragment_monster1_Frame_23
       frameIndex: 23
       additiveSortOrder: 0
       cellRect:
-        x: 29
+        x: 28
         y: 21
-        width: 36
+        width: 38
         height: 38
-      spriteId: 298d0cfbbcb995343bd1ab077d7fff62
+      spriteId: ae5707a5daecc2349968b179296ea3e1
     - name: fragment_monster1_Frame_24
       frameIndex: 24
       additiveSortOrder: 0
@@ -892,16 +765,16 @@ ScriptedImporter:
         y: 17
         width: 45
         height: 46
-      spriteId: 788a81d240eb00d4d99b9ce649eff52c
+      spriteId: ab75d57e0764c254d8782a6d8b01bb51
     - name: fragment_monster1_Frame_25
       frameIndex: 25
       additiveSortOrder: 0
       cellRect:
-        x: 24
+        x: 22
         y: 16
-        width: 44
-        height: 44
-      spriteId: cb8565f9033b89a44841ff434158902b
+        width: 47
+        height: 45
+      spriteId: fb14636b27cdf024daaeb3d138c23b1a
     - name: fragment_monster1_Frame_26
       frameIndex: 26
       additiveSortOrder: 0
@@ -910,7 +783,250 @@ ScriptedImporter:
         y: 18
         width: 42
         height: 44
+      spriteId: 0991817707ecfd84cb046e4816a84aaa
+    - name: fragment_monster1_Frame_27
+      frameIndex: 27
+      additiveSortOrder: 0
+      cellRect:
+        x: 24
+        y: 17
+        width: 44
+        height: 46
+      spriteId: 66dd2007fc8405e4dbc9cbd6dcbcf768
+    - name: fragment_monster1_Frame_28
+      frameIndex: 28
+      additiveSortOrder: 0
+      cellRect:
+        x: 22
+        y: 16
+        width: 46
+        height: 45
+      spriteId: 9d82acf249f5d0343823b77c5a7895f7
+    - name: fragment_monster1_Frame_29
+      frameIndex: 29
+      additiveSortOrder: 0
+      cellRect:
+        x: 24
+        y: 18
+        width: 44
+        height: 44
+      spriteId: 5ed666d9e7af89d419bf8fff2500e878
+    - name: fragment_monster1_Frame_30
+      frameIndex: 30
+      additiveSortOrder: 0
+      cellRect:
+        x: 25
+        y: 20
+        width: 41
+        height: 41
+      spriteId: d2c01eb353130704ea76ff5abcda42d2
+    - name: fragment_monster1_Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 25
+        width: 26
+        height: 28
+      spriteId: 5a97443e3f56ed24faa168061a40f783
+    - name: fragment_monster1_Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 24
+        width: 26
+        height: 29
+      spriteId: b30fc40d47f695e4487e7119c70933cc
+    - name: fragment_monster1_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 23
+        width: 26
+        height: 29
+      spriteId: bb458b29f0ace5149ab123e6747cbcb0
+    - name: fragment_monster1_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 23
+        width: 26
+        height: 28
+      spriteId: b598e4fa7f6be47478107701437df07b
+    - name: fragment_monster1_Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 24
+        width: 26
+        height: 28
+      spriteId: 50d89d0bbabafdf47a656c82cad57d1d
+    - name: fragment_monster1_Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 25
+        width: 26
+        height: 28
+      spriteId: 73f79e6c5a8f7c142bbd86962efb5013
+    - name: fragment_monster1_Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: 35
+        y: 25
+        width: 26
+        height: 29
+      spriteId: 580a66314bb172449bf5c700137839de
+    - name: fragment_monster1_Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 27
+        width: 27
+        height: 29
+      spriteId: 166dcf82313fa6f4994968a729db8d10
+    - name: fragment_monster1_Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: 32
+        y: 28
+        width: 27
+        height: 29
+      spriteId: ad37b5e8a1f1bf2459730f6462c4d799
+    - name: fragment_monster1_Frame_9
+      frameIndex: 9
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 26
+        width: 28
+        height: 27
+      spriteId: 72cde4604e697074395b63062ec2f6ba
+    - name: fragment_monster1_Frame_10
+      frameIndex: 10
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 26
+        width: 27
+        height: 27
+      spriteId: 8ad4cf8c95ea931409a19fe8edb2e807
+    - name: fragment_monster1_Frame_11
+      frameIndex: 11
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 26
+        width: 27
+        height: 27
+      spriteId: 24053c31d5baf5c42ae7aea91a160693
+    - name: fragment_monster1_Frame_12
+      frameIndex: 12
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 20
+        width: 27
+        height: 33
+      spriteId: 4db22fa9b928d25469633d2daf12e3bc
+    - name: fragment_monster1_Frame_13
+      frameIndex: 13
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 13
+        width: 27
+        height: 36
+      spriteId: 685c67551bb2ec441843a25d6ae81bea
+    - name: fragment_monster1_Frame_14
+      frameIndex: 14
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 13
+        width: 28
+        height: 30
+      spriteId: 292b3dc5f4252d84f9eef89d1c05e2c5
+    - name: fragment_monster1_Frame_15
+      frameIndex: 15
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 13
+        width: 28
+        height: 25
+      spriteId: 298d0cfbbcb995343bd1ab077d7fff62
+    - name: fragment_monster1_Frame_16
+      frameIndex: 16
+      additiveSortOrder: 0
+      cellRect:
+        x: 31
+        y: 13
+        width: 28
+        height: 8
+      spriteId: 788a81d240eb00d4d99b9ce649eff52c
+    - name: fragment_monster1_Frame_17
+      frameIndex: 17
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 24
+        width: 26
+        height: 28
+      spriteId: cb8565f9033b89a44841ff434158902b
+    - name: fragment_monster1_Frame_18
+      frameIndex: 18
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 22
+        width: 26
+        height: 28
       spriteId: ddff13c95751ecb47a523f4e450cc659
+    - name: fragment_monster1_Frame_19
+      frameIndex: 19
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 23
+        width: 27
+        height: 27
+      spriteId: f46cddc7d139ff349bae77bd45d2e3b4
+    - name: fragment_monster1_Frame_20
+      frameIndex: 20
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 24
+        width: 26
+        height: 27
+      spriteId: 9786c10449fbbdd49b990a5a293b4040
+    - name: fragment_monster1_Frame_21
+      frameIndex: 21
+      additiveSortOrder: 0
+      cellRect:
+        x: 33
+        y: 23
+        width: 27
+        height: 27
+      spriteId: 40dc580a6774fe34489fbb53d50b85ba
+    - name: fragment_monster1_Frame_22
+      frameIndex: 22
+      additiveSortOrder: 0
+      cellRect:
+        x: 34
+        y: 25
+        width: 26
+        height: 28
+      spriteId: fdb27327579d62643be733bf9d736c66
     linkedCells: []
     parentIndex: -1
   platformSettings:

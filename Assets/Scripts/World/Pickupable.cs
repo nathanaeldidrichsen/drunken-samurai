@@ -16,6 +16,11 @@ public class Pickupable : MonoBehaviour
     public SoundData gemSound;
     public SoundData flaskSound;
 
+    [Header("Pickup Delay")]
+    [SerializeField] private float pickupDelay = .5f;
+    private bool canPickup = false;
+    private bool hasBeenPickedUp = false;
+
     
     void Start()
     {
@@ -26,6 +31,16 @@ public class Pickupable : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         // pickUpRadius = Player.Instance.itemPickUpRadius; // Make sure your Player class has a public float field named pickUpRadius
         playerTransform = Player.Instance.transform; // Ensure your Player class has a Transform property or field accessible here
+
+        // Start pickup disabled, enable after delay
+        canPickup = false;
+        StartCoroutine(EnablePickupAfterDelay());
+    }
+
+    private System.Collections.IEnumerator EnablePickupAfterDelay()
+    {
+        yield return new WaitForSeconds(pickupDelay);
+        canPickup = true;
     }
     
     void Update()
@@ -45,33 +60,43 @@ public class Pickupable : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        TryPickup(other);
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        TryPickup(other);
+    }
+
+    private void TryPickup(Collider2D other)
+    {
+        if (!other.CompareTag("Player") || !canPickup || hasBeenPickedUp)
+            return;
+
+        hasBeenPickedUp = true;
+
+        if (!isInventoryItem)
         {
-            if (!isInventoryItem)
-            {
-                SoundManager.Instance.PlaySFX(gemSound);
-                Player.Instance.GainExp(consumable.expAmount);
-                Player.Instance.GainHealth(consumable.healAmount);
-                Player.Instance.GainGold(consumable.goldAmount);
-                // if (consumable.expAmount > 0)
-                // {
-                // }
-                Destroy(gameObject); // Destroys this pickupable item
+            SoundManager.Instance.PlaySFX(gemSound);
+            Player.Instance.GainExp(consumable.expAmount);
+            Player.Instance.GainHealth(consumable.healAmount);
+            Player.Instance.GainGold(consumable.goldAmount);
+            // if (consumable.expAmount > 0)
+            // {
+            // }
+            Destroy(gameObject); // Destroys this pickupable item
 
-                // if (consumable.healAmount > 0)
-                // {
-                //     SoundManager.Instance.PlaySFX(flaskSound);
-                // Destroy(gameObject); // Destroys this pickupable item
-                // }
-            }
-            else
-            {
-                Inventory.Instance.AddItem(item, Mathf.Max(1, itemStackAmount));
-                SoundManager.Instance.PlaySFX(gemSound);
-                Destroy(gameObject); // Destroys this pickupable item
-            }
-
-
+            // if (consumable.healAmount > 0)
+            // {
+            //     SoundManager.Instance.PlaySFX(flaskSound);
+            // Destroy(gameObject); // Destroys this pickupable item
+            // }
+        }
+        else
+        {
+            Inventory.Instance.AddItem(item, Mathf.Max(1, itemStackAmount));
+            SoundManager.Instance.PlaySFX(gemSound);
+            Destroy(gameObject); // Destroys this pickupable item
         }
     }
 

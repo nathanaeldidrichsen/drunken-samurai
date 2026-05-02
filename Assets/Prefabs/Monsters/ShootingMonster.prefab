@@ -103,6 +103,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropForce: 3
   dropUpwardBias: 0.3
+  onHitStopDuration: 0.03
+  damagePopupOffset: {x: 0, y: 0.8, z: 0}
+  damagePopupDuration: 1
+  damagePopupRiseSpeed: 0.4
+  damagePopupFontSize: 1
+  damagePopupFont: {fileID: 11400000, guid: 9fda2656a16409e42b1a3b4dc7923f5f, type: 2}
+  damagePopupFontStyle: 0
   hurtSound:
     id: 
     clip: {fileID: 8300000, guid: 361a5288602ad2548829c39bdfd5ea10, type: 3}
@@ -112,7 +119,7 @@ MonoBehaviour:
   dieSound:
     id: 
     clip: {fileID: 8300000, guid: e0c5dd250be7e9949a0e5201840ec577, type: 3}
-    volume: 0.023
+    volume: 0.08
     pitchVariation: 0
     cooldown: 0
   fireSound:
@@ -126,10 +133,10 @@ MonoBehaviour:
   - {fileID: 5915748451900643244, guid: 05f782d28aebc4a459332d5ea267a396, type: 3}
   - {fileID: 5915748451900643244, guid: 05f782d28aebc4a459332d5ea267a396, type: 3}
   - {fileID: 5915748451900643244, guid: 05f782d28aebc4a459332d5ea267a396, type: 3}
-  - {fileID: 3664074871130452653, guid: 0b07d9c4c90e2574dbaef6e31c88c560, type: 3}
-  - {fileID: 3664074871130452653, guid: 8edcf8e5f669f6c4c99fa0ee1c44552d, type: 3}
-  - {fileID: 3664074871130452653, guid: 8edcf8e5f669f6c4c99fa0ee1c44552d, type: 3}
   - {fileID: 3664074871130452653, guid: 6a021f48eebaf4243b9f35c626798632, type: 3}
+  - {fileID: 3664074871130452653, guid: 0b07d9c4c90e2574dbaef6e31c88c560, type: 3}
+  - {fileID: 3664074871130452653, guid: 0b07d9c4c90e2574dbaef6e31c88c560, type: 3}
+  - {fileID: 3664074871130452653, guid: 0b07d9c4c90e2574dbaef6e31c88c560, type: 3}
   player: {fileID: 0}
   stats: {fileID: 256724644118997426}
 --- !u!114 &256724644118997426
@@ -151,6 +158,7 @@ MonoBehaviour:
   attackDamage: 1
   attackCooldown: 0.8
   attackWindup: 0.2
+  attackCommitmentDuration: 0.25
   health: 30
   projectilePrefab: {fileID: 7863149621958755657, guid: c0610d5218830ad4ea9ca1a0bdd8a8fc, type: 3}
   projectileSpawnPoint: {fileID: 419437681983202447}

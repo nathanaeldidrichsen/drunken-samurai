@@ -199,9 +199,16 @@ public class HUD : MonoBehaviour
     public void ReloadScene()
     {
         deadScreen.SetActive(false);
-        //Player.Instance.ResetStats();
+
+        // Keep runtime progress by default when reloading the same scene.
+        Inventory.Instance?.CaptureReloadSnapshot();
+
+        if (resetPlayer)
+            Player.Instance?.ResetAllProgress();
+        else
+            Player.Instance?.PrepareForRespawn();
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Player.Instance.ResetStatsToBase();
         Time.timeScale = 1;
 
     }

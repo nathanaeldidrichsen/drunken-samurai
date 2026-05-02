@@ -18,6 +18,9 @@ public class WavesManager : MonoBehaviour
     public UnityEvent<int> onWaveStarted;
     public UnityEvent<int> onWaveCompleted;
 
+    [Header("GameEvents (optional)")]
+    public GameEvent[] waveCompletedEvents; // waveCompletedEvents[0] fires when wave 0 (wave 1) completes, etc.
+
     [Header("Debug (Read Only)")]
     [SerializeField] private int aliveCount;
     [SerializeField] private int currentWaveIndex = -1;
@@ -78,6 +81,15 @@ public class WavesManager : MonoBehaviour
             aliveCount = 0;
             Debug.Log($"Wave {currentWaveIndex + 1} completed!");
             onWaveCompleted?.Invoke(currentWaveIndex);
+
+            // Raise GameEvent if assigned
+            if (waveCompletedEvents != null 
+                && currentWaveIndex >= 0 
+                && currentWaveIndex < waveCompletedEvents.Length 
+                && waveCompletedEvents[currentWaveIndex] != null)
+            {
+                waveCompletedEvents[currentWaveIndex].Raise();
+            }
         }
     }
 }

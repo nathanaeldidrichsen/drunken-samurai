@@ -96,8 +96,6 @@ GameObject:
   - component: {fileID: 4969741014237520156}
   - component: {fileID: 6677738797878188870}
   - component: {fileID: 8630895928839281031}
-  - component: {fileID: 6270295578161947798}
-  - component: {fileID: 1320490116938262959}
   - component: {fileID: 3384238293625865360}
   m_Layer: 0
   m_Name: GFX
@@ -210,48 +208,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.00012779236, y: 0.004550278}
   m_Size: {x: 0.07488251, y: 0.08066857}
   m_Direction: 0
---- !u!114 &6270295578161947798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075476231299380986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc1d50526d32404e9703e2d6865c1e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isInventoryItem: 0
-  item: {fileID: 0}
-  itemStackAmount: 0
-  gemSound:
-    id: 
-    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.268
-    pitchVariation: 0.057
-    cooldown: 0
-  flaskSound:
-    id: 
-    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.268
-    pitchVariation: 0.057
-    cooldown: 0
---- !u!114 &1320490116938262959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075476231299380986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 761b475676aea81428e48181c5a28b56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expAmount: 0
-  healAmount: 0
-  goldAmount: 1
 --- !u!114 &3384238293625865360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,8 +234,8 @@ GameObject:
   - component: {fileID: 5915748451900643235}
   - component: {fileID: 5915748451900643234}
   - component: {fileID: 5915748451900643233}
-  - component: {fileID: 5915748451900643232}
   - component: {fileID: 4369029488755703471}
+  - component: {fileID: 7659939197423194455}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -363,7 +319,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0.00012779236, y: 0.004550278}
   m_Size: {x: 0.07488251, y: 0.08066857}
   m_Direction: 0
---- !u!114 &5915748451900643232
+--- !u!114 &4369029488755703471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5915748451900643244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 761b475676aea81428e48181c5a28b56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expAmount: 0
+  healAmount: 0
+  goldAmount: 1
+--- !u!114 &7659939197423194455
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -380,31 +351,17 @@ MonoBehaviour:
   itemStackAmount: 0
   gemSound:
     id: 
-    clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.268
-    pitchVariation: 0.057
+    clip: {fileID: 8300000, guid: 61e17ae41b2ae9d48860c5b92cde7f83, type: 3}
+    volume: 0.072
+    pitchVariation: 0.017
     cooldown: 0
   flaskSound:
     id: 
     clip: {fileID: 8300000, guid: 045fcf21234a25c40a4b1edb6c37592b, type: 3}
-    volume: 0.268
-    pitchVariation: 0.057
+    volume: 0
+    pitchVariation: 0
     cooldown: 0
---- !u!114 &4369029488755703471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5915748451900643244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 761b475676aea81428e48181c5a28b56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expAmount: 0
-  healAmount: 0
-  goldAmount: 1
+  pickupDelay: 0.36
 --- !u!1 &5915748452670308082
 GameObject:
   m_ObjectHideFlags: 0

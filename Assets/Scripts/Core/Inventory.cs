@@ -10,6 +10,20 @@ using TMPro;
 
 public class Inventory : MonoBehaviour
 {
+    [System.Serializable]
+    private class SlotSnapshot
+    {
+        public Item item;
+        public int quantity;
+    }
+
+    private static List<SlotSnapshot> inventorySlotSnapshot;
+    private static SlotSnapshot weaponSlotSnapshot;
+    private static SlotSnapshot medallionSlotSnapshot;
+    private static List<RecipeItem> learnedRecipesSnapshot;
+    private static List<ForgeRecipe> learnedForgeRecipesSnapshot;
+    private static bool hasPendingReloadRestore;
+
     [SerializeField] public ItemDatabase itemDatabase; // Reference to the item database
     // [SerializeField] private int capacity = 12; // Maximum capacity of the inventory
     public List<ItemSlot> itemSlots = new List<ItemSlot>(); // List of item slots
@@ -109,12 +123,131 @@ public void LearnSelectedRecipe()
         {
             Debug.LogWarning("You have forgotten to ref medallion or weapon slot in the editor come on man.. get yo shit together");
         }
+
+        if (hasPendingReloadRestore)
+        {
+            RestoreFromReloadSnapshot();
+            hasPendingReloadRestore = false;
+        }
     }
 
     private void OnDestroy()
     {
         if (Instance == this)
             Instance = null;
+    }
+
+    public void CaptureReloadSnapshot()
+    {
+        inventorySlotSnapshot = new List<SlotSnapshot>(itemSlots.Count);
+        foreach (var slot in itemSlots)
+        {
+            inventorySlotSnapshot.Add(new SlotSnapshot
+            {
+                item = slot != null ? slot.item : null,
+                quantity = slot != null ? slot.quantity : 0
+            });
+        }
+
+        weaponSlotSnapshot = new SlotSnapshot
+        {
+            item = weaponSlot != null ? weaponSlot.item : null,
+            quantity = weaponSlot != null ? weaponSlot.quantity : 0
+        };
+
+        medallionSlotSnapshot = new SlotSnapshot
+        {
+            item = medallionSlot != null ? medallionSlot.item : null,
+            quantity = medallionSlot != null ? medallionSlot.quantity : 0
+        };
+
+        learnedRecipesSnapshot = new List<RecipeItem>(learnedRecipes);
+        learnedForgeRecipesSnapshot = new List<ForgeRecipe>(learnedForgeRecipes);
+
+        hasPendingReloadRestore = true;
+    }
+
+    private void RestoreFromReloadSnapshot()
+    {
+        if (inventorySlotSnapshot != null)
+        {
+            int slotCount = Mathf.Min(itemSlots.Count, inventorySlotSnapshot.Count);
+            for (int i = 0; i < slotCount; i++)
+            {
+                itemSlots[i].item = inventorySlotSnapshot[i].item;
+                itemSlots[i].quantity = inventorySlotSnapshot[i].quantity;
+                itemSlots[i].UpdateSlotUI();
+            }
+            for (int i = slotCount; i < itemSlots.Count; i++)
+            {
+                itemSlots[i].ClearSlot();
+            }
+        }
+
+        ApplySnapshotToSlot(weaponSlot, weaponSlotSnapshot);
+        ApplySnapshotToSlot(medallionSlot, medallionSlotSnapshot);
+
+        learnedRecipes.Clear();
+        if (learnedRecipesSnapshot != null)
+            learnedRecipes.AddRange(learnedRecipesSnapshot);
+
+        learnedForgeRecipes.Clear();
+        if (learnedForgeRecipesSnapshot != null)
+            learnedForgeRecipes.AddRange(learnedForgeRecipesSnapshot);
+
+        OnInventoryChanged?.Invoke();
+
+        inventorySlotSnapshot = null;
+        weaponSlotSnapshot = null;
+        medallionSlotSnapshot = null;
+        learnedRecipesSnapshot = null;
+        learnedForgeRecipesSnapshot = null;
+    }
+
+    private void ApplySnapshotToSlot(ItemSlot slot, SlotSnapshot snapshot)
+    {
+        if (slot == null) return;
+
+        if (snapshot == null)
+        {
+            slot.ClearSlot();
+            return;
+        }
+
+        slot.item = snapshot.item;
+        slot.quantity = snapshot.quantity;
+        slot.UpdateSlotUI();
+    }
+
+    public void ResetAllProgress()
+    {
+        foreach (var slot in itemSlots)
+        {
+            if (slot != null)
+                slot.ClearSlot();
+        }
+
+        weaponSlot?.ClearSlot();
+        medallionSlot?.ClearSlot();
+
+        learnedRecipes.Clear();
+        learnedForgeRecipes.Clear();
+
+        grabbedItem = null;
+        grabbedItemSlot = null;
+        isHoldingItem = false;
+        if (grabbedItemGameObject != null)
+            grabbedItemGameObject.SetActive(false);
+
+        // Ensure no stale scene-reload snapshots can overwrite a hard reset.
+        hasPendingReloadRestore = false;
+        inventorySlotSnapshot = null;
+        weaponSlotSnapshot = null;
+        medallionSlotSnapshot = null;
+        learnedRecipesSnapshot = null;
+        learnedForgeRecipesSnapshot = null;
+
+        OnInventoryChanged?.Invoke();
     }
 
     public void GrabItem(ItemSlot slot)

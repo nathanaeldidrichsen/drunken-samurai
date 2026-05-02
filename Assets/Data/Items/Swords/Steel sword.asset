@@ -25,7 +25,7 @@ MonoBehaviour:
   prefab: {fileID: 8655399334283088551, guid: 24e9c4138b903af4eb86975d247e9d05, type: 3}
   isEquipped: 0
   equipmentType: 1
-  damageStat: 3
+  damageStat: 7
   defenseStat: 0
   healthStat: 20
   moveSpeedStat: 0.1
